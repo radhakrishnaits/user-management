@@ -1,0 +1,2 @@
+ng new appName --directory ./
+ng add @angular/material
