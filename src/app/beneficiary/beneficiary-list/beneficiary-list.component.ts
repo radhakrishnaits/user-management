@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddBeneficiaryComponent } from '../add-beneficiary/add-beneficiary.component';
+import { ModifyBeneficiaryComponent } from '../modify-beneficiary/modify-beneficiary.component';
 
 @Component({
   selector: 'app-beneficiary-list',
@@ -30,17 +31,16 @@ export class BeneficiaryListComponent {
   }
 
   modifyBeneficiary() {
-
-  }
-
-  removeBeneficiary() {
-    const dialogRef = this.dialog.open(this.deleteBeneficiary, { height: '100px', width: '300px' });
+    const dialogRef = this.dialog.open(ModifyBeneficiaryComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     })
   }
 
-  close() {
-    this.dialog.closeAll();
+  removeBeneficiary() {
+    const dialogRef = this.dialog.open(this.deleteBeneficiary, { width: '350px' });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    })
   }
 }
