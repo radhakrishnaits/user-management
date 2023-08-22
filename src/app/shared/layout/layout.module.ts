@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
-import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -14,10 +13,9 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   imports: [
     CommonModule,
-    //MatMenuModule,
     MatButtonModule,
     MatToolbarModule,
-    //MatIconModule
+    RouterLink,
   ],
   exports: [
     NavBarComponent,
