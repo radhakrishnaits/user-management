@@ -1,0 +1,210 @@
+<!-- <div class="header">
+  <img class="d-none d-M-inline wu-logo--host wu-logo--desktop mar-xs-rt" src="../assets/img/logo.wu.big.svg">
+</div> -->
+
+<div class="absolute-center">
+  <div class="new-register-flow-container">
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Registration</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup] = "registrationForm" class="registration-form">
+
+            <mat-grid-list [cols]="matGridCol"  rowHeight="{{matGridHeight}}" (window:resize)="onResize($event)">
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Title</mat-label>
+                  <mat-select formControlName="userTitle">
+                    <mat-option value="mr">Mr</mat-option>
+                    <mat-option value="mrs">Mrs</mat-option>
+                    <mat-option value="miss">Miss</mat-option>
+                    <mat-option value="ms">Ms</mat-option>
+                    <mat-option value="dr">Dr</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>First Name</mat-label>
+                  <input type="firstName" matInput placeholder="First Name" formControlName ="firstName">
+                  <mat-error *ngIf="(registrationForm.get('firstName')).invalid">You must enter a first name</mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Last Name</mat-label>
+                  <input type="lastName" matInput placeholder="Last Name" formControlName="lastName">
+                  <mat-error *ngIf="(registrationForm.get('lastName')).invalid">You must enter a last name</mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-grid-list [cols]="matGridCol" rowHeight="{{matGridHeight}}" (window:resize)="onResize($event)">
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Date of Birth</mat-label>
+                  <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="picker" formControlName="dob">
+                  <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                  <mat-error *ngIf="(registrationForm.get('dob')).invalid">You must select a date of birth</mat-error>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Country Code</mat-label>
+                  <mat-select  formControlName="countryCode"  >
+                    <mat-option  *ngFor="let country of countryResult" value="{{country.dial_code}}">{{country.dial_code}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input type="phoneNumber" matInput placeholder="Enter your Mobile Number" formControlName="phoneNumber">
+                  <mat-icon matSuffix>phone_iphone</mat-icon>
+                  <mat-error *ngIf="(registrationForm.get('phoneNumber')).hasError('required')">You must enter a phone number</mat-error>
+                  <mat-error *ngIf="(registrationForm.get('phoneNumber')).hasError">You must enter 10 digit phone number</mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-grid-list [cols]="matGridCol" rowHeight="{{matGridHeight}}" (window:resize)="onResize($event)">
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Email</mat-label>
+                  <input type="emailId" matInput placeholder="Enter your Email" formControlName="emailId">
+                  <mat-icon matSuffix>mail_outline</mat-icon>
+                  <mat-error *ngIf="(registrationForm.get('emailId')).invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Password</mat-label>
+                  <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                  <mat-error *ngIf="(registrationForm.get('password')).invalid">You must enter a password</mat-error>
+                  <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-divider></mat-divider>
+            
+            <mat-grid-list [cols]="matGridCol" rowHeight="{{matGridHeight}}" (window:resize)="onResize($event)">
+              <mat-grid-tile>
+                <mat-radio-group aria-label="Select an option" formControlName="gender" class="full-width">
+                  <mat-label>Gender</mat-label>
+                  <mat-radio-button value="male">Male</mat-radio-button>
+                  <mat-radio-button value="female">Female</mat-radio-button>
+                </mat-radio-group>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-grid-list [cols]="matGridCol" rowHeight="{{matGridHeight}}" (window:resize)="onResize($event)">
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Address</mat-label>
+                  <input type="adress1" matInput placeholder="Apartment, Street, Landmark" formControlName="address">
+                  <mat-icon matSuffix>home</mat-icon>
+                  <mat-error *ngIf="(registrationForm.get('address')).invalid">You must enter a full address</mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>City</mat-label>
+                  <input type="city" matInput placeholder="Enter your City" formControlName="city">
+                  <mat-icon matSuffix>location_city</mat-icon>
+                  <mat-error *ngIf="(registrationForm.get('city')).invalid">You must enter a city</mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>State</mat-label>
+                  <mat-select formControlName="state">
+                    <mat-option *ngFor="let state of stateResult" value="{{state.label}}">{{state.label}}</mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>directions_transit</mat-icon>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="full-width">
+                  <input
+                    matInput
+                    placeholder="State"
+                    aria-label="State"
+                    [matAutocomplete]="auto"
+                    formControlName="state"
+                    required
+                  />
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option
+                      *ngFor="let state of options | async"
+                      [value]="state">
+                      <span>{{ state }}</span>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field> -->
+
+
+              </mat-grid-tile>
+
+
+            </mat-grid-list>
+
+            <mat-grid-list [cols]="matGridCol" rowHeight="{{matGridHeight}}" (window:resize)="onResize($event)">
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Nationality</mat-label>
+                  <mat-select formControlName="nationality">
+                    <mat-option  *ngFor="let country of countryResult" value="{{country.name}}">{{country.name}}</mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>airplanemode_active</mat-icon>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Pincode</mat-label>
+                  <input type="pin" matInput placeholder="Enter your Postal Code" formControlName="pin">
+                  <mat-icon matSuffix>location_on</mat-icon>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field class="full-width">
+                  <mat-label>Country of Birth</mat-label>
+                  <mat-select formControlName="countryofbirth">
+                    <mat-option *ngFor="let country of countryResult" value="{{country.name}}">{{country.name}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="(registrationForm.get('countryofbirth')).invalid">You must enter a country of birth</mat-error>
+                  <mat-icon matSuffix>apartment</mat-icon>
+                </mat-form-field>
+              </mat-grid-tile>
+
+            </mat-grid-list>
+          </form>
+        </mat-card-content>
+
+        <!-- <mat-divider></mat-divider> -->
+  
+        <mat-card-actions>
+          <button type="submit" mat-raised-button color="primary" (click)="onRegistrationForm(registrationForm)">Register</button>
+        </mat-card-actions>
+
+      </mat-card>
+  </div>
+</div>
