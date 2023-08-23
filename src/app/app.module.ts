@@ -7,11 +7,18 @@ import { LayoutModule } from './shared/layout/layout.module';
 import { LoginComponent } from './login/login/login.component';
 import { MaterialModule } from './shared/material.module';
 import { BebeficiaryModule } from './beneficiary/beneficiary.module';
+import { ProfileComponent } from './user/profile/profile.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +26,13 @@ import { BebeficiaryModule } from './beneficiary/beneficiary.module';
     BrowserAnimationsModule,
     LayoutModule,
     BebeficiaryModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    //MatSidenavModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
