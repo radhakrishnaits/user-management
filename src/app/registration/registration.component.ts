@@ -12,14 +12,11 @@ import { Observable } from 'rxjs';
 export class RegistrationComponent {
 
   registrationForm: any = FormGroup;
-  isCardDisplay: boolean = false;
+  // isCardDisplay: boolean = false;
   hidePassword: boolean = true;
   stateResult: any;
   countryResult: any;
   registrationFormDetails: any;
-  stateFilteredOptions: any = Observable<string[]>;
-  options: any = ['One', 'Two', 'Three'];
-  myControl = new FormControl('');
   matGridCol: any;
   matGridHeight: any;
   constructor(private fb: FormBuilder, public http: HttpClient) {
@@ -37,6 +34,7 @@ export class RegistrationComponent {
 
     this.matGridCol = (window.innerWidth <= 500) ? 1 : 3;
     this.matGridHeight = (window.innerWidth <= 800) ? "2:0.5" : "3:0.5";
+    // this.matGridHeight = (window.innerWidth <= 800 && window.innerWidth >= 600) ? ((window.innerWidth <= 600)? "1:0.5" :"2:0.5)") : "3:0.5";
 
     this.registrationForm = this.fb.group({
       userTitle: new FormControl(''),
@@ -61,29 +59,28 @@ export class RegistrationComponent {
 
   }
 
-  getErrorMessage() {
-    if (this.registrationForm.get("emailId").hasError('required')) {
-      return 'You must enter a email id';
-    }
-    return this.registrationForm.get("emailId").hasError('email') ? 'Not a valid email' : '';
-  }
-
-  onBookChange(event: any) {
-    this.isCardDisplay = (event.value == 'addCardY') ? true : false;
-    console.log(this.isCardDisplay);
-  }
-
-  onRegistrationForm(value: any) {
+  onRegistrationForm() {
     console.log(this.registrationForm.status);
     if (this.registrationForm.status == "INVALID") {
-      //console.log(this.registrationForm);
       alert("All fields are required");
     } else {
       this.registrationFormDetails = this.registrationForm.value;
       //console.log(JSON.stringify(this.registrationFormDetails));
     }
-
   }
+
+  onResize(event: any) {
+    const w = event.target as Window;
+    console.log(w.innerWidth)
+    this.matGridCol = (event.target.innerWidth <= 500) ? 1 : 3;
+    this.matGridHeight = (window.innerWidth <= 800) ? "2:0.5" : "3:0.5";
+    // this.matGridHeight = (window.innerWidth <= 800 && window.innerWidth >= 600) ? ((window.innerWidth <= 600)? "1:0.5" :"2:0.5)") : "3:0.5";
+  }
+
+  // onBookChange(event: any) {
+  //   this.isCardDisplay = (event.value == 'addCardY') ? true : false;
+  //   console.log(this.isCardDisplay);
+  // }
 
   // onEditUser(form: any) {
   //   console.log(form);
@@ -96,10 +93,6 @@ export class RegistrationComponent {
   //   });
   // }
 
-  onResize(event: any) {
-    this.matGridCol = (event.target.innerWidth <= 500) ? 1 : 3;
-    this.matGridHeight = (window.innerWidth <= 800) ? "2:0.5" : "3:0.5";
-  }
 
   // private _filter(value: any): any {
   //   const filterValue = value;
