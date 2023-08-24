@@ -8,6 +8,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 @NgModule({
     imports: [
@@ -24,7 +29,11 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatTableModule,
         MatPaginatorModule,
         MatIconModule,
-        MatDialogModule
+        MatDialogModule,
+        MatListModule,
+        MatGridListModule,
+        MatMenuModule,
+        MatDividerModule
     ]
 })
 

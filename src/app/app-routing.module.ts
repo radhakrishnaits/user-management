@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login/login.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
-  { path: 'beneficiary', loadChildren: () => import('./beneficiary/beneficiary.module').then(m => m.BebeficiaryModule), data: { title: 'Beneficiary' } }
+  { path: 'list/:type', loadChildren: () => import('./shared/common-list/common-list.module').then(m => m.CommonListModule), data: { title: 'Receivers' } }
 ];
 
 @NgModule({

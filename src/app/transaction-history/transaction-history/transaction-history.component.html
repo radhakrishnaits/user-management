@@ -1,0 +1,32 @@
+<div class="center-aligned">
+    <p class="header-text">Your transaction history</p>
+    <mat-card>
+        <mat-grid-list cols="5" rows="1" rowHeight="60px" *ngFor="let data of history">
+            <mat-grid-tile colspan="4" rowspan="1">
+                <mat-list>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>account_circle</mat-icon>
+                        <span matListItemTitle>{{data.benFirstName}} {{data.benLastName}}</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="1" rowspan="1">
+                <button mat-icon-button>
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <!-- <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item (click)="modifyBeneficiary()">
+                        <mat-icon>edit</mat-icon>
+                        <span>Modify</span>
+                    </button>
+                    <button mat-menu-item (click)="openConfirmationModel(data.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu> -->
+            </mat-grid-tile>
+            <mat-divider></mat-divider>
+        </mat-grid-list>
+    </mat-card>
+</div>

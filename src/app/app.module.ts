@@ -6,7 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from './shared/layout/layout.module';
 import { LoginComponent } from './login/login/login.component';
 import { MaterialModule } from './shared/material.module';
-import { BebeficiaryModule } from './beneficiary/beneficiary.module';
+import { ReceiversModule } from './receivers/receivers.module';
+import { TransactionHistoryModule } from './transaction-history/transaction-history.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,6 @@ import { BebeficiaryModule } from './beneficiary/beneficiary.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
-    BebeficiaryModule,
     MaterialModule
   ],
   providers: [],

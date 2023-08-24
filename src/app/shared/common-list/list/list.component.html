@@ -1,0 +1,6 @@
+<div *ngIf="urlType === 'receivers'; else transactionHistory">
+    <app-receiver-list></app-receiver-list>
+</div>
+<ng-template #transactionHistory>
+    <app-transaction-history></app-transaction-history>
+</ng-template>

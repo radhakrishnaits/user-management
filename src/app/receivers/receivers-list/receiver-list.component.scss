@@ -1,0 +1,33 @@
+.center-aligned {
+    width: 70%;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.btn-add-receiver {
+    width: 100%;
+    margin: auto;
+    background-color: #368ABB;
+    border: none;
+    height: 50px;
+    color: #FFF;
+    opacity: 1;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1.0;
+}
+
+.btn-alignment:focus {
+    outline: 2px solid black;
+}
+
+.header-text {
+    font-size: 26px;
+    line-height: 30px;
+}
+
+@media only screen and (max-width: 500px) {
+    .center-aligned {
+        width: 90%;
+    }
+}

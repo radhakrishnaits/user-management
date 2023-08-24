@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Add beneficiary details</h1>
+<div mat-dialog-content>
+    <form [formGroup]="beneficiaryForm" class="flex-container">
+        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+            <input matInput formControlName="benFirstName" placeholder="First name">
+            <mat-error *ngIf="beneficiaryForm.controls['benFirstName'].errors?.required 
+                && beneficiaryForm.controls['benFirstName'].touched">
+                Enter beneficiary first name
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+            <input matInput formControlName="benLastName" placeholder="Last name">
+            <mat-error *ngIf="beneficiaryForm.controls['benLastName'].errors?.required 
+            && beneficiaryForm.controls['benLastName'].touched">
+                Enter beneficiary last name
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+            <input matInput formControlName="benCountry" placeholder="Country">
+            <mat-error *ngIf="beneficiaryForm.controls['benCountry'].errors?.required 
+            && beneficiaryForm.controls['benCountry'].touched">
+                Enter beneficiary country
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+            <input matInput formControlName="mobileNumber" placeholder="Mobile number">
+            <mat-error *ngIf="beneficiaryForm.controls['mobileNumber'].errors?.required 
+            && beneficiaryForm.controls['mobileNumber'].touched">
+                Enter beneficiary mobile number
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+            <input matInput formControlName="bankAccountNumber" placeholder="Bank account number">
+            <mat-error *ngIf="beneficiaryForm.controls['bankAccountNumber'].errors?.required 
+            && beneficiaryForm.controls['bankAccountNumber'].touched">
+                Enter beneficiary bank account number
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+            <input matInput formControlName="iban" placeholder="IBAN">
+            <mat-error *ngIf="beneficiaryForm.controls['iban'].errors?.required 
+            && beneficiaryForm.controls['iban'].touched">
+                Enter beneficiary IBAN
+            </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions class="btn-right-aligned">
+    <button mat-raised-button color="primary" [mat-dialog-close]="beneficiaryForm.value" [disabled]="!beneficiaryForm.valid">Add</button>
+</div>
