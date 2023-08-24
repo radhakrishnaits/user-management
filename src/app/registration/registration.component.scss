@@ -1,0 +1,63 @@
+.header {
+    overflow: hidden;
+    background: #212A33;
+}
+
+img {
+    height: 100%;
+    width: 215px;
+}
+
+.absolute-center {
+    padding: 30px 0 50px;
+    background: #EBECE7;
+    height: 100%;
+}
+
+.new-register-flow-container {
+    margin: 0px 30px;
+}
+
+.new-register-header-wrapper {
+    background: #fff;
+    padding: 20px;
+
+}
+
+.full-width {
+    width: 90%;
+}
+
+.min-width {
+    width: 50%;
+}
+
+mat-card-actions {
+    align-items: center;
+    justify-content: center;
+}
+
+mat-grid-tile {
+    margin: 10px;
+}
+
+mat-card-content {
+    margin-top: 20px;
+}
+
+.card-container {
+    display: block;
+    margin: 10px;
+}
+
+@media screen and (width: 768px) {
+    mat-radio-group.full-width {
+        width: 100%;
+    }
+}
+
+@media screen and (width: 320px) {
+    mat-radio-group.full-width {
+        width: 100%;
+    }
+  }

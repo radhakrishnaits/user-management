@@ -1,0 +1,28 @@
+.mat-toolbar {
+  padding: 15px;
+  background: #000;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+.wu-logo {
+  width: 200px;
+  height: auto;
+  padding-top: 9px;
+}
+.white-color {
+  color: white !important;
+}
+.mobile-nav {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-nav {
+    display: flex;
+  }
+}
