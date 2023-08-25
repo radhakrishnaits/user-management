@@ -70,12 +70,6 @@ describe('RegistrationComponent', () => {
    
   });
 
-  // it('Test a registration form group element count',()=>{
-  //   const formElement = fixture.debugElement.nativeElement.querySelector('#registrationForm');
-  //   const inputElements = formElement.querySelectorAll('input');
-  //   expect(inputElements.length).toEqual(9);
-  // })
-
   it('should call onResize() on  method',()=>{
 
     const event= 200;
@@ -113,7 +107,7 @@ describe('RegistrationComponent', () => {
     countryCode:""
     });
     component.onRegistrationForm();
-    console.log(component.registrationForm.status.toEqual("INVALID"))
+    // console.log(component.registrationForm.status.toEqual("INVALID"))
     expect(component.registrationForm.valid).toEqual(false);
     expect(component.registrationForm.status.toEqual("INVALID"))
     expect(window.alert).toHaveBeenCalledWith("INVALID");

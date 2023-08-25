@@ -12,20 +12,26 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDividerModule} from '@angular/material/divider';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
+import { ProfileComponent } from './user/profile/profile.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -42,11 +48,18 @@ import { AsyncPipe } from '@angular/common';
     MatNativeDateModule,
     MatRadioModule,
     MatDividerModule,
-    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     MatAutocompleteModule,
-    AsyncPipe
+    AsyncPipe,
+    ReactiveFormsModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    //MatSidenavModule,
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
