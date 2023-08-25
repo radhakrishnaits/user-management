@@ -53,7 +53,7 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Country Code</mat-label>
-                <mat-select formControlName="countryCode">
+                <mat-select formControlName="country">
                   <mat-option *ngFor="let country of countryResult"
                     value="{{country.dial_code}}">{{country.dial_code}}</mat-option>
                 </mat-select>
@@ -77,10 +77,10 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Email</mat-label>
-                <input type="emailId" matInput placeholder="Enter your Email" formControlName="emailId">
+                <input type="email" matInput placeholder="Enter your Email" formControlName="email">
                 <mat-icon matSuffix>mail_outline</mat-icon>
-                <mat-error *ngIf="(registrationForm.get('emailId')).hasError('required')">You must enter a email id</mat-error>
-                <mat-error *ngIf="(registrationForm.get('emailId')).hasError">You must enter a valid email</mat-error>
+                <mat-error *ngIf="(registrationForm.get('email')).hasError('required')">You must enter a email id</mat-error>
+                <mat-error *ngIf="(registrationForm.get('email')).hasError">You must enter a valid email</mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
@@ -114,9 +114,9 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Address</mat-label>
-                <input type="adress1" matInput placeholder="Apartment, Street, Landmark" formControlName="address">
+                <input type="address1" matInput placeholder="Apartment, Street, Landmark" formControlName="address1">
                 <mat-icon matSuffix>home</mat-icon>
-                <mat-error *ngIf="(registrationForm.get('address')).invalid">You must enter a full address</mat-error>
+                <mat-error *ngIf="(registrationForm.get('address1')).invalid">You must enter a full address</mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
@@ -165,11 +165,11 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Country of Birth</mat-label>
-                <mat-select formControlName="countryofbirth">
+                <mat-select formControlName="countryBirth">
                   <mat-option *ngFor="let country of countryResult"
                     value="{{country.name}}">{{country.name}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="(registrationForm.get('countryofbirth')).invalid">You must enter a country of
+                <mat-error *ngIf="(registrationForm.get('countryBirth')).invalid">You must enter a country of
                   birth</mat-error>
                 <mat-icon matSuffix>apartment</mat-icon>
               </mat-form-field>

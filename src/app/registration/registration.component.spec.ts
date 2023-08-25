@@ -51,20 +51,21 @@ describe('RegistrationComponent', () => {
       lastName:"tile",
       dob:new Date("11/09/1993"),
       phoneNumber:"8788601371", 
-      emailId:"shubhamtile@gmail.com",
+      email:"shubhamtile@gmail.com",
       password:"test@123",
       gender:"Male",
       nationality:"India",
-      address:"New Sangvi",
+      address1:"New Sangvi",
       city:"Pune",
       state:"Maharashtra", 
       pin:"411027", 
-      countryofbirth:"India", 
-      countryCode:"+91" 
+      countryBirth:"India", 
+      country:"+91",
+      wishToAddCard:"N" 
     });
 
     component.onRegistrationForm();
-    console.log(component.registrationForm.value);
+    // console.log(component.registrationForm.value);
     expect(component.registrationForm.valid).toEqual(true);
     expect(component.registrationFormDetails).toEqual(component.registrationForm.value);
    
@@ -99,12 +100,13 @@ describe('RegistrationComponent', () => {
     password:"",
     gender:"",
     nationality:"",
-    address:"",
+    address1:"",
     city:"",
     state:"", 
     pin:"", 
-    countryofbirth:"", 
-    countryCode:""
+    countryBirth:"", 
+    country:"",
+    wishToAddCard:""
     });
     component.onRegistrationForm();
     // console.log(component.registrationForm.status.toEqual("INVALID"))
