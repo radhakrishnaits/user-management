@@ -44,7 +44,6 @@
               <mat-form-field class="full-width">
                 <mat-label>Date of Birth</mat-label>
                 <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="picker" formControlName="dob">
-                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-error *ngIf="(registrationForm.get('dob')).invalid">You must select a date of birth</mat-error>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -80,7 +79,8 @@
                 <mat-label>Email</mat-label>
                 <input type="emailId" matInput placeholder="Enter your Email" formControlName="emailId">
                 <mat-icon matSuffix>mail_outline</mat-icon>
-                <mat-error *ngIf="(registrationForm.get('emailId')).invalid">{{getErrorMessage()}}</mat-error>
+                <mat-error *ngIf="(registrationForm.get('emailId')).hasError('required')">You must enter a email id</mat-error>
+                <mat-error *ngIf="(registrationForm.get('emailId')).hasError">You must enter a valid email</mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
@@ -137,28 +137,7 @@
                 </mat-select>
                 <mat-icon matSuffix>directions_transit</mat-icon>
               </mat-form-field>
-
-              <!-- <mat-form-field class="full-width">
-                  <input
-                    matInput
-                    placeholder="State"
-                    aria-label="State"
-                    [matAutocomplete]="auto"
-                    formControlName="state"
-                    required
-                  />
-                  <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option
-                      *ngFor="let state of options | async"
-                      [value]="state">
-                      <span>{{ state }}</span>
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field> -->
-
-
             </mat-grid-tile>
-
 
           </mat-grid-list>
 
@@ -203,9 +182,9 @@
       <mat-divider></mat-divider>
 
       <mat-card-actions>
-        <button type="submit" mat-raised-button color="primary" (click)="onRegistrationForm(registrationForm)">Register</button>
+        <button type="submit" class="register-btn" mat-raised-button color="primary" (click)="onRegistrationForm()">Register</button>
       </mat-card-actions>
-<!-- 
+      <!-- 
       <mat-card-actions>
         <button type="submit" mat-raised-button color="primary" (click)="onEditUser(registrationForm)">Edit</button>
       </mat-card-actions> -->
