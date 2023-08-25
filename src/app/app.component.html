@@ -1,5 +1,5 @@
 <mat-grid-list [cols]="breakpoint" rowHeight="50px" (window:resize)="onResize($event)" [gutterSize]="'0px'">
-  
+
   <mat-grid-tile>
     <mat-toolbar color="primary" class="mat-nav">
       <mat-toolbar-row>
@@ -27,7 +27,7 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item routerLink="user-profile">
             <mat-icon>settings</mat-icon>
             <span>Profile</span>
           </button>
