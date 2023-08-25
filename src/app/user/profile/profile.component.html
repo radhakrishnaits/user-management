@@ -1,0 +1,108 @@
+<div class="main-div mt-50">
+  <div class="mat-container">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>First Name</mat-label>
+            <input type="text" matInput placeholder="First Name" formControlName="firstName" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('firstName', 'required')">Name is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Last Name</mat-label>
+            <input type="text" matInput placeholder="Last Name" formControlName="lastName" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('lastName', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Country Code</mat-label>
+            <input type="text" matInput placeholder="Country Code" formControlName="countryCode" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('countryCode', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Phone</mat-label>
+            <input type="text" matInput placeholder="Phone" formControlName="phoneNumber" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('phoneNumber', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dob">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="formError('dob', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Place of Birth</mat-label>
+            <input type="text" matInput placeholder="Place of Birth" formControlName="countryofbirth" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('countryofbirth', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Occupation</mat-label>
+            <input type="text" matInput placeholder="Occupation" formControlName="occupation" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('occupation', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Email" formControlName="emailId" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('emailId', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Address</mat-label>
+            <input type="text" matInput placeholder="Address" formControlName="adress1" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('adress1', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>City</mat-label>
+            <input type="text" matInput placeholder="City" formControlName="city" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('city', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>State</mat-label>
+            <input type="text" matInput placeholder="State" formControlName="state" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('state', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="w-100">
+            <mat-label>Pin Code</mat-label>
+            <input type="text" matInput placeholder="Pin Code" formControlName="pin" [readonly]="isReadOnly">
+            <mat-error *ngIf="formError('pin', 'required')">This field is required</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" type="button" (click)="onEdit()">Edit</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isEdit">Update</button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+  </div>
+</div>
+<style>
+  .main-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

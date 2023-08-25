@@ -1,5 +1,8 @@
-.mat-toolbar {
+/*.mat-toolbar {
   padding: 15px;
+  background: #000;
+}*/
+.mobile-nav {
   background: #000;
 }
 .example-spacer {
@@ -16,7 +19,14 @@
 .mobile-nav {
   display: none;
 }
-
+.navbar-light .navbar-toggler-icon {
+  background: #ffdd00;
+}
+.aligned-with-icon{
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 5px; /* optional */
+}
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .desktop-nav {
@@ -24,5 +34,8 @@
   }
   .mobile-nav {
     display: flex;
+  }
+  .wu-logo{
+    width: 130px;
   }
 }
