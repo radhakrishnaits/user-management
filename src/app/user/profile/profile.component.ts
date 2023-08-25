@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {HttpClient} from "@angular/common/http";
+import {ApiService} from "../../shared/api.service";
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +13,7 @@ export class ProfileComponent implements OnInit{
   breakpoint:any='';
   isReadOnly: boolean = true;
   isEdit: boolean = true;
+  data:any
   profileData =
     {
       firstName:'John',
@@ -26,6 +29,9 @@ export class ProfileComponent implements OnInit{
       state:'Maharashtra',
       pin:'411411'
     }
+  constructor(
+    private apiService: ApiService
+  ) { }
 
   onSubmit() {
     console.log(this.profileForm.value)
@@ -60,6 +66,13 @@ export class ProfileComponent implements OnInit{
       state: this.profileData.state,
       pin: this.profileData.pin,
     })
+    this.apiService.getProfile('abcd@abcd.com').subscribe(
+      res => {
+        this.data = res
+        console.log('xx')
+        console.log(this.data.userDetails)},
+      err => {}
+    )
   }
   onResize(event:any) {
     this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3
