@@ -32,7 +32,7 @@ describe('RegistrationComponent', () => {
         MatRadioModule,
         MatDividerModule,
       BrowserAnimationsModule],
-      providers:[FormBuilder,HttpClient,MatDialog]
+      providers:[FormBuilder,MatDialog]
     });
     fixture = TestBed.createComponent(RegistrationComponent);
     component = fixture.componentInstance;
@@ -60,8 +60,8 @@ describe('RegistrationComponent', () => {
       state:"Maharashtra", 
       pin:"411027", 
       countryBirth:"India", 
-      country:"+91",
-      wishToAddCard:"N" 
+      country:"+91"
+      // wishToAddCard:"N" 
     });
 
     component.onRegistrationForm();
@@ -96,7 +96,7 @@ describe('RegistrationComponent', () => {
     lastName:"",
     dob:"",
     phoneNumber:"", 
-    emailId:"",
+    email:"",
     password:"",
     gender:"",
     nationality:"",
@@ -105,8 +105,8 @@ describe('RegistrationComponent', () => {
     state:"", 
     pin:"", 
     countryBirth:"", 
-    country:"",
-    wishToAddCard:""
+    country:""
+    // wishToAddCard:""
     });
     component.onRegistrationForm();
     // console.log(component.registrationForm.status.toEqual("INVALID"))

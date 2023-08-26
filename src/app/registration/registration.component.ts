@@ -52,8 +52,8 @@ export class RegistrationComponent {
       state: new FormControl(''),
       pin: new FormControl(''),
       countryBirth: new FormControl('', [Validators.required]),
-      country: new FormControl(''),
-      wishToAddCard:"N"
+      country: new FormControl('')
+      // wishToAddCard:"N"
     });
 
     // this.stateFilteredOptions = this.myControl.valueChanges.pipe(startWith(''),map(value => this._filter(value || '')),);

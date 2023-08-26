@@ -16,7 +16,7 @@ export class LoginComponent {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
@@ -26,7 +26,7 @@ export class LoginComponent {
     this.apiService.onSignInUser(this.loginFormDetails).subscribe((res:any)=>{
         alert(res["message"]?.description);
         this.loginForm.reset();
-        // this.route.navigateByUrl('/user-profile');
+        this.route.navigateByUrl('/user-profile');
     });
   }
 
