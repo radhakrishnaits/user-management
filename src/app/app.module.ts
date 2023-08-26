@@ -19,12 +19,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
+import { ProfileComponent } from './user/profile/profile.component';
+import { ReceiversModule } from './receivers/receivers.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,10 @@ import { AsyncPipe } from '@angular/common';
     FormsModule,
     HttpClientModule,
     MatAutocompleteModule,
-    AsyncPipe
+    AsyncPipe,
+    ReceiversModule,
+    MaterialModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

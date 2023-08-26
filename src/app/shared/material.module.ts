@@ -13,6 +13,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatNativeDateModule } from "@angular/material/core";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     imports: [
@@ -34,7 +40,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatGridListModule,
         MatMenuModule,
         MatDividerModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatListModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatMenuModule,
+        HttpClientModule
     ]
 })
 
