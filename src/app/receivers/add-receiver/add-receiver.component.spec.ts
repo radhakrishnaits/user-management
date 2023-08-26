@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReceiversModule } from '../receivers.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpHeaders } from '@angular/common/http';
 
 describe('AddReceiverComponent', () => {
   let component: AddReceiverComponent;
@@ -106,50 +107,110 @@ describe('AddReceiverComponent', () => {
     });
   });
 
-  // describe('getReceiverDetails', () => {
-  //   it('should GET receiver details by receiver id', () => {
-  //     // Given
-  //     component.receiverId = 'ECWuLwC';
-  //     let receiver = {
-  //       firstName: "Test",
-  //       lastName: "Test",
-  //       country: "India",
-  //       mobileNumber: "9809898089",
-  //       bankAccountNumber: "7988765456",
-  //       iban: "ICICI990909",
-  //       nickName: "test123"
-  //     };
-  //     spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(receiver));
+  describe('getReceiverDetails', () => {
+    it('should GET receiver details by receiver id', () => {
+      // Given
+      let receiver = {
+        status: 200,
+        message: {
+          code: "200",
+          description: "Success"
+        },
+        errors: null,
+        beneficiary: {
+          firstName: "Test",
+          lastName: "Test",
+          country: "India",
+          mobileNumber: "1234567890",
+          bankAccountNumber: 1234567,
+          iban: "IDFC004",
+          nickName: "test123"
+        }
+      }
+      spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(receiver));
 
-  //     // When
-  //     component.getReceiverDetails();
+      // When
+      component.getReceiverDetails();
 
-  //     // Then
-  //     expect(component.receiversForm.value).toEqual(receiver);
-  //   });
-  // });
+      // Then
+      expect(component.receiversForm.value).toEqual(receiver.beneficiary);
+    });
+  });
 
-  // describe('addReceiverDetails', () => {
-  //   it('should submit add receiver form if form is VALID', () => {
-  //     // Given
-  //     const receiverForm = fb.group({
-  //       benFirstName: ['Test'],
-  //       benLastName: ['Test'],
-  //       benCountry: ['India'],
-  //       mobileNumber: ['1234567890'],
-  //       bankAccountNumber: ['123412341234'],
-  //       iban: ['ICIC0000']
-  //     });
-  //     spyOn(component['receiversApi'], 'addReceiver').and.returnValue(of(receiverForm.value))
+  describe('addReceiverDetails', () => {
+    it('should submit add receiver form if form is VALID', () => {
+      // Given
+      // const receiverForm = fb.group({
+      //   firstName: ['Test'],
+      //   lastName: ['Test'],
+      //   country: ['India'],
+      //   mobileNumber: ['1234567890'],
+      //   bankAccountNumber: ['123412341234'],
+      //   iban: ['ICIC0000'],
+      //   nickName: ['test123']
+      // });
 
-  //     // When
-  //     component.addReceiverDetails();
+      const receiverDetails = {
+        status: 200,
+        message: {
+          code: "200",
+          description: "User Beneficiary Added Successfully"
+        },
+        errors: null,
+        beneficiary: {
+          firstName: "Test",
+          lastName: "Test",
+          country: "India",
+          bankAccountNumber: 1234567,
+          iban: "IDFC004",
+          nickName: "test"
+        }
+      }
 
-  //     // Then
-  //     // expect(component.receiversForm.valid).toBeTruthy();
-  //     expect(router.navigate).toHaveBeenCalledWith(['/receivers']);
-  //     // expect(receiversApi.addReceiver).toHaveBeenCalledWith(receiverForm.value);
-  //   });
-  // })
+      spyOn(component['receiversApi'], 'addReceiver').and.returnValue(of(receiverDetails));
+      const openSnackBar = spyOn(component['snackBarService'], 'openSuccessSnackBar');
+      const navigate = spyOn(component['router'], 'navigate');
+
+      // When
+      component.addReceiverDetails();
+
+      // Then
+      expect(openSnackBar).toHaveBeenCalledWith('Receiver added successfully', '');
+      expect(navigate).toHaveBeenCalledWith(['/receivers']);
+    });
+  });
+
+  describe('modifyReceiverDetails', () => {
+    it('should modify receiver if form is VALID', () => {
+      // Given
+      const receiverDetails = {
+        status: 200,
+        message: {
+          code: "200",
+          description: "Receiver modified successfully"
+        },
+        errors: null,
+        beneficiary: {
+          firstName: "Test123",
+          lastName: "Test123",
+          country: "India",
+          bankAccountNumber: 1234567,
+          iban: "IDFC004",
+          nickName: "test"
+        }
+      }
+
+      spyOn(component['receiversApi'], 'modifyReceiver').and.returnValue(of(receiverDetails));
+      const openSnackBar = spyOn(component['snackBarService'], 'openSuccessSnackBar');
+      const navigate = spyOn(component['router'], 'navigate');
+
+      // When
+      component.modifyReceiverDetails();
+
+      // Then
+      expect(openSnackBar).toHaveBeenCalledWith('Receiver modified successfully', '');
+      expect(navigate).toHaveBeenCalledWith(['/receivers']);
+    });
+  })
 
 });

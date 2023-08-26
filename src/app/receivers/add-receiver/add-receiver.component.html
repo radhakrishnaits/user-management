@@ -2,61 +2,77 @@
     <p class="header-text">Add receiver details</p>
     <mat-card>
         <form [formGroup]="receiversForm">
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="country" placeholder="Country">
-                <mat-error *ngIf="receiversForm.controls['country'].errors?.required 
-                && receiversForm.controls['country'].touched">
-                    Enter receiver's country
-                </mat-error>
-            </mat-form-field>
+            <mat-grid-list [cols]="maxCols" [rowHeight]="rowHeight" (window:resize)="onResize($event)">
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="country" placeholder="Country">
+                        <mat-error *ngIf="receiversForm.controls['country'].errors?.required 
+                    && receiversForm.controls['country'].touched">
+                            Receiver's country <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
 
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="firstName" placeholder="First name">
-                <mat-error *ngIf="receiversForm.controls['firstName'].errors?.required 
-                    && receiversForm.controls['firstName'].touched">
-                    Enter receiver's first name
-                </mat-error>
-            </mat-form-field>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="firstName" placeholder="First name">
+                        <mat-error *ngIf="receiversForm.controls['firstName'].errors?.required 
+                        && receiversForm.controls['firstName'].touched">
+                            Receiver's first name <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
 
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="lastName" placeholder="Last name">
-                <mat-error *ngIf="receiversForm.controls['lastName'].errors?.required 
-                && receiversForm.controls['lastName'].touched">
-                    Enter receiver's last name
-                </mat-error>
-            </mat-form-field>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="lastName" placeholder="Last name">
+                        <mat-error *ngIf="receiversForm.controls['lastName'].errors?.required 
+                    && receiversForm.controls['lastName'].touched">
+                            Receiver's last name <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
 
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="mobileNumber" placeholder="Mobile number">
-                <mat-error *ngIf="receiversForm.controls['mobileNumber'].errors?.required 
-                && receiversForm.controls['mobileNumber'].touched">
-                    Enter receiver's mobile number
-                </mat-error>
-            </mat-form-field>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="mobileNumber" placeholder="Mobile number">
+                        <mat-error *ngIf="receiversForm.controls['mobileNumber'].errors?.required 
+                    && receiversForm.controls['mobileNumber'].touched">
+                            Receiver's mobile number <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
 
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="bankAccountNumber" placeholder="Bank account number">
-                <mat-error *ngIf="receiversForm.controls['bankAccountNumber'].errors?.required 
-                && receiversForm.controls['bankAccountNumber'].touched">
-                    Enter receiver's bank account number
-                </mat-error>
-            </mat-form-field>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="bankAccountNumber" placeholder="Bank account number">
+                        <mat-error *ngIf="receiversForm.controls['bankAccountNumber'].errors?.required 
+                    && receiversForm.controls['bankAccountNumber'].touched">
+                            Receiver's bank account number <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
 
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="iban" placeholder="IBAN">
-                <mat-error *ngIf="receiversForm.controls['iban'].errors?.required 
-                && receiversForm.controls['iban'].touched">
-                    Enter receiver's IBAN
-                </mat-error>
-            </mat-form-field>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="iban" placeholder="IBAN">
+                        <mat-error *ngIf="receiversForm.controls['iban'].errors?.required 
+                    && receiversForm.controls['iban'].touched">
+                            Receiver's IBAN <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
 
-            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                <input matInput formControlName="nickName" placeholder="Nick name">
-                <mat-error *ngIf="receiversForm.controls['nickName'].errors?.required 
-                && receiversForm.controls['nickName'].touched">
-                    Enter receiver's IBAN
-                </mat-error>
-            </mat-form-field>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                        <input matInput formControlName="nickName" placeholder="Nick name">
+                        <mat-error *ngIf="receiversForm.controls['nickName'].errors?.required 
+                    && receiversForm.controls['nickName'].touched">
+                            Receiver's nick name <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
         </form>
     </mat-card>
 </div>

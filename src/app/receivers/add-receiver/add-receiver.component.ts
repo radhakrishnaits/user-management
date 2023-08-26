@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { ReceiversAPI } from '../receivers.api';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-add-receiver',
@@ -14,13 +15,16 @@ export class AddReceiverComponent implements OnInit {
   public receiversForm: any = FormGroup;
   public formMode: string = 'add';
   public receiverId!: string;
+  public colspan: number = 2;
+  public maxCols: number = 2;
+  public rowHeight: string = '70px';
 
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private receiversApi: ReceiversAPI,
     private router: Router,
-    private snackBar: MatSnackBar) {
+    private snackBarService: SnackBarService) {
     this.activatedRoute.params.subscribe(param => {
       this.receiverId = param['id'];
       if (this.receiverId) {
@@ -56,6 +60,7 @@ export class AddReceiverComponent implements OnInit {
     this.receiversApi.getReceiver(this.receiverId).subscribe(response => {
       let receiverDetails = response['beneficiary'];
       this.receiversForm.patchValue(receiverDetails);
+      // this.receiversForm.controls['nickName'].disable();
     }, error => {
       console.log(error);
     });
@@ -63,19 +68,26 @@ export class AddReceiverComponent implements OnInit {
 
   addReceiverDetails() {
     this.receiversApi.addReceiver(this.receiversForm.value).subscribe(response => {
-      this.snackBar.open('Receiver added successfully');
+      this.snackBarService.openSuccessSnackBar('Receiver added successfully', '');
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message, '');
     });
   }
 
   modifyReceiverDetails() {
+    // this.receiversForm.controls['nickName'].enable();
     this.receiversApi.modifyReceiver(this.receiversForm.value).subscribe(response => {
-      this.snackBar.open('Receiver modified successfully');
+      this.snackBarService.openSuccessSnackBar('Receiver modified successfully', '');
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
     })
+  }
+
+  onResize(event: any) {
+    this.colspan = (event.target.innerWidth <= 660) ? 1 : 2;
+    this.maxCols = (event.target.innerWidth <= 660) ? 1 : 2;
   }
 }

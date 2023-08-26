@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReceiversRoutingModule } from '../receivers-routing.module';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 describe('ReceiversListComponent', () => {
   let component: ReceiverListComponent;
@@ -24,6 +25,7 @@ describe('ReceiversListComponent', () => {
       declarations: [ReceiverListComponent],
       providers: [
         ReceiversAPI,
+        SnackBarService,
         { provide: ActivatedRoute, useValue: activatedRoute }
       ],
       imports: [

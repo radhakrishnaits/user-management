@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ReceiversAPI } from '../receivers.api';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-receiver-list',
@@ -13,7 +14,7 @@ export class ReceiverListComponent implements OnInit {
   receiversDetails: any = []
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
 
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private receiversApi: ReceiversAPI) { }
+  constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI) { }
 
   ngOnInit() {
     this.getAllReceivers();
@@ -38,7 +39,7 @@ export class ReceiverListComponent implements OnInit {
 
   removeBeneficiary(id: string) {
     this.receiversApi.deleteReceiver(id).subscribe(response => {
-      this.snackBar.open('Receiver deleted successfully');
+      this.snackBar.openSuccessSnackBar('Receiver deleted successfully', '');
       this.getAllReceivers();
     }, error => {
       console.log(error);
