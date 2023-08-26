@@ -3,11 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReceiverListComponent } from './receiver-list.component';
 import { ReceiversAPI } from '../receivers.api';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { ReceiversRoutingModule } from '../receivers-routing.module';
 import { of } from 'rxjs';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 describe('ReceiversListComponent', () => {
   let component: ReceiverListComponent;
@@ -45,24 +44,31 @@ describe('ReceiversListComponent', () => {
   describe('receivers list details', () => {
     it('should GET all receivers details', () => {
       // Given
-      let receiverDetails = [
-        {
-          "benFirstName": "Prashant",
-          "benLastName": "Sutar",
-          "benCountry": "India",
-          "mobileNumber": "9809898089",
-          "bankAccountNumber": "7988765456",
-          "iban": "ICICI990909",
-          "id": "ECWuLwC"
-        }
-      ]
+      let receiverDetails = {
+        status: 200,
+        message: {
+          code: "200",
+          description: "Success"
+        },
+        errors: null,
+        beneficiaries: [
+          {
+            firstName: "Test",
+            lastName: "Test",
+            country: "India",
+            bankAccountNumber: 1234567,
+            iban: "IDFC004",
+            nickName: "test123"
+          }
+        ]
+      }
       spyOn(component['receiversApi'], 'getAllReceivers').and.returnValue(of(receiverDetails));
 
       // When
       component.getAllReceivers();
 
       // Then
-      expect(component.receiversDetails).toBe(receiverDetails);
+      expect(component.receiversDetails).toEqual(receiverDetails.beneficiaries);
     });
   });
 });

@@ -41,8 +41,7 @@ export class AddReceiverComponent implements OnInit {
       mobileNumber: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       bankAccountNumber: ['', [Validators.required]],
       iban: ['', [Validators.required]],
-      nickName: ['', Validators.required],
-      id: ['']
+      nickName: ['', Validators.required]
     })
     this.checkModeOfForm();
   }
