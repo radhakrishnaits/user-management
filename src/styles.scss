@@ -2,17 +2,94 @@
 
 html,
 body {
-    height: 100%;
-}
-
-body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #ebece7;
 }
 
 .btn-right-aligned {
     float: right;
 }
+
+.mat-grid-tile-content {
+    justify-content: start !important;
+}
+
+.grid-align-right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.center-aligned {
+    width: 70%;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.btn-secondary {
+    width: 100%;
+    margin: auto;
+    background-color: #368ABB;
+    border: none;
+    height: 50px;
+    color: #FFF;
+    opacity: 1;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1.0;
+}
+
+.btn-secondary:focus {
+    outline: 2px solid black;
+    background-color: #368ABB;
+}
+
+.btn-secondary:hover {
+    background-color: #368ABB;
+}
+
+.btn-cancel {
+    text-align: center;
+    cursor: pointer;
+    color: #368ABB;
+    font-size: 18px;
+    line-height: 1.0;
+}
+
+.header-text {
+    font-size: 26px;
+    line-height: 30px;
+}
+
+@media only screen and (max-width: 500px) {
+    .center-aligned {
+        width: 90%;
+    }
+}
+
+.top-margin {
+    margin-top: 1rem;
+}
+
+.bottom-margin {
+    margin-bottom: 1rem;
+}
 .w-100 {
   width: 100% !important;
+}
+
+.snackbar-success {
+    background: #60a860;
+    color: #e5edf5;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.snackbar-success {
+    background: #be4942;
+    color: #e5edf5;
+    font-size: 1rem;
+    font-weight: 700;
 }

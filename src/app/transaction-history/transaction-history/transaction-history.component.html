@@ -1,0 +1,27 @@
+<div class="center-aligned top-margin">
+    <p class="header-text">Your transaction history</p>
+    <mat-card>
+        <mat-grid-list cols="7" rows="1" rowHeight="60px" *ngFor="let data of history">
+            <mat-grid-tile colspan="5" rowspan="1">
+                <mat-list>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>account_circle</mat-icon>
+                        <span matListItemTitle>{{data.senderNameOnCard}}</span>
+                        <span matListItemLine>{{data.senderPaymentMethod}} &nbsp;&nbsp;{{data.txnDate}}&nbsp;&nbsp;
+                            <strong>{{data.txnStatus}}</strong></span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="2" rowspan="1">
+                <div class="grid-align-right">
+                    {{data.txnAmount}} {{data.senderCurrency}}
+                    <button mat-icon-button>
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                </div>
+            </mat-grid-tile>
+            <mat-divider></mat-divider>
+        </mat-grid-list>
+    </mat-card>
+</div>
