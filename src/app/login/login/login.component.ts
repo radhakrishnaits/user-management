@@ -27,6 +27,8 @@ export class LoginComponent {
         alert(res["message"]?.description);
         this.loginForm.reset();
         this.route.navigateByUrl('/user-profile');
+    },error=>{
+        alert(error?.error?.message?.description);
     });
   }
 

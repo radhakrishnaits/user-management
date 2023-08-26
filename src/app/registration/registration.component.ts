@@ -52,8 +52,8 @@ export class RegistrationComponent {
       state: new FormControl(''),
       pin: new FormControl(''),
       countryBirth: new FormControl('', [Validators.required]),
-      country: new FormControl('')
-      // wishToAddCard:"N"
+      country: new FormControl(''),
+      wishToAddCard:"N"
     });
 
     // this.stateFilteredOptions = this.myControl.valueChanges.pipe(startWith(''),map(value => this._filter(value || '')),);
@@ -68,9 +68,16 @@ export class RegistrationComponent {
       this.registrationFormDetails = this.registrationForm.value;
       // console.log(JSON.stringify(this.registrationFormDetails));
       this.apiService.onSignUpUser(this.registrationFormDetails).subscribe((res:any)=>{
-          alert(res["message"]?.description);
-          this.registrationForm.reset();
-          this.route.navigateByUrl('');
+          if(res?.message?.code == 200){
+            alert(res["message"]?.description);
+            this.registrationForm.reset();
+            this.route.navigateByUrl('');
+          }else{
+            alert(res["message"]?.description);
+          }
+      },error=>{
+        //console.log(error);
+        alert(error?.message);
       });
     }
   }
