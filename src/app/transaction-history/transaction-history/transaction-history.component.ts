@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TransactionHistoryAPI } from '../transactions.api';
 
 @Component({
   selector: 'app-transaction-history',
@@ -6,11 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./transaction-history.component.scss']
 })
 export class TransactionHistoryComponent {
-  history: any = [
-    { benFirstName: 'Hydrogen', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '0' },
-    { benFirstName: 'Helium', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '1' },
-    { benFirstName: 'Lithium', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '2' },
-    { benFirstName: 'Beryllium', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '3' },
-    { benFirstName: 'Boron', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '4' }
-  ]
+  history: any;
+
+  constructor(private transactionApi: TransactionHistoryAPI) { }
+
+  ngOnInit() {
+    this.getTransactions();
+  }
+
+  getTransactions() {
+    this.transactionApi.getAllTransactions().subscribe(response => {
+      this.history = response['transactions'];
+      console.log(this.history);
+    })
+  }
 }

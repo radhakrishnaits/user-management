@@ -12,7 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     imports: [
@@ -33,7 +33,8 @@ import { MatDividerModule } from '@angular/material/divider';
         MatListModule,
         MatGridListModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
+        MatSnackBarModule
     ]
 })
 

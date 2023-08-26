@@ -1,7 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ModifyReceiverComponent } from '../modify-receiver/modify-receiver.component';
-import { AddReceiverComponent } from '../add-receiver/add-receiver.component';
+import { ReceiversAPI } from '../receivers.api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-receiver-list',
@@ -9,45 +9,39 @@ import { AddReceiverComponent } from '../add-receiver/add-receiver.component';
   styleUrls: ['./receiver-list.component.scss']
 })
 
-export class ReceiverListComponent {
-  displayedColumns: string[] = ['benFirstName', 'benLastName', 'benCountry', 'mobileNumber', 'bankAccountNumber', 'iban', 'update', 'delete'];
-  receiverData = [
-    { benFirstName: 'Hydrogen', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '0' },
-    { benFirstName: 'Helium', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '1' },
-    { benFirstName: 'Lithium', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '2' },
-    { benFirstName: 'Beryllium', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '3' },
-    { benFirstName: 'Boron', benLastName: 'Test', benCountry: 'India', mobileNumber: '12345678', bankAccountNumber: 'ICICI', iban: 'ICIC00098009', id: '4' }
-  ];
+export class ReceiverListComponent implements OnInit {
+  receiversDetails: any = []
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private receiversApi: ReceiversAPI) { }
+
+  ngOnInit() {
+    this.getAllReceivers();
   }
 
-  openAddReceiverModel() {
-    const dialogRef = this.dialog.open(AddReceiverComponent, { height: 'auto' });
-    dialogRef.afterClosed().subscribe(result => {
-      result['id'] = (this.receiverData.length).toString();
-      this.receiverData.push(result);
-    })
-  }
-
-  modifyBeneficiary() {
-    const dialogRef = this.dialog.open(ModifyReceiverComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+  getAllReceivers() {
+    this.receiversApi.getAllReceivers().subscribe(response => {
+      this.receiversDetails = response['beneficiaries'];
+    }, error => {
+      console.log(error);
     })
   }
 
   openConfirmationModel(id: string) {
     const dialogRef = this.dialog.open(this.deleteReceiver, { width: '350px' });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      this.removeBeneficiary(id);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.removeBeneficiary(id);
+      }
     })
   }
 
   removeBeneficiary(id: string) {
-    this.receiverData.splice(parseInt(id), 1);
-    console.log('Element removed >> ', this.receiverData);
+    this.receiversApi.deleteReceiver(id).subscribe(response => {
+      this.snackBar.open('Receiver deleted successfully');
+      this.getAllReceivers();
+    }, error => {
+      console.log(error);
+    })
   }
 }

@@ -1,55 +1,73 @@
-<h1 mat-dialog-title>Add beneficiary details</h1>
-<div mat-dialog-content>
-    <form [formGroup]="beneficiaryForm" class="flex-container">
-        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-            <input matInput formControlName="benFirstName" placeholder="First name">
-            <mat-error *ngIf="beneficiaryForm.controls['benFirstName'].errors?.required 
-                && beneficiaryForm.controls['benFirstName'].touched">
-                Enter beneficiary first name
-            </mat-error>
-        </mat-form-field>
+<div class="center-aligned top-margin">
+    <p class="header-text">Add receiver details</p>
+    <mat-card>
+        <form [formGroup]="receiversForm">
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="country" placeholder="Country">
+                <mat-error *ngIf="receiversForm.controls['country'].errors?.required 
+                && receiversForm.controls['country'].touched">
+                    Enter receiver's country
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-            <input matInput formControlName="benLastName" placeholder="Last name">
-            <mat-error *ngIf="beneficiaryForm.controls['benLastName'].errors?.required 
-            && beneficiaryForm.controls['benLastName'].touched">
-                Enter beneficiary last name
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="firstName" placeholder="First name">
+                <mat-error *ngIf="receiversForm.controls['firstName'].errors?.required 
+                    && receiversForm.controls['firstName'].touched">
+                    Enter receiver's first name
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-            <input matInput formControlName="benCountry" placeholder="Country">
-            <mat-error *ngIf="beneficiaryForm.controls['benCountry'].errors?.required 
-            && beneficiaryForm.controls['benCountry'].touched">
-                Enter beneficiary country
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="lastName" placeholder="Last name">
+                <mat-error *ngIf="receiversForm.controls['lastName'].errors?.required 
+                && receiversForm.controls['lastName'].touched">
+                    Enter receiver's last name
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-            <input matInput formControlName="mobileNumber" placeholder="Mobile number">
-            <mat-error *ngIf="beneficiaryForm.controls['mobileNumber'].errors?.required 
-            && beneficiaryForm.controls['mobileNumber'].touched">
-                Enter beneficiary mobile number
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="mobileNumber" placeholder="Mobile number">
+                <mat-error *ngIf="receiversForm.controls['mobileNumber'].errors?.required 
+                && receiversForm.controls['mobileNumber'].touched">
+                    Enter receiver's mobile number
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-            <input matInput formControlName="bankAccountNumber" placeholder="Bank account number">
-            <mat-error *ngIf="beneficiaryForm.controls['bankAccountNumber'].errors?.required 
-            && beneficiaryForm.controls['bankAccountNumber'].touched">
-                Enter beneficiary bank account number
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="bankAccountNumber" placeholder="Bank account number">
+                <mat-error *ngIf="receiversForm.controls['bankAccountNumber'].errors?.required 
+                && receiversForm.controls['bankAccountNumber'].touched">
+                    Enter receiver's bank account number
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-            <input matInput formControlName="iban" placeholder="IBAN">
-            <mat-error *ngIf="beneficiaryForm.controls['iban'].errors?.required 
-            && beneficiaryForm.controls['iban'].touched">
-                Enter beneficiary IBAN
-            </mat-error>
-        </mat-form-field>
-    </form>
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="iban" placeholder="IBAN">
+                <mat-error *ngIf="receiversForm.controls['iban'].errors?.required 
+                && receiversForm.controls['iban'].touched">
+                    Enter receiver's IBAN
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
+                <input matInput formControlName="nickName" placeholder="Nick name">
+                <mat-error *ngIf="receiversForm.controls['nickName'].errors?.required 
+                && receiversForm.controls['nickName'].touched">
+                    Enter receiver's IBAN
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-card>
 </div>
-<div mat-dialog-actions class="btn-right-aligned">
-    <button mat-raised-button color="primary" [mat-dialog-close]="beneficiaryForm.value" [disabled]="!beneficiaryForm.valid">Add</button>
+
+<div class="center-aligned">
+    <button class="btn-secondary bottom-margin" *ngIf="formMode === 'add'; else modifyBtn"
+        [disabled]="!receiversForm.valid" (click)="addReceiverDetails()">Continue</button>
+    <p class="btn-cancel" routerLink="/receivers">Cancel</p>
 </div>
+
+<ng-template #modifyBtn>
+    <button class="btn-secondary bottom-margin" [disabled]="!receiversForm.valid"
+        (click)="modifyReceiverDetails()">Update</button>
+</ng-template>

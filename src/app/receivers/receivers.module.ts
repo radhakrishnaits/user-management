@@ -6,6 +6,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReceiverListComponent } from './receivers-list/receiver-list.component';
 import { AddReceiverComponent } from './add-receiver/add-receiver.component';
 import { ModifyReceiverComponent } from './modify-receiver/modify-receiver.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ReceiversAPI } from './receivers.api';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -17,10 +20,12 @@ import { ModifyReceiverComponent } from './modify-receiver/modify-receiver.compo
         CommonModule,
         ReceiversRoutingModule,
         MaterialModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule
     ],
-    exports: [
-        ReceiverListComponent
+    providers: [
+        ReceiversAPI,
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } }
     ]
 })
 export class ReceiversModule { }

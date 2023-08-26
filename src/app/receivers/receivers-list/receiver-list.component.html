@@ -1,30 +1,32 @@
-<div class="center-aligned">
+<div class="center-aligned top-margin">
     <p class="header-text">Receivers</p>
     <mat-card>
-        <mat-grid-list cols="9" rows="1" rowHeight="60px" *ngFor="let data of receiverData">
+        <mat-grid-list cols="9" rows="1" rowHeight="60px" *ngFor="let data of receiversDetails">
             <mat-grid-tile colspan="8" rowspan="1">
                 <mat-list>
                     <mat-list-item>
                         <mat-icon matListItemIcon>account_circle</mat-icon>
-                        <span matListItemTitle>{{data.benFirstName}} {{data.benLastName}}</span>
+                        <span matListItemTitle>{{data.firstName}} {{data.lastName}}</span>
                     </mat-list-item>
                 </mat-list>
             </mat-grid-tile>
 
             <mat-grid-tile colspan="1" rowspan="1">
-                <button mat-icon-button [matMenuTriggerFor]="menu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="modifyBeneficiary()">
-                        <mat-icon>edit</mat-icon>
-                        <span>Modify</span>
+                <div class="grid-align-right">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
                     </button>
-                    <button mat-menu-item (click)="openConfirmationModel(data.id)">
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                    </button>
-                </mat-menu>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button mat-menu-item [routerLink]="['modify-receiver', data.nickName]">
+                            <mat-icon>edit</mat-icon>
+                            <span>Modify</span>
+                        </button>
+                        <button mat-menu-item (click)="openConfirmationModel(data.nickName)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+                </div>
             </mat-grid-tile>
             <mat-divider></mat-divider>
         </mat-grid-list>
@@ -32,13 +34,13 @@
 </div>
 
 <div class="center-aligned">
-    <button (click)="openAddReceiverModel()" class="btn-add-receiver">Add Receiver</button>
+    <button [routerLink]="['add-receiver']" class="btn-secondary">Add Receiver</button>
 </div>
 
 <ng-template #deleteReceiver>
     <h1 mat-dialog-title>Delete beneficiary</h1>
     <div mat-dialog-content>Are you sure?</div>
     <div mat-dialog-actions class="btn-right-aligned">
-        <button mat-raised-button color="warn" mat-dialog-close>Delete</button>
+        <button mat-raised-button color="warn" [mat-dialog-close]="true">Delete</button>
     </div>
 </ng-template>
