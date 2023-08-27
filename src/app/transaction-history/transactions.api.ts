@@ -9,6 +9,7 @@ export class TransactionHistoryAPI {
 
     constructor(private http: HttpClient) {
         this.userName = sessionStorage.getItem('email') || '';
+        // this.userName = 'abcd@abcd.com';
     }
 
     getAllTransactions(): Observable<any> {

@@ -14,6 +14,8 @@ export class ReceiverListComponent implements OnInit {
   receiversDetails: any = []
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
 
+  avatarName = sessionStorage.getItem('firstName')?.charAt(0).toUpperCase() +''+ sessionStorage.getItem('lastName')?.charAt(0).toUpperCase();
+
   constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI, private snackBarService: SnackBarService) { }
 
   ngOnInit() {

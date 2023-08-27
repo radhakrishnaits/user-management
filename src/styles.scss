@@ -16,7 +16,6 @@ body {
 }
 
 .grid-align-right {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -63,12 +62,6 @@ body {
     line-height: 30px;
 }
 
-@media only screen and (max-width: 500px) {
-    .center-aligned {
-        width: 90%;
-    }
-}
-
 .top-margin {
     margin-top: 1rem;
 }
@@ -76,8 +69,13 @@ body {
 .bottom-margin {
     margin-bottom: 1rem;
 }
+
 .w-100 {
-  width: 100% !important;
+    width: 100% !important;
+}
+
+.w-80 {
+    width: 80%;
 }
 
 .snackbar-success {
@@ -92,4 +90,36 @@ body {
     color: #e5edf5;
     font-size: 1rem;
     font-weight: 700;
+}
+
+.avatar {
+    color: #fff;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    font-weight: 600;
+    background: plum;
+}
+
+.grid-align-right .avatar {
+    width: 40px;
+    height: 40px;
+}
+
+@media only screen and (max-width: 500px) {
+    .center-aligned {
+        width: 90%;
+    }
+}
+
+
+@media only screen and (max-width: 460px) {
+    .grid-align-right .avatar {
+        width: 30px;
+        height: 30px;
+    }
 }

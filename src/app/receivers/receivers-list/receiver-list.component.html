@@ -2,17 +2,21 @@
     <p class="header-text">Receivers</p>
     <mat-card>
         <mat-grid-list cols="9" rows="1" rowHeight="60px" *ngFor="let data of receiversDetails">
-            <mat-grid-tile colspan="8" rowspan="1">
+            <mat-grid-tile colspan="1" rowspan="1">
+                <div class="grid-align-right w-80">
+                    <div class="avatar" matListIcon>{{avatarName}}</div>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="7" rowspan="1">
                 <mat-list>
                     <mat-list-item>
-                        <mat-icon matListItemIcon>account_circle</mat-icon>
                         <span matListItemTitle>{{data.firstName}} {{data.lastName}}</span>
                     </mat-list-item>
                 </mat-list>
             </mat-grid-tile>
 
             <mat-grid-tile colspan="1" rowspan="1">
-                <div class="grid-align-right">
+                <div class="grid-align-right w-100">
                     <button mat-icon-button [matMenuTriggerFor]="menu">
                         <mat-icon>more_vert</mat-icon>
                     </button>

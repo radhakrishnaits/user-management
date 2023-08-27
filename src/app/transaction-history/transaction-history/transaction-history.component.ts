@@ -8,6 +8,7 @@ import { TransactionHistoryAPI } from '../transactions.api';
 })
 export class TransactionHistoryComponent {
   history: any;
+  avatarName = sessionStorage.getItem('firstName')?.charAt(0).toUpperCase() + '' + sessionStorage.getItem('lastName')?.charAt(0).toUpperCase();
 
   constructor(private transactionApi: TransactionHistoryAPI) { }
 
