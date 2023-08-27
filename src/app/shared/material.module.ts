@@ -22,19 +22,6 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatSelectModule} from "@angular/material/select";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-export const MY_DATE_FORMAT = {
-  parse: {
-    dateInput: 'LL'
-  },
-  display: {
-    dateInput: 'DD-MM-YYYY',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY'
-  }
-};
-
-
 @NgModule({
     imports: [
         MatTableModule,
@@ -68,8 +55,6 @@ export const MY_DATE_FORMAT = {
         MatSelectModule
     ],
   providers:[
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT }
   ]
 })
 

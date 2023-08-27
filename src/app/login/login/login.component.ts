@@ -27,6 +27,9 @@ export class LoginComponent {
         alert(res["message"]?.description);
         this.loginForm.reset();
         this.route.navigateByUrl('/user-profile');
+        sessionStorage.setItem('email',res["userName"])
+        sessionStorage.setItem('firstName',res["firstName"])
+        sessionStorage.setItem('lastName',res["lastName"])
     },error=>{
         alert(error?.error?.message?.description);
     });
