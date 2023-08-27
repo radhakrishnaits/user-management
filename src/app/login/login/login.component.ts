@@ -26,10 +26,13 @@ export class LoginComponent {
     this.apiService.onSignInUser(this.loginFormDetails).subscribe((res:any)=>{
         alert(res["message"]?.description);
         this.loginForm.reset();
-        this.route.navigateByUrl('/user-profile');
+        //this.route.navigateByUrl('/user-profile');
         sessionStorage.setItem('email',res["userName"])
         sessionStorage.setItem('firstName',res["firstName"])
         sessionStorage.setItem('lastName',res["lastName"])
+        this.route.navigateByUrl('/user-profile').then(() => {
+          window.location.reload();
+        });
     },error=>{
         alert(error?.error?.message?.description);
     });

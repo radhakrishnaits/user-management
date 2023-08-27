@@ -20,18 +20,33 @@
   <mat-grid-tile *ngIf="breakpoint >= 3">
     <mat-toolbar color="primary" class="mat-nav">
       <mat-toolbar-row>
-        <div *ngFor="let menuItem of menuData">
-          <a mat-button class="white-color" routerLink="{{menuItem.link}}">{{menuItem.label}}</a>
+        <div *ngIf="isLogin">
+          <button mat-button [matMenuTriggerFor]="moneyMenu" class="white-color">Money</button>
+          <mat-menu #moneyMenu="matMenu">
+            <a mat-menu-item routerLink="/">Send Money</a>
+            <a mat-menu-item routerLink="receivers">Receivers</a>
+            <a mat-menu-item routerLink="transaction-history">Transaction History</a>
+          </mat-menu>
         </div>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="user-profile">
-            <mat-icon>settings</mat-icon>
-            <span>Profile</span>
+        <div *ngIf="!isLogin">
+          <a mat-button routerLink="registration">Registration</a>
+          <a mat-button routerLink="/">Login</a>
+        </div>
+        <div *ngIf="isLogin">
+          <button mat-icon-button [matMenuTriggerFor]="avatarMenu" aria-label="Example icon-button with a menu">
+            <mat-icon>account_circle</mat-icon>
           </button>
-        </mat-menu>
+          <mat-menu #avatarMenu="matMenu">
+            <button mat-menu-item routerLink="user-profile">
+              <mat-icon>settings</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item routerLink="user-profile" (click)="onLogout()">
+              <mat-icon>settings</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
       </mat-toolbar-row>
     </mat-toolbar>
   </mat-grid-tile>

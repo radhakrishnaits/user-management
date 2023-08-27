@@ -1,11 +1,31 @@
+<div style="display: flex;
+  justify-content: center;
+  align-items: center;" class="mt-50">
+  <div style="  width: 250px;
+  padding: 0 15px;">
+    <mat-grid-list cols="1" rowHeight="100px">
+      <mat-grid-tile>
+        <div class="avatar">{{getInitials(avatarName).toUpperCase()}}</div>
+        <p>&nbsp;&nbsp;&nbsp; {{avatarName.toUpperCase()}}</p>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>
+
 <div class="main-div mt-50">
   <div class="mat-container">
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
       <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Title</mat-label>
-            <input type="text" matInput placeholder="Title" formControlName="userTitle" [readonly]="isReadOnly">
+            <mat-select formControlName="userTitle" >
+              <mat-option value="mr">Mr</mat-option>
+              <mat-option value="mrs">Mrs</mat-option>
+              <mat-option value="miss">Miss</mat-option>
+              <mat-option value="ms">Ms</mat-option>
+              <mat-option value="dr">Dr</mat-option>
+            </mat-select>
             <mat-error *ngIf="formError('userTitle', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -48,9 +68,9 @@
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
-            <mat-label>Country</mat-label>
+            <mat-label>Country Code</mat-label>
             <mat-select formControlName="country">
-              <mat-option value="{{country}}" *ngFor="let country of countries">{{country}}</mat-option>
+              <mat-option *ngFor="let country of countryResult" value="{{country.dial_code}}">{{country.dial_code}}</mat-option>
             </mat-select>
             <mat-error *ngIf="formError('country', 'required')">This field is required</mat-error>
           </mat-form-field>
@@ -59,7 +79,6 @@
           <mat-form-field class="w-100">
             <mat-label>Pin Code</mat-label>
             <input type="text" matInput placeholder="Pin Code" formControlName="pin" [readonly]="isReadOnly">
-            <mat-error *ngIf="formError('pin', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -89,19 +108,19 @@
           <mat-form-field class="w-100">
             <mat-label>Gender</mat-label>
             <mat-select formControlName="gender">
-              <mat-option value="Male">Male</mat-option>
-              <mat-option value="Female">Female</mat-option>
+              <mat-option value="male">Male</mat-option>
+              <mat-option value="female">Female</mat-option>
             </mat-select>
             <mat-error *ngIf="formError('gender', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
-            <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" readonly formControlName="dob">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+            <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="formError('dob', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -112,56 +131,13 @@
             <mat-error *ngIf="formError('email', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
-        <!--<mat-grid-tile>
-          <mat-form-field class="w-100">
-            <mat-label>Country of Birth</mat-label>
-            <input type="text" matInput placeholder="Country of Birth" formControlName="countryofbirth" [readonly]="isReadOnly">
-            <mat-error *ngIf="formError('countryofbirth', 'required')">This field is required</mat-error>
-          </mat-form-field>
-        </mat-grid-tile>-->
-        <mat-grid-tile>
-          <mat-form-field class="w-100">
-            <mat-label>Identification Type</mat-label>
-            <mat-select formControlName="identificationType">
-              <mat-option value="Passport">Passport</mat-option>
-              <mat-option value="Aadhaar">Aadhaar</mat-option>
-              <mat-option value="PAN">PAN</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formError('identificationType', 'required')">This field is required</mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <mat-form-field class="w-100">
-            <mat-label>Identification Number</mat-label>
-            <input type="text" matInput placeholder="Identification Number" formControlName="identificationNumber" [readonly]="isReadOnly">
-            <mat-error *ngIf="formError('identificationNumber', 'required')">This field is required</mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <mat-form-field class="w-100">
-            <mat-label>Issuing Authority</mat-label>
-            <mat-select formControlName="issuingAuthority">
-              <mat-option value="Govt of India">Govt of India</mat-option>
-              <mat-option value="Govt of US">Govt of US</mat-option>
-              <mat-option value="Govt of Japan">Govt of Japan</mat-option>
-            </mat-select>
-            <mat-error *ngIf="formError('issuingAuthority', 'required')">This field is required</mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
         <mat-grid-tile>
           <button mat-raised-button color="primary" type="button" (click)="onEdit()">Edit</button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-raised-button color="primary" type="submit" [disabled]="isEdit">Update</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isEdit" (click)="onUpdate()">Update</button>
         </mat-grid-tile>
       </mat-grid-list>
     </form>
   </div>
 </div>
-<style>
-  .main-div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>

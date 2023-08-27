@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from "../../shared/api.service";
+import {HttpClient} from "@angular/common/http";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -8,12 +9,25 @@ import {ApiService} from "../../shared/api.service";
 })
 
 export class ProfileComponent implements OnInit{
-  startDate:any='';
+  avatarName = sessionStorage.getItem('firstName') +' ' + sessionStorage.getItem('lastName');
+  getInitials = function (name:string) {
+    var parts = name.split(' ')
+    var initials = ''
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].length > 0 && parts[i] !== '') {
+        initials += parts[i][0]
+      }
+    }
+    return initials
+  }
+
   profileForm!: FormGroup;
   breakpoint:any='';
   isReadOnly: boolean = true;
   isEdit: boolean = true;
   selectedValue!: string;
+  stateResult: any;
+  countryResult: any;
   countries = [
     "Afghanistan",
     "Åland Islands",
@@ -302,14 +316,31 @@ export class ProfileComponent implements OnInit{
   public data2:any
   //date = new FormControl(moment());
   constructor(
-    private apiService: ApiService
-  ) { }
+    private apiService: ApiService,
+    private http: HttpClient
+  ) {
+    this.http.get('assets/json/state.json').subscribe((res) => {
+      this.stateResult = res;
+    });
 
-  onSubmit() {
-    console.log(this.profileForm.value)
+    this.http.get('assets/json/country.json').subscribe((res) => {
+      this.countryResult = res;
+    });
+  }
+
+  onUpdate() {
+    // @ts-ignore
+    let requestBody = this.profileForm.value
+    this.apiService.updateProfile(requestBody).subscribe(
+      res => {
+        //this.getData()
+      },
+      err => {
+        alert(err)
+      }
+    );
   }
   ngOnInit(): void {
-    this.startDate = new Date("23-08-2023");
     this.breakpoint = (window.innerWidth <= 768) ? 1 : 3
     this.profileForm = new FormGroup({
       userTitle: new FormControl('',[Validators.required]),
@@ -319,7 +350,7 @@ export class ProfileComponent implements OnInit{
       city: new FormControl('',[Validators.required]),
       state: new FormControl('',[Validators.required]),
       country: new FormControl('',[Validators.required]),
-      pin: new FormControl('',[Validators.required]),
+      pin: new FormControl('',),
       phoneNumber: new FormControl('',[Validators.required]),
       countryBirth: new FormControl('',[Validators.required]),
       nationality: new FormControl('',[Validators.required]),
@@ -327,14 +358,16 @@ export class ProfileComponent implements OnInit{
       dob: new FormControl('',[Validators.required]),
       email: new FormControl('',[Validators.required,Validators.email]),
       countryofbirth: new FormControl('',[Validators.required]),
-      identificationType: new FormControl('',[Validators.required]),
-      identificationNumber: new FormControl('',[Validators.required]),
-      issuingAuthority: new FormControl('',[Validators.required]),
     });
-    this.apiService.getProfile('rohit@savaj.com').subscribe(
+    this.getData()
+  }
+  getData() {
+    // @ts-ignore
+    this.apiService.getProfile(sessionStorage?.getItem('email')).subscribe(
       res => {
         this.data = res
         this.data = this.data?.userDetails
+        console.log(this.data.dob)
         this.profileForm.patchValue({
           userTitle: this.data.userTitle,
           firstName: this.data.firstName,
@@ -348,14 +381,12 @@ export class ProfileComponent implements OnInit{
           countryBirth: this.data.countryBirth,
           nationality: this.data.nationality,
           gender: this.data.gender,
-          dob: this.startDate,
+          dob: new Date(this.data.dob),
           email: this.data.email,
-          identificationType: this.data.identificationType,
-          identificationNumber: this.data.identificationNumber,
-          issuingAuthority: this.data.issuingAuthority,
         })
       },
-      err => {}
+      err => {
+        console.error(err)}
     );
   }
   onResize(event:any) {
