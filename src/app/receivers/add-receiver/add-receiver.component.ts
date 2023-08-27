@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReceiversAPI } from '../receivers.api';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
@@ -60,9 +58,10 @@ export class AddReceiverComponent implements OnInit {
     this.receiversApi.getReceiver(this.receiverId).subscribe(response => {
       let receiverDetails = response['beneficiary'];
       this.receiversForm.patchValue(receiverDetails);
-      // this.receiversForm.controls['nickName'].disable();
+      this.receiversForm.controls['nickName'].disable();
     }, error => {
       console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message?.description, '');
     });
   }
 
@@ -72,18 +71,19 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar(error.message?.description, '');
     });
   }
 
   modifyReceiverDetails() {
-    // this.receiversForm.controls['nickName'].enable();
+    this.receiversForm.controls['nickName'].enable();
     this.receiversApi.modifyReceiver(this.receiversForm.value).subscribe(response => {
       this.snackBarService.openSuccessSnackBar('Receiver modified successfully', '');
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-    })
+      this.snackBarService.openErrorSnackBar(error.message?.description, '');
+    });
   }
 
   onResize(event: any) {
