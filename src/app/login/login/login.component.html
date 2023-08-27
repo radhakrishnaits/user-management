@@ -3,19 +3,21 @@
         <mat-card-title>Login</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form class="example-form">
+        <form  [formGroup]="loginForm" class="example-form">
             <mat-form-field class="full-width">
                 <mat-label>Email</mat-label>
-                <input type="email" matInput placeholder="Enter your email">
+                <input type="email" matInput placeholder="Enter your email" formControlName="username">
+                <mat-error *ngIf="(loginForm.get('username')).hasError('required')">You must enter a user name</mat-error>
             </mat-form-field>
 
             <mat-form-field class="full-width">
                 <mat-label>Password</mat-label>
-                <input type="password" matInput placeholder="Enter your password">
+                <input type="password" matInput placeholder="Enter your password" formControlName="password">
+                <mat-error *ngIf="(loginForm.get('password')).hasError('required')">You must enter a password</mat-error>
             </mat-form-field>
         </form>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary">Login</button>
+        <button mat-raised-button color="primary" (click)="onLoginUser()">Login</button>
     </mat-card-actions>
 </mat-card>

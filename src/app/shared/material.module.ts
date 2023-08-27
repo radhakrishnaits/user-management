@@ -18,10 +18,10 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatNativeDateModule} from "@angular/material/core";
 import {HttpClientModule} from "@angular/common/http";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-//import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatSelectModule} from "@angular/material/select";
-
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 export const MY_DATE_FORMAT = {
   parse: {
     dateInput: 'LL'
@@ -33,6 +33,7 @@ export const MY_DATE_FORMAT = {
     monthYearA11yLabel: 'YYYY'
   }
 };
+
 
 @NgModule({
     imports: [
@@ -50,7 +51,11 @@ export const MY_DATE_FORMAT = {
         MatPaginatorModule,
         MatIconModule,
         MatDialogModule,
+        MatListModule,
         MatGridListModule,
+        MatMenuModule,
+        MatDividerModule,
+        MatSnackBarModule,
         MatDatepickerModule,
         MatNativeDateModule,
         FormsModule,
@@ -61,7 +66,6 @@ export const MY_DATE_FORMAT = {
         MatMenuModule,
         HttpClientModule,
         MatSelectModule
-
     ],
   providers:[
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

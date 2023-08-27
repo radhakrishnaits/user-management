@@ -19,7 +19,7 @@ export class AppComponent implements OnInit{
     {
       class: 'white-color',
       label: 'Register',
-      link: ''
+      link: 'registration'
     },
     {
       class: 'white-color',
