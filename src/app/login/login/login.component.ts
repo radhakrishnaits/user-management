@@ -11,9 +11,21 @@ import { ApiService } from 'src/app/shared/api.service';
 export class LoginComponent {
   loginForm: any = FormGroup;
   loginFormDetails:any;
+  isLogin:boolean = false;
   constructor(private fb: FormBuilder, public apiService: ApiService, public route: Router){}
 
   ngOnInit(): void {
+    /**
+     *@ ROHIT SAVAJ
+     * Redirect to user profile if logged in.
+     * @return the Redirect to user profile
+     */
+    if (sessionStorage.getItem("email")) {
+      this.isLogin = true
+    }
+    if(this.isLogin) {
+      this.route.navigateByUrl('/user-profile')
+    }
     this.loginForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
