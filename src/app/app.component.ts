@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,29 +7,6 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit{
   breakpoint:any='';
   isLogin:boolean = false;
-  title = 'user-management';
-  menuData = [
-    {
-      class: 'white-color',
-      label: 'Receivers',
-      link: 'receivers'
-    },
-    {
-      class: 'white-color',
-      label: 'Transaction History',
-      link: 'transaction-history'
-    },
-    {
-      class: 'white-color',
-      label: 'Registration',
-      link: 'registration'
-    },
-    {
-      class: 'white-color',
-      label: 'Login',
-      link: ''
-    }
-  ]
   ngOnInit(): void {
     if (sessionStorage.getItem("email")) {
       this.isLogin = true

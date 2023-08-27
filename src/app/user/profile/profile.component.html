@@ -19,7 +19,7 @@
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Title</mat-label>
-            <mat-select formControlName="userTitle" >
+            <mat-select formControlName="userTitle">
               <mat-option value="mr">Mr</mat-option>
               <mat-option value="mrs">Mrs</mat-option>
               <mat-option value="miss">Miss</mat-option>
@@ -32,28 +32,28 @@
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>First Name</mat-label>
-            <input type="text" matInput placeholder="First Name" formControlName="firstName" [readonly]="isReadOnly">
+            <input type="text" matInput placeholder="First Name" formControlName="firstName">
             <mat-error *ngIf="formError('firstName', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Last Name</mat-label>
-            <input type="text" matInput placeholder="Last Name" formControlName="lastName" [readonly]="isReadOnly">
+            <input type="text" matInput placeholder="Last Name" formControlName="lastName">
             <mat-error *ngIf="formError('lastName', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Address</mat-label>
-            <input type="text" matInput placeholder="Address" formControlName="address1" [readonly]="isReadOnly">
+            <input type="text" matInput placeholder="Address" formControlName="address1">
             <mat-error *ngIf="formError('address1', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>City</mat-label>
-            <input type="text" matInput placeholder="City" formControlName="city" [readonly]="isReadOnly">
+            <input type="text" matInput placeholder="City" formControlName="city">
             <mat-error *ngIf="formError('city', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -61,7 +61,7 @@
           <mat-form-field class="w-100">
             <mat-label>State</mat-label>
             <mat-select formControlName="state">
-              <mat-option value="{{state}}" *ngFor="let state of states">{{state}}</mat-option>
+              <mat-option value="{{state}}" *ngFor="let state of stateResult">{{state}}</mat-option>
             </mat-select>
             <mat-error *ngIf="formError('state', 'required')">This field is required</mat-error>
           </mat-form-field>
@@ -78,13 +78,13 @@
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Pin Code</mat-label>
-            <input type="text" matInput placeholder="Pin Code" formControlName="pin" [readonly]="isReadOnly">
+            <input type="text" matInput placeholder="Pin Code" formControlName="pin">
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Phone</mat-label>
-            <input type="text" matInput placeholder="Phone" formControlName="phoneNumber" [readonly]="isReadOnly">
+            <input type="text" matInput placeholder="Phone" formControlName="phoneNumber">
             <mat-error *ngIf="formError('phoneNumber', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -92,7 +92,7 @@
           <mat-form-field class="w-100">
             <mat-label>Country of Birth</mat-label>
             <mat-select formControlName="countryBirth">
-              <mat-option value="{{country}}" *ngFor="let country of countries">{{country}}</mat-option>
+              <mat-option value="{{country}}" *ngFor="let country of countryResult">{{country}}</mat-option>
             </mat-select>
             <mat-error *ngIf="formError('countryBirth', 'required')">This field is required</mat-error>
           </mat-form-field>
@@ -100,7 +100,9 @@
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Nationality</mat-label>
-            <input type="text" matInput placeholder="Nationality" formControlName="nationality" [readonly]="isReadOnly">
+            <mat-select formControlName="nationality">
+              <mat-option *ngFor="let country of countryResult" value="{{country.name}}">{{country.name}}</mat-option>
+            </mat-select>
             <mat-error *ngIf="formError('nationality', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
@@ -127,12 +129,12 @@
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Email" formControlName="email" [readonly]="isReadOnly">
+            <input type="email" matInput placeholder="Email" formControlName="email">
             <mat-error *ngIf="formError('email', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-raised-button color="primary" type="button" (click)="onEdit()">Edit</button>
+          <button mat-raised-button color="primary" type="button" (click)="onEdit()" [disabled]="isEditClicked">Edit</button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-raised-button color="primary" type="submit" [disabled]="isEdit" (click)="onUpdate()">Update</button>
