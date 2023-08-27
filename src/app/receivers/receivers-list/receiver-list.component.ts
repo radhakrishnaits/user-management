@@ -14,7 +14,7 @@ export class ReceiverListComponent implements OnInit {
   receiversDetails: any = []
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
 
-  constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI) { }
+  constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.getAllReceivers();
@@ -25,6 +25,7 @@ export class ReceiverListComponent implements OnInit {
       this.receiversDetails = response['beneficiaries'];
     }, error => {
       console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message?.description, '');
     })
   }
 
@@ -43,6 +44,7 @@ export class ReceiverListComponent implements OnInit {
       this.getAllReceivers();
     }, error => {
       console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message?.description, '');
     })
   }
 }
