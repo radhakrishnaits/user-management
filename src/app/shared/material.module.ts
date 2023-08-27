@@ -17,8 +17,6 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatNativeDateModule} from "@angular/material/core";
 import {HttpClientModule} from "@angular/common/http";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatSelectModule} from "@angular/material/select";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
