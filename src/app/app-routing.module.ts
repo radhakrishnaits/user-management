@@ -8,8 +8,8 @@ const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'receivers', loadChildren: () => import('./receivers/receivers.module').then(m => m.ReceiversModule), data: { title: 'Receivers' } },
   { path: 'transaction-history', loadChildren: () => import('./transaction-history/transaction-history.module').then(m => m.TransactionHistoryModule), data: { title: 'Transaction History' } },
-  { path: 'registration', component: RegistrationComponent, pathMatch: 'full' },
-  { path: 'user-profile', component: ProfileComponent, pathMatch: 'full' },
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'user-profile', component: ProfileComponent },
 
 ];
 

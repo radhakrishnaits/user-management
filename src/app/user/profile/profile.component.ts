@@ -20,17 +20,21 @@ export class ProfileComponent implements OnInit{
     }
     return initials
   }
+  loginEmail = sessionStorage.getItem('email')
+  regExAllowStringAndSpace = "^[a-zA-Z_ ]*$";
+  regExAllowEmail = "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
   isLogin:boolean = false;
   profileForm!: FormGroup;
+  addCardForm!: FormGroup;
   breakpoint:any='';
   isDisabled: boolean = true;
   isEdit: boolean = true;
   isEditClicked: boolean = false;
   stateResult: any;
   countryResult: any;
+  isCardExist: boolean = true
+  existingCardDetails: any = ''
   public data:any
-  public data2:any
-  //date = new FormControl(moment());
   constructor(
     private apiService: ApiService,
     private http: HttpClient,
@@ -43,20 +47,24 @@ export class ProfileComponent implements OnInit{
       this.countryResult = res;
     });
   }
-
   onUpdate() {
-    // @ts-ignore
-    let requestBody = this.profileForm.value
-    this.apiService.updateProfile(requestBody).subscribe(
-      res => {
-        //this.getData()
-      },
-      err => {
-        alert(err)
-      }
-    );
+    if(this.profileForm.valid) {
+      let requestBody = this.profileForm.value
+      // @ts-ignore
+      this.apiService.updateProfile(requestBody,this.loginEmail).subscribe(
+        (res:any) => {
+          if(res?.message?.code == 200){
+            alert(res["message"]?.description)
+          }
+        },
+        (err:any) => {
+          alert(err?.message);
+        }
+      );
+    } else {
+      alert('Form is invalid. Please check')
+    }
   }
-
   ngOnInit(): void {
     if (sessionStorage.getItem("email")) {
       this.isLogin = true
@@ -67,11 +75,10 @@ export class ProfileComponent implements OnInit{
     this.breakpoint = (window.innerWidth <= 768) ? 1 : 3
     this.profileForm = new FormGroup({
       userTitle: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
-      //userTitle: new FormControl('',[Validators.required]),
-      firstName: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
-      lastName: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
+      firstName: new FormControl({value: '', disabled: this.isDisabled},[Validators.required,Validators.pattern(this.regExAllowStringAndSpace)]),
+      lastName: new FormControl({value: '', disabled: this.isDisabled},[Validators.required,Validators.pattern(this.regExAllowStringAndSpace)]),
       address1: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
-      city: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
+      city: new FormControl({value: '', disabled: this.isDisabled},[Validators.required,Validators.pattern(this.regExAllowStringAndSpace)]),
       state: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
       country: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
       pin: new FormControl({value: null, disabled: this.isDisabled}),
@@ -80,10 +87,15 @@ export class ProfileComponent implements OnInit{
       nationality: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
       gender: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
       dob: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
-      email: new FormControl({value: '', disabled: this.isDisabled},[Validators.required,Validators.email]),
+      email: new FormControl({value: '', disabled: this.isDisabled},[Validators.required,Validators.email,Validators.pattern(this.regExAllowEmail)]),
     });
-    //this.profileForm.get('userTitle')?.enable();
     this.getData()
+    this.addCardForm = new FormGroup({
+      cardNumber: new FormControl('',[Validators.required]),
+      cardExpiry: new FormControl('',[Validators.required]),
+      nameOnCard: new FormControl('',[Validators.required,Validators.pattern(this.regExAllowStringAndSpace)]),
+    });
+    this.getDataCard()
   }
   getData() {
     // @ts-ignore
@@ -91,7 +103,6 @@ export class ProfileComponent implements OnInit{
       res => {
         this.data = res
         this.data = this.data?.userDetails
-        console.log(this.data.dob)
         this.profileForm.patchValue({
           userTitle: this.data.userTitle,
           firstName: this.data.firstName,
@@ -112,6 +123,60 @@ export class ProfileComponent implements OnInit{
       err => {
         console.error(err)}
     );
+  }
+  getDataCard() {
+    this.apiService.getUserCard(4444222233334444,this.loginEmail || '').subscribe(
+      (res:any) => {
+        if(res?.status == 200){
+          if(res?.userCards.length == 0){
+            this.isCardExist = false
+          }
+          else {
+            this.isCardExist = true
+          }
+        }
+      }
+    )
+  }
+  addUserCard() {
+    let requestBody = {
+      "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
+      "cardExpiry": this?.addCardForm?.value?.cardExpiry,
+      "nameOnCard": this?.addCardForm?.value?.nameOnCard
+    }
+    this.apiService.addUserCard(requestBody,this.loginEmail || '').subscribe(
+      (res:any) => {
+        if(res?.status == 200){
+          alert(res["message"]?.description)
+          this.existingCardDetails = res
+        }
+        else if(res?.errorMessage) {
+          alert(res["errorMessage"])
+        }
+      },
+  (err:any) => {
+        if(err?.errorMessage) {
+          alert(err)
+        }
+      }
+    )
+  }
+  deleteUserCardDetail(){
+    this.apiService.deleteUserCard(this.loginEmail || '',this.existingCardDetails?.cardNumber).subscribe(
+      (res:any) => {
+        if(res?.status == 200){
+          alert(res["message"]?.description)
+        }
+        else if(res?.errorMessage) {
+          alert(res["errorMessage"])
+        }
+      },
+      (err:any) => {
+        if(err?.errorMessage) {
+          alert(err)
+        }
+      }
+    )
   }
   onResize(event:any) {
     this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3

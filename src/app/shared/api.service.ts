@@ -12,26 +12,26 @@ export class ApiService {
   constructor(
     private http: HttpClient
   ) { }
+  /**
+   *@ ROHIT SAVAJ
+   * User view/modify.
+   * @return the User view/modify
+   */
   getProfile(email:string) {
     return this.http.get(this.apiUrl + 'users/' + email)
   }
-  updateProfile(requestBody:any) {
-    return this.http.put(this.apiUrl + 'users/', requestBody).pipe(catchError(this.handleError));
+  updateProfile(requestBody:any,email:string) {
+    return this.http.put(this.apiUrl + 'users/'+email, requestBody)
   }
-  handleError(error:any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(() => {
-      return errorMessage;
-    });
+  getUserCard(cardNumber:number,email:string) {
+    return this.http.get(this.apiUrl + 'users/' + email + '/cards')
   }
-
+  addUserCard(requestBody:any,email:string) {
+    return this.http.post(this.apiUrl + 'users/' + email,requestBody)
+  }
+  deleteUserCard(email:string,cardNumber:number) {
+    return this.http.delete(this.apiUrl + 'users/' + email + '/cards/' + cardNumber)
+  }
   /**
    *@ SHUBHAM TILE
    * Register users.
