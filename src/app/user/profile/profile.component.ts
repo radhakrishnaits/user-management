@@ -150,6 +150,23 @@ export class ProfileComponent implements OnInit{
       alert("Please validate form fields")
       return
     }
+    console.log(this?.addCardForm?.value?.cardExpiry.split('/'))
+    let cardMonth = this?.addCardForm?.value?.cardExpiry.split('/')[0]
+    let cardYear = this?.addCardForm?.value?.cardExpiry.split('/')[1]
+
+    let currentYear = new Date().getFullYear();
+    let currentMonth = ("0" + (new Date().getMonth() + 1)).slice(-2);
+    console.log()
+    if(cardYear < currentYear) {
+      alert("Please select correct card expiry year!")
+      return
+    }
+    if(cardMonth < currentMonth) {
+      alert("Please select correct card expiry month!")
+      return
+    }
+    //console.log()
+    return
     let requestBody = {
       "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
       "cardExpiry": this?.addCardForm?.value?.cardExpiry,
