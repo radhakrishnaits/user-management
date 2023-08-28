@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReceiversAPI } from '../receivers.api';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-receiver',
@@ -16,13 +17,15 @@ export class AddReceiverComponent implements OnInit {
   public colspan: number = 2;
   public maxCols: number = 2;
   public rowHeight: string = '70px';
+  public countries: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private receiversApi: ReceiversAPI,
     private router: Router,
-    private snackBarService: SnackBarService) {
+    private snackBarService: SnackBarService,
+    private http: HttpClient) {
     this.activatedRoute.params.subscribe(param => {
       this.receiverId = param['id'];
       if (this.receiverId) {
@@ -33,6 +36,7 @@ export class AddReceiverComponent implements OnInit {
 
   ngOnInit() {
     this.createReceiverForm();
+    this.getCountries();
   }
 
   createReceiverForm() {
@@ -40,7 +44,7 @@ export class AddReceiverComponent implements OnInit {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      mobileNumber: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
+      mobileNumber: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
       bankAccountNumber: ['', [Validators.required]],
       iban: ['', [Validators.required]],
       nickName: ['', Validators.required]
@@ -62,6 +66,12 @@ export class AddReceiverComponent implements OnInit {
     }, error => {
       console.log(error);
       this.snackBarService.openErrorSnackBar(error.message?.description, '');
+    });
+  }
+
+  getCountries() {
+    this.http.get('assets/json/country.json').subscribe((res: any) => {
+      this.countries = res;
     });
   }
 

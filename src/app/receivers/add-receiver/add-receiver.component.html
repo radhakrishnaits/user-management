@@ -5,9 +5,12 @@
             <mat-grid-list [cols]="maxCols" [rowHeight]="rowHeight" (window:resize)="onResize($event)">
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                        <input matInput formControlName="country" placeholder="Country">
+                        <mat-select formControlName="country" placeholder="Country">
+                            <mat-option *ngFor="let country of countries"
+                                value="{{country.name}}">{{country.name}}</mat-option>
+                        </mat-select>
                         <mat-error *ngIf="receiversForm.controls['country'].errors?.required 
-                    && receiversForm.controls['country'].touched">
+                          && receiversForm.controls['country'].touched">
                             Receiver's country <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
@@ -40,6 +43,9 @@
                     && receiversForm.controls['mobileNumber'].touched">
                             Receiver's mobile number <strong>required</strong>
                         </mat-error>
+                        <mat-error *ngIf="(receiversForm.controls['country']).hasError">
+                          Enter correct <strong>mobile number</strong>
+                      </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
