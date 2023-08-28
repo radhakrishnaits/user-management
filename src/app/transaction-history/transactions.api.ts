@@ -8,8 +8,8 @@ export class TransactionHistoryAPI {
     userName: string;
 
     constructor(private http: HttpClient) {
-        this.userName = sessionStorage.getItem('email') || '';
-        // this.userName = 'abcd@abcd.com';
+        // this.userName = sessionStorage.getItem('email') || '';
+        this.userName = 'abcd@abcd.com';
     }
 
     getAllTransactions(): Observable<any> {

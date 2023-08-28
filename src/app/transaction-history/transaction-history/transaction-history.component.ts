@@ -7,8 +7,7 @@ import { TransactionHistoryAPI } from '../transactions.api';
   styleUrls: ['./transaction-history.component.scss']
 })
 export class TransactionHistoryComponent {
-  history: any;
-  avatarName = sessionStorage.getItem('firstName')?.charAt(0).toUpperCase() + '' + sessionStorage.getItem('lastName')?.charAt(0).toUpperCase();
+  history: any[] = [];
 
   constructor(private transactionApi: TransactionHistoryAPI) { }
 
@@ -20,6 +19,13 @@ export class TransactionHistoryComponent {
     this.transactionApi.getAllTransactions().subscribe(response => {
       this.history = response['transactions'];
       console.log(this.history);
-    })
+      this.getProfileIcon();
+    });
+  }
+
+  getProfileIcon() {
+    this.history.forEach((user: any) => {
+      user['avatarIcon'] = (user?.firstName.charAt(0) + '' + user?.lastName.charAt(0)).toUpperCase();
+    });
   }
 }
