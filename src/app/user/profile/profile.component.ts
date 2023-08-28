@@ -133,6 +133,7 @@ export class ProfileComponent implements OnInit{
           }
           else {
             this.isCardExist = true
+            this.existingCardDetails = res.userCards
           }
         }
       }
@@ -149,6 +150,7 @@ export class ProfileComponent implements OnInit{
         if(res?.status == 200){
           alert(res["message"]?.description)
           this.existingCardDetails = res
+          this.getDataCard()
         }
         else if(res?.errorMessage) {
           alert(res["errorMessage"])
@@ -162,10 +164,11 @@ export class ProfileComponent implements OnInit{
     )
   }
   deleteUserCardDetail(){
-    this.apiService.deleteUserCard(this.loginEmail || '',this.existingCardDetails?.cardNumber).subscribe(
+    this.apiService.deleteUserCard(this.loginEmail || '',this.existingCardDetails[0]?.cardNumber).subscribe(
       (res:any) => {
-        if(res?.status == 200){
+        if(res?.status == 204){
           alert(res["message"]?.description)
+          this.getDataCard()
         }
         else if(res?.errorMessage) {
           alert(res["errorMessage"])
