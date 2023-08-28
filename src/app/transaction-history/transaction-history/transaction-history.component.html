@@ -1,6 +1,6 @@
 <div class="center-aligned top-margin">
     <p class="header-text">Your transaction history</p>
-    <mat-card>
+    <mat-card *ngIf="history.length > 0; else noHistoryFound">
         <mat-grid-list cols="9" rows="1" rowHeight="60px" *ngFor="let data of history">
             <mat-grid-tile colspan="1" rowspan="1">
                 <div class="grid-align-right w-80">
@@ -11,7 +11,7 @@
             <mat-grid-tile colspan="6" rowspan="1">
                 <mat-list>
                     <mat-list-item>
-                        <span matListItemTitle>{{data.senderNameOnCard}}</span>
+                        <span matListItemTitle>{{data.receiverFirstName}} {{data.receiverLastName}}</span>
                         <span matListItemLine>{{data.senderPaymentMethod}} &nbsp;&nbsp;{{data.txnDate}}&nbsp;&nbsp;
                             <strong>{{data.txnStatus}}</strong></span>
                     </mat-list-item>
@@ -30,3 +30,7 @@
         </mat-grid-list>
     </mat-card>
 </div>
+
+<ng-template #noHistoryFound>
+    <div class="empty-list-text">No history found.</div>
+</ng-template>

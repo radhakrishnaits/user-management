@@ -25,7 +25,7 @@ export class TransactionHistoryComponent {
 
   getProfileIcon() {
     this.history.forEach((user: any) => {
-      user['avatarIcon'] = (user?.firstName.charAt(0) + '' + user?.lastName.charAt(0)).toUpperCase();
+      user['avatarIcon'] = user?.receiverFirstName && user?.receiverLastName ? (user?.receiverFirstName?.charAt(0) + '' + user?.receiverLastName?.charAt(0)).toUpperCase() : "WU";
     });
   }
 }

@@ -110,12 +110,16 @@ body {
     height: 40px;
 }
 
+.empty-list-text {
+    color: #c2c2c2;
+    font-size: 1.3rem;
+}
+
 @media only screen and (max-width: 500px) {
     .center-aligned {
         width: 90%;
     }
 }
-
 
 @media only screen and (max-width: 460px) {
     .grid-align-right .avatar {

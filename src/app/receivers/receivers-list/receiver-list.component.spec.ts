@@ -60,7 +60,8 @@ describe('ReceiversListComponent', () => {
             country: "India",
             bankAccountNumber: 1234567,
             iban: "IDFC004",
-            nickName: "test123"
+            nickName: "test123",
+            mobileNumber: "8989898989"
           }
         ]
       }

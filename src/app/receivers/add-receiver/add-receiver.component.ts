@@ -65,7 +65,7 @@ export class AddReceiverComponent implements OnInit {
       this.receiversForm.controls['nickName'].disable();
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message?.description, '');
+      this.snackBarService.openErrorSnackBar(error.message, '');
     });
   }
 
@@ -81,7 +81,7 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message?.description, '');
+      this.snackBarService.openErrorSnackBar(error.message, '');
     });
   }
 
@@ -92,7 +92,7 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message?.description, '');
+      this.snackBarService.openErrorSnackBar(error.message, '');
     });
   }
 

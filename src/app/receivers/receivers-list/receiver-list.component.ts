@@ -24,7 +24,7 @@ export class ReceiverListComponent implements OnInit {
       this.receiversDetails = response['beneficiaries'];
       this.getProfileIcon();
     }, error => {
-      this.snackBarService.openErrorSnackBar(error.message?.description, '');
+      this.snackBarService.openErrorSnackBar(error.message, '');
     })
   }
 
@@ -42,13 +42,13 @@ export class ReceiverListComponent implements OnInit {
       this.snackBar.openSuccessSnackBar('Receiver deleted successfully', '');
       this.getAllReceivers();
     }, error => {
-      this.snackBarService.openErrorSnackBar(error.message?.description, '');
+      this.snackBarService.openErrorSnackBar(error.message, '');
     })
   }
 
   getProfileIcon() {
     this.receiversDetails.forEach((receiver: any) => {
-      receiver['avatarIcon'] = (receiver?.firstName.charAt(0) + '' + receiver?.lastName.charAt(0)).toUpperCase();
+      receiver['avatarIcon'] = receiver?.firstName && receiver?.lastName ? (receiver?.firstName?.charAt(0) + '' + receiver?.lastName?.charAt(0)).toUpperCase() : "WU";
     });
   }
 }

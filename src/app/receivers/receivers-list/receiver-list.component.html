@@ -1,6 +1,6 @@
 <div class="center-aligned top-margin">
     <p class="header-text">Receivers</p>
-    <mat-card>
+    <mat-card *ngIf="receiversDetails.length > 0; else noReceiversFound">
         <mat-grid-list cols="9" rows="1" rowHeight="60px" *ngFor="let data of receiversDetails">
             <mat-grid-tile colspan="1" rowspan="1">
                 <div class="grid-align-right w-80">
@@ -47,4 +47,8 @@
     <div mat-dialog-actions class="btn-right-aligned">
         <button mat-raised-button color="warn" [mat-dialog-close]="true">Delete</button>
     </div>
+</ng-template>
+
+<ng-template #noReceiversFound>
+    <div class="empty-list-text">No receiver found.</div>
 </ng-template>
