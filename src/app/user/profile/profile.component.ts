@@ -156,7 +156,6 @@ export class ProfileComponent implements OnInit{
 
     let currentYear = new Date().getFullYear();
     let currentMonth = ("0" + (new Date().getMonth() + 1)).slice(-2);
-    console.log()
     if(cardYear < currentYear) {
       alert("Please select correct card expiry year!")
       return
@@ -165,8 +164,6 @@ export class ProfileComponent implements OnInit{
       alert("Please select correct card expiry month!")
       return
     }
-    //console.log()
-    return
     let requestBody = {
       "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
       "cardExpiry": this?.addCardForm?.value?.cardExpiry,
