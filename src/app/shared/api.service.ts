@@ -27,7 +27,7 @@ export class ApiService {
     return this.http.get(this.apiUrl + 'users/' + email + '/cards')
   }
   addUserCard(requestBody:any,email:string) {
-    return this.http.post(this.apiUrl + 'users/' + email,requestBody)
+    return this.http.post(this.apiUrl + 'users/' + email + '/cards',requestBody)
   }
   deleteUserCard(email:string,cardNumber:number) {
     return this.http.delete(this.apiUrl + 'users/' + email + '/cards/' + cardNumber)

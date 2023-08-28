@@ -146,18 +146,18 @@
       </mat-grid-list>
     </form>
     <hr>
-    <mat-card *ngIf="isCardExist && existingCardDetails">
+    <mat-card *ngIf="isCardExist">
       <mat-card-header>
         <mat-card-title>User card details</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p>
-          Card Number: {{existingCardDetails?.cardNumber}}
+          Card Number: {{existingCardDetails[0]?.cardNumber}}
         </p>
       </mat-card-content>
       <mat-card-content>
         <p>
-          Card Name: {{existingCardDetails?.nameOnCard}}
+          Card Name: {{existingCardDetails[0]?.nameOnCard}}
         </p>
       </mat-card-content>
       <mat-card-content style="margin-top: 10px">
