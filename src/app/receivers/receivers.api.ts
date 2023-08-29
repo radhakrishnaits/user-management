@@ -9,7 +9,6 @@ export class ReceiversAPI {
 
     constructor(private http: HttpClient) {
         this.userName = sessionStorage.getItem('email') || '';
-
     }
 
     getAllReceivers(): Observable<any> {

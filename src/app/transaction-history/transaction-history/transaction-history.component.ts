@@ -18,7 +18,6 @@ export class TransactionHistoryComponent {
   getTransactions() {
     this.transactionApi.getAllTransactions().subscribe(response => {
       this.history = response['transactions'];
-      console.log(this.history);
       this.getProfileIcon();
     });
   }
