@@ -1,14 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AddReceiverComponent } from './add-receiver.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { ReceiversAPI } from '../receivers.api';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReceiversModule } from '../receivers.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpHeaders } from '@angular/common/http';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 describe('AddReceiverComponent', () => {
   let component: AddReceiverComponent;
@@ -43,6 +40,7 @@ describe('AddReceiverComponent', () => {
         BrowserAnimationsModule
       ],
       providers: [
+        SnackBarService,
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provider: FormBuilder, useValue: fb },
         { provider: FormGroup, useValue: formGroup },
@@ -110,7 +108,18 @@ describe('AddReceiverComponent', () => {
   describe('getReceiverDetails', () => {
     it('should GET receiver details by receiver id', () => {
       // Given
-      let receiver = {
+      // const receiverForm = fb.group({
+      //   firstName: ['Test'],
+      //   lastName: ['Test'],
+      //   country: ['India'],
+      //   mobileNumber: ['1234567890'],
+      //   bankAccountNumber: ['1234567'],
+      //   iban: ['IDFC004'],
+      //   nickName: ['test123']
+      // });
+      // receiverForm.controls['nickName'].disable();
+
+      let receiverDetails = {
         status: 200,
         message: {
           code: "200",
@@ -127,28 +136,30 @@ describe('AddReceiverComponent', () => {
           nickName: "test123"
         }
       }
-      spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(receiver));
+
+      spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(receiverDetails));
 
       // When
       component.getReceiverDetails();
 
       // Then
-      expect(component.receiversForm.value).toEqual(receiver.beneficiary);
+      expect(component.receiversForm.value).toEqual(receiverDetails.beneficiary);
+      expect(component.receiversForm.get('nickName').disable).toBe(true);
     });
   });
 
   describe('addReceiverDetails', () => {
     it('should submit add receiver form if form is VALID', () => {
       // Given
-      // const receiverForm = fb.group({
-      //   firstName: ['Test'],
-      //   lastName: ['Test'],
-      //   country: ['India'],
-      //   mobileNumber: ['1234567890'],
-      //   bankAccountNumber: ['123412341234'],
-      //   iban: ['ICIC0000'],
-      //   nickName: ['test123']
-      // });
+      const receiverForm = fb.group({
+        firstName: ['Test'],
+        lastName: ['Test'],
+        country: ['India'],
+        mobileNumber: ['1234567890'],
+        bankAccountNumber: ['1234567'],
+        iban: ['IDFC004'],
+        nickName: ['test']
+      });
 
       const receiverDetails = {
         status: 200,
@@ -175,14 +186,26 @@ describe('AddReceiverComponent', () => {
       component.addReceiverDetails();
 
       // Then
+      expect(receiverForm.valid).toBeTruthy();
       expect(openSnackBar).toHaveBeenCalledWith('Receiver added successfully', '');
       expect(navigate).toHaveBeenCalledWith(['/receivers']);
+
     });
   });
 
   describe('modifyReceiverDetails', () => {
     it('should modify receiver if form is VALID', () => {
       // Given
+      const receiverForm = fb.group({
+        firstName: ['Test123'],
+        lastName: ['Test123'],
+        country: ['India'],
+        mobileNumber: ['1234567890'],
+        bankAccountNumber: ['1234567'],
+        iban: ['IDFC004'],
+        nickName: ['test123']
+      });
+
       const receiverDetails = {
         status: 200,
         message: {
@@ -196,7 +219,7 @@ describe('AddReceiverComponent', () => {
           country: "India",
           bankAccountNumber: 1234567,
           iban: "IDFC004",
-          nickName: "test"
+          nickName: "test123"
         }
       }
 
@@ -208,6 +231,7 @@ describe('AddReceiverComponent', () => {
       component.modifyReceiverDetails();
 
       // Then
+      expect(receiverForm.valid).toBeTruthy();
       expect(openSnackBar).toHaveBeenCalledWith('Receiver modified successfully', '');
       expect(navigate).toHaveBeenCalledWith(['/receivers']);
     });

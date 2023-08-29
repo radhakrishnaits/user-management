@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ReceiversAPI } from '../receivers.api';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class ReceiverListComponent implements OnInit {
   receiversDetails: any = []
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
 
-  constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI) { }
+  constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.getAllReceivers();
@@ -23,8 +22,9 @@ export class ReceiverListComponent implements OnInit {
   getAllReceivers() {
     this.receiversApi.getAllReceivers().subscribe(response => {
       this.receiversDetails = response['beneficiaries'];
+      this.getProfileIcon();
     }, error => {
-      console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message, '');
     })
   }
 
@@ -42,7 +42,13 @@ export class ReceiverListComponent implements OnInit {
       this.snackBar.openSuccessSnackBar('Receiver deleted successfully', '');
       this.getAllReceivers();
     }, error => {
-      console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message, '');
     })
+  }
+
+  getProfileIcon() {
+    this.receiversDetails.forEach((receiver: any) => {
+      receiver['avatarIcon'] = receiver?.firstName && receiver?.lastName ? (receiver?.firstName?.charAt(0) + '' + receiver?.lastName?.charAt(0)).toUpperCase() : "WU";
+    });
   }
 }

@@ -49,6 +49,7 @@ describe('TransactionHistoryComponent', () => {
             receiverPaymentMethod: "BANK",
             receiverAccountNumber: 12341234,
             receiverIban: "IDFC2134",
+            receiverName: "Radha Krishna",
             txnType: "SENDMONEY",
             fxRate: 1.1,
             exchangeFee: 1.1,

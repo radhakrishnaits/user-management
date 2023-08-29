@@ -11,9 +11,21 @@ import { ApiService } from 'src/app/shared/api.service';
 export class LoginComponent {
   loginForm: any = FormGroup;
   loginFormDetails:any;
+  isLogin:boolean = false;
   constructor(private fb: FormBuilder, public apiService: ApiService, public route: Router){}
 
   ngOnInit(): void {
+    /**
+     *@ ROHIT SAVAJ
+     * Redirect to user profile if logged in.
+     * @return the Redirect to user profile
+     */
+    if (sessionStorage.getItem("email")) {
+      this.isLogin = true
+    }
+    if(this.isLogin) {
+      this.route.navigateByUrl('/user-profile')
+    }
     this.loginForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -26,7 +38,13 @@ export class LoginComponent {
     this.apiService.onSignInUser(this.loginFormDetails).subscribe((res:any)=>{
         alert(res["message"]?.description);
         this.loginForm.reset();
-        this.route.navigateByUrl('/user-profile');
+        //this.route.navigateByUrl('/user-profile');
+        sessionStorage.setItem('email',res["userName"])
+        sessionStorage.setItem('firstName',res["firstName"])
+        sessionStorage.setItem('lastName',res["lastName"])
+        this.route.navigateByUrl('/user-profile').then(() => {
+          window.location.reload();
+        });
     },error=>{
         alert(error?.error?.message?.description);
     });

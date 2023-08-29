@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReceiversAPI } from '../receivers.api';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-receiver',
@@ -18,13 +17,15 @@ export class AddReceiverComponent implements OnInit {
   public colspan: number = 2;
   public maxCols: number = 2;
   public rowHeight: string = '70px';
+  public countries: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private receiversApi: ReceiversAPI,
     private router: Router,
-    private snackBarService: SnackBarService) {
+    private snackBarService: SnackBarService,
+    private http: HttpClient) {
     this.activatedRoute.params.subscribe(param => {
       this.receiverId = param['id'];
       if (this.receiverId) {
@@ -35,6 +36,7 @@ export class AddReceiverComponent implements OnInit {
 
   ngOnInit() {
     this.createReceiverForm();
+    this.getCountries();
   }
 
   createReceiverForm() {
@@ -42,7 +44,7 @@ export class AddReceiverComponent implements OnInit {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      mobileNumber: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
+      mobileNumber: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
       bankAccountNumber: ['', [Validators.required]],
       iban: ['', [Validators.required]],
       nickName: ['', Validators.required]
@@ -60,9 +62,16 @@ export class AddReceiverComponent implements OnInit {
     this.receiversApi.getReceiver(this.receiverId).subscribe(response => {
       let receiverDetails = response['beneficiary'];
       this.receiversForm.patchValue(receiverDetails);
-      // this.receiversForm.controls['nickName'].disable();
+      this.receiversForm.controls['nickName'].disable();
     }, error => {
       console.log(error);
+      this.snackBarService.openErrorSnackBar(error.message, '');
+    });
+  }
+
+  getCountries() {
+    this.http.get('assets/json/country.json').subscribe((res: any) => {
+      this.countries = res;
     });
   }
 
@@ -77,13 +86,14 @@ export class AddReceiverComponent implements OnInit {
   }
 
   modifyReceiverDetails() {
-    // this.receiversForm.controls['nickName'].enable();
+    this.receiversForm.controls['nickName'].enable();
     this.receiversApi.modifyReceiver(this.receiversForm.value).subscribe(response => {
       this.snackBarService.openSuccessSnackBar('Receiver modified successfully', '');
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-    })
+      this.snackBarService.openErrorSnackBar(error.message, '');
+    });
   }
 
   onResize(event: any) {

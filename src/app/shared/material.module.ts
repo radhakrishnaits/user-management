@@ -8,23 +8,23 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatListModule } from '@angular/material/list';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatMenuModule } from '@angular/material/menu';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatListModule} from "@angular/material/list";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatNativeDateModule} from "@angular/material/core";
+import {HttpClientModule} from "@angular/common/http";
+import {MatSelectModule} from "@angular/material/select";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatNativeDateModule } from "@angular/material/core";
-import { HttpClientModule } from "@angular/common/http";
-
 @NgModule({
     imports: [
         MatTableModule,
         MatTabsModule,
-        MatPaginatorModule
+        MatPaginatorModule,
     ],
     exports: [
         MatCardModule,
@@ -49,8 +49,11 @@ import { HttpClientModule } from "@angular/common/http";
         MatSidenavModule,
         MatToolbarModule,
         MatMenuModule,
-        HttpClientModule
-    ]
+        HttpClientModule,
+        MatSelectModule
+    ],
+  providers:[
+  ]
 })
 
 export class MaterialModule { }

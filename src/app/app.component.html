@@ -6,7 +6,7 @@
         <button mat-icon-button (click)="sidenav2.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span><img src="./assets/logo.wu.svg" alt="" class="wu-logo"></span>
+        <span routerLink="/"><img src="./assets/logo.wu.svg" alt="" class="wu-logo"></span>
       </mat-toolbar-row>
     </mat-toolbar>
   </mat-grid-tile>
@@ -20,18 +20,32 @@
   <mat-grid-tile *ngIf="breakpoint >= 3">
     <mat-toolbar color="primary" class="mat-nav">
       <mat-toolbar-row>
-        <div *ngFor="let menuItem of menuData">
-          <a mat-button class="white-color" routerLink="{{menuItem.link}}">{{menuItem.label}}</a>
+        <div *ngIf="isLogin">
+          <button mat-button [matMenuTriggerFor]="moneyMenu" class="white-color">Money</button>
+          <mat-menu #moneyMenu="matMenu">
+            <a mat-menu-item routerLink="receivers">Receivers</a>
+            <a mat-menu-item routerLink="transaction-history">Transaction History</a>
+          </mat-menu>
         </div>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="user-profile">
-            <mat-icon>settings</mat-icon>
-            <span>Profile</span>
+        <div *ngIf="!isLogin">
+          <a mat-button routerLink="registration">Registration</a>
+          <a mat-button routerLink="/">Login</a>
+        </div>
+        <div *ngIf="isLogin">
+          <button mat-icon-button [matMenuTriggerFor]="avatarMenu" aria-label="Example icon-button with a menu">
+            <mat-icon>account_circle</mat-icon>
           </button>
-        </mat-menu>
+          <mat-menu #avatarMenu="matMenu">
+            <button mat-menu-item routerLink="user-profile">
+              <mat-icon>settings</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item routerLink="user-profile" (click)="onLogout()">
+              <mat-icon>settings</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
       </mat-toolbar-row>
     </mat-toolbar>
   </mat-grid-tile>
@@ -40,7 +54,19 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav2 opened="false" mode="over">
     <mat-nav-list>
-      <a mat-list-item *ngFor="let menuItem of menuData">{{menuItem.label}}</a>
+      <mat-nav-list>
+        <div *ngIf="isLogin">
+          <a mat-list-item routerLink="receivers" (click)="sidenav2.toggle()">Receivers</a>
+          <a mat-list-item routerLink="transaction-history" (click)="sidenav2.toggle()">Transaction History</a>
+          <a mat-list-item routerLink="user-profile" (click)="sidenav2.toggle()">Profile</a>
+          <a mat-list-item (click)="onLogout()">Logout</a>
+        </div>
+        <div *ngIf="!isLogin">
+          <a mat-list-item routerLink="registration" (click)="sidenav2.toggle()">Registration</a>
+          <a mat-list-item routerLink="/" (click)="sidenav2.toggle()">Login</a>
+        </div>
+      </mat-nav-list>
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
