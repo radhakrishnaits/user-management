@@ -26,38 +26,38 @@
               <mat-option value="ms">Ms</mat-option>
               <mat-option value="dr">Dr</mat-option>
             </mat-select>
-            <mat-error *ngIf="formError('userTitle', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('userTitle', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>First Name</mat-label>
             <input type="text" matInput placeholder="First Name" formControlName="firstName">
-            <mat-error *ngIf="formError('firstName', 'required')">This field is required</mat-error>
-            <mat-error *ngIf="formError('firstName', 'pattern')">This field is invalid</mat-error>
+            <mat-error *ngIf="profileFromError('firstName', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('firstName', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Last Name</mat-label>
             <input type="text" matInput placeholder="Last Name" formControlName="lastName">
-            <mat-error *ngIf="formError('lastName', 'required')">This field is required</mat-error>
-            <mat-error *ngIf="formError('lastName', 'pattern')">This field is invalid</mat-error>
+            <mat-error *ngIf="profileFromError('lastName', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('lastName', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Address</mat-label>
             <input type="text" matInput placeholder="Address" formControlName="address1">
-            <mat-error *ngIf="formError('address1', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('address1', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>City</mat-label>
             <input type="text" matInput placeholder="City" formControlName="city">
-            <mat-error *ngIf="formError('city', 'required')">This field is required</mat-error>
-            <mat-error *ngIf="formError('city', 'pattern')">This field is invalid</mat-error>
+            <mat-error *ngIf="profileFromError('city', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('city', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -66,7 +66,7 @@
             <mat-select formControlName="state">
               <mat-option value="{{state.label}}" *ngFor="let state of stateResult">{{state.label}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="formError('state', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('state', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -75,7 +75,7 @@
             <mat-select formControlName="country">
               <mat-option *ngFor="let country of countryResult" value="{{country.dial_code}}">{{country.dial_code}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="formError('country', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('country', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -88,7 +88,7 @@
           <mat-form-field class="w-100">
             <mat-label>Phone</mat-label>
             <input type="text" matInput placeholder="Phone" formControlName="phoneNumber">
-            <mat-error *ngIf="formError('phoneNumber', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('phoneNumber', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -97,7 +97,7 @@
             <mat-select formControlName="countryBirth">
               <mat-option value="{{country.name}}" *ngFor="let country of countryResult">{{country.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="formError('countryBirth', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('countryBirth', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -106,7 +106,7 @@
             <mat-select formControlName="nationality">
               <mat-option *ngFor="let country of countryResult" value="{{country.name}}">{{country.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="formError('nationality', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('nationality', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -116,7 +116,7 @@
               <mat-option value="male">Male</mat-option>
               <mat-option value="female">Female</mat-option>
             </mat-select>
-            <mat-error *ngIf="formError('gender', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('gender', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -126,15 +126,15 @@
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-            <mat-error *ngIf="formError('dob', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('dob', 'required')">This field is required</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Email</mat-label>
             <input type="email" matInput placeholder="Email" formControlName="email">
-            <mat-error *ngIf="formError('email', 'required')">This field is required</mat-error>
-            <mat-error *ngIf="formError('email', 'pattern')">This field is invalid</mat-error>
+            <mat-error *ngIf="profileFromError('email', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="profileFromError('email', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -146,35 +146,33 @@
       </mat-grid-list>
     </form>
     <hr>
-    <mat-card *ngIf="isCardExist">
+
+    <mat-card *ngFor="let card of existingCardDetails" style="margin-top: 20px;">
       <mat-card-header>
-        <mat-card-title>User card details</mat-card-title>
+        <mat-card-subtitle>Card Detail</mat-card-subtitle>
+        <mat-card-title>Card Number: {{card?.cardNumber}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          Card Number: {{existingCardDetails[0]?.cardNumber}}
-        </p>
+        <p>Card Name: {{card?.nameOnCard}}</p>
+        <mat-divider></mat-divider>
       </mat-card-content>
-      <mat-card-content>
-        <p>
-          Card Name: {{existingCardDetails[0]?.nameOnCard}}
-        </p>
-      </mat-card-content>
-      <mat-card-content style="margin-top: 10px">
-        <button mat-raised-button color="warn" (click)="deleteUserCardDetail()">Delete card details</button>
-      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="warn" (click)="deleteUserCardDetail(card?.cardNumber)">Delete</button>
+      </mat-card-actions>
     </mat-card>
 
-<!--    Add card-->
 
-    <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
-
-      <form [formGroup]="addCardForm" (ngSubmit)="addUserCard()" *ngIf="!isCardExist">
+    <!--Add card-->
+    <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'" style="margin-top: 20px;">
+      <form [formGroup]="addCardForm" (ngSubmit)="addUserCard()" id="addCardForm">
+      <!--*ngIf="!isCardExist"-->
         <mat-grid-tile>
           <mat-form-field>
             <mat-label>Card Number</mat-label>
             <input matInput #cardNumber maxlength="16" placeholder="2323565678789090" formControlName="cardNumber">
             <mat-hint align="end">{{cardNumber.value.length}}/16</mat-hint>
+            <mat-error *ngIf="cardFormError('cardNumber', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="cardFormError('cardNumber', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -182,12 +180,16 @@
             <mat-label>Card Expiry</mat-label>
             <input matInput #cardExpiry maxlength="7" placeholder="02/2024" formControlName="cardExpiry">
             <mat-hint align="end">{{cardExpiry.value.length}}/7</mat-hint>
+            <mat-error *ngIf="cardFormError('cardExpiry', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="cardFormError('cardExpiry', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-form-field>
             <mat-label>Card Name</mat-label>
             <input matInput placeholder="John Doe" formControlName="nameOnCard">
+            <mat-error *ngIf="cardFormError('nameOnCard', 'required')">This field is required</mat-error>
+            <mat-error *ngIf="cardFormError('nameOnCard', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -195,14 +197,5 @@
         </mat-grid-tile>
       </form>
       </mat-grid-list>
-
-<!--    Delete card-->
-<!--    <form [formGroup]="deleteCardForm" (ngSubmit)="onUpdateCard()">-->
-<!--      <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">-->
-<!--        <mat-grid-tile>-->
-<!--          sdfsdf-->
-<!--        </mat-grid-tile>-->
-<!--      </mat-grid-list>-->
-<!--    </form>-->
   </div>
 </div>

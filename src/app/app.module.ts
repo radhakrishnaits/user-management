@@ -39,7 +39,7 @@ import { ReceiversModule } from './receivers/receivers.module';
     BrowserAnimationsModule,
     LayoutModule,
     MaterialModule,
-    MatGridListModule,
+    // MatGridListModule,
     MatSelectModule,
     MatInputModule,
     MatFormFieldModule,

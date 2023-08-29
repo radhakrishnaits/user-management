@@ -23,6 +23,8 @@ export class ProfileComponent implements OnInit{
   loginEmail = sessionStorage.getItem('email')
   regExAllowStringAndSpace = "^[a-zA-Z_ ]*$";
   regExAllowEmail = "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
+  regExAllow16DigitNumber = "(?:\\d[ -]*?){13,16}"
+  regExAllowCardExpiry = "^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$"
   isLogin:boolean = false;
   profileForm!: FormGroup;
   addCardForm!: FormGroup;
@@ -32,7 +34,7 @@ export class ProfileComponent implements OnInit{
   isEditClicked: boolean = false;
   stateResult: any;
   countryResult: any;
-  isCardExist: boolean = true
+  isCardExist: boolean = false
   existingCardDetails: any = ''
   public data:any
   constructor(
@@ -91,8 +93,8 @@ export class ProfileComponent implements OnInit{
     });
     this.getData()
     this.addCardForm = new FormGroup({
-      cardNumber: new FormControl('',[Validators.required]),
-      cardExpiry: new FormControl('',[Validators.required]),
+      cardNumber: new FormControl('',[Validators.required,Validators.pattern(this.regExAllow16DigitNumber)]),
+      cardExpiry: new FormControl('',[Validators.required,Validators.pattern(this.regExAllowCardExpiry)]),
       nameOnCard: new FormControl('',[Validators.required,Validators.pattern(this.regExAllowStringAndSpace)]),
     });
     this.getDataCard()
@@ -139,7 +141,29 @@ export class ProfileComponent implements OnInit{
       }
     )
   }
+  clearCardForm(){
+    (<HTMLFormElement>document.getElementById("addCardForm")).reset();
+  }
+
   addUserCard() {
+    if(this.addCardForm.invalid) {
+      alert("Please validate form fields")
+      return
+    }
+    console.log(this?.addCardForm?.value?.cardExpiry.split('/'))
+    let cardMonth = this?.addCardForm?.value?.cardExpiry.split('/')[0]
+    let cardYear = this?.addCardForm?.value?.cardExpiry.split('/')[1]
+
+    let currentYear = new Date().getFullYear();
+    let currentMonth = ("0" + (new Date().getMonth() + 1)).slice(-2);
+    if(cardYear < currentYear) {
+      alert("Please select correct card expiry year!")
+      return
+    }
+    if(cardMonth < currentMonth) {
+      alert("Please select correct card expiry month!")
+      return
+    }
     let requestBody = {
       "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
       "cardExpiry": this?.addCardForm?.value?.cardExpiry,
@@ -150,6 +174,7 @@ export class ProfileComponent implements OnInit{
         if(res?.status == 200){
           alert(res["message"]?.description)
           this.existingCardDetails = res
+          this?.clearCardForm()
           this.getDataCard()
         }
         else if(res?.errorMessage) {
@@ -163,8 +188,8 @@ export class ProfileComponent implements OnInit{
       }
     )
   }
-  deleteUserCardDetail(){
-    this.apiService.deleteUserCard(this.loginEmail || '',this.existingCardDetails[0]?.cardNumber).subscribe(
+  deleteUserCardDetail(cardNumber:number){
+    this.apiService.deleteUserCard(this.loginEmail || '',cardNumber).subscribe(
       (res:any) => {
         if(res?.status == 204){
           alert(res["message"]?.description)
@@ -184,8 +209,11 @@ export class ProfileComponent implements OnInit{
   onResize(event:any) {
     this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3
   }
-  public formError = (controlName: string, errorName: string) =>{
+  public profileFromError = (controlName: string, errorName: string) =>{
     return this.profileForm.controls[controlName].hasError(errorName)
+  }
+  public cardFormError = (controlName: string, errorName: string) =>{
+    return this.addCardForm.controls[controlName].hasError(errorName)
   }
   onEdit() {
     this.isEdit = false
