@@ -3,10 +3,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './shared/layout/nav-bar/nav-bar.component';
 import { MatToolbar } from '@angular/material/toolbar';
+import { MaterialModule } from './shared/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
+    imports: [RouterTestingModule,MaterialModule,BrowserAnimationsModule],
     declarations: [AppComponent,NavBarComponent,MatToolbar]
   }));
 
