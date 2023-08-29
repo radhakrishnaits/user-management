@@ -11,9 +11,9 @@ import {Router} from "@angular/router";
 export class ProfileComponent implements OnInit{
   avatarName = sessionStorage.getItem('firstName') +' ' + sessionStorage.getItem('lastName');
   getInitials = function (name:string) {
-    var parts = name.split(' ')
-    var initials = ''
-    for (var i = 0; i < parts.length; i++) {
+    let parts = name.split(' ')
+    let initials = ''
+    for (let i = 0; i < parts.length; i++) {
       if (parts[i].length > 0 && parts[i] !== '') {
         initials += parts[i][0]
       }
@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit{
   regExAllowCardExpiry = "^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$"
   isLogin:boolean = false;
   profileForm!: FormGroup;
+  profileFormData:any ='';
   addCardForm!: FormGroup;
   breakpoint:any='';
   isDisabled: boolean = true;
@@ -51,9 +52,8 @@ export class ProfileComponent implements OnInit{
   }
   onUpdate() {
     if(this.profileForm.valid) {
-      let requestBody = this.profileForm.value
-      // @ts-ignore
-      this.apiService.updateProfile(requestBody,this.loginEmail).subscribe(
+      this.profileFormData = this.profileForm.value
+      this.apiService.updateProfile(this.profileFormData,this.loginEmail).subscribe(
         (res:any) => {
           if(res?.message?.code == 200){
             alert(res["message"]?.description)
@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit{
       this.isLogin = true
     }
     if(!this.isLogin) {
-      this.router.navigateByUrl('/')
+      this.router.navigateByUrl('/').then()
     }
     this.breakpoint = (window.innerWidth <= 768) ? 1 : 3
     this.profileForm = new FormGroup({
@@ -100,34 +100,38 @@ export class ProfileComponent implements OnInit{
     this.getDataCard()
   }
   getData() {
-    // @ts-ignore
-    this.apiService.getProfile(sessionStorage?.getItem('email')).subscribe(
-      res => {
-        this.data = res
-        this.data = this.data?.userDetails
-        this.profileForm.patchValue({
-          userTitle: this.data.userTitle,
-          firstName: this.data.firstName,
-          lastName: this.data.lastName,
-          address1: this.data.address1,
-          city: this.data.city,
-          state: this.data.state,
-          country: this.data.country,
-          pin: this.data.pin,
-          phoneNumber: this.data.phoneNumber,
-          countryBirth: this.data.countryBirth,
-          nationality: this.data.nationality,
-          gender: this.data.gender,
-          dob: new Date(this.data.dob),
-          email: this.data.email,
-        })
-      },
-      err => {
-        console.error(err)}
-    );
+    if (this.profileForm.invalid) {
+      alert("All fields are required");
+    } else {
+      this.apiService.getProfile(this.loginEmail).subscribe(
+        res => {
+          this.data = res
+          this.data = this.data?.userDetails
+          this.profileForm.patchValue({
+            userTitle: this.data.userTitle,
+            firstName: this.data.firstName,
+            lastName: this.data.lastName,
+            address1: this.data.address1,
+            city: this.data.city,
+            state: this.data.state,
+            country: this.data.country,
+            pin: this.data.pin,
+            phoneNumber: this.data.phoneNumber,
+            countryBirth: this.data.countryBirth,
+            nationality: this.data.nationality,
+            gender: this.data.gender,
+            dob: new Date(this.data.dob),
+            email: this.data.email,
+          })
+        },
+        err => {
+          console.error(err)}
+      );
+    }
+
   }
   getDataCard() {
-    this.apiService.getUserCard(4444222233334444,this.loginEmail || '').subscribe(
+    this.apiService.getUserCard(this.loginEmail || '').subscribe(
       (res:any) => {
         if(res?.status == 200){
           if(res?.userCards.length == 0){
@@ -150,7 +154,6 @@ export class ProfileComponent implements OnInit{
       alert("Please validate form fields")
       return
     }
-    console.log(this?.addCardForm?.value?.cardExpiry.split('/'))
     let cardMonth = this?.addCardForm?.value?.cardExpiry.split('/')[0]
     let cardYear = this?.addCardForm?.value?.cardExpiry.split('/')[1]
 
@@ -177,12 +180,12 @@ export class ProfileComponent implements OnInit{
           this?.clearCardForm()
           this.getDataCard()
         }
-        else if(res?.errorMessage) {
+        else if(res) {
           alert(res["errorMessage"])
         }
       },
   (err:any) => {
-        if(err?.errorMessage) {
+        if(err) {
           alert(err)
         }
       }
@@ -195,12 +198,12 @@ export class ProfileComponent implements OnInit{
           alert(res["message"]?.description)
           this.getDataCard()
         }
-        else if(res?.errorMessage) {
+        else if(res) {
           alert(res["errorMessage"])
         }
       },
       (err:any) => {
-        if(err?.errorMessage) {
+        if(err) {
           alert(err)
         }
       }

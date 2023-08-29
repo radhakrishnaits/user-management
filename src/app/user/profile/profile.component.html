@@ -1,8 +1,5 @@
-<div style="display: flex;
-  justify-content: center;
-  align-items: center;" class="mt-50">
-  <div style="  width: 250px;
-  padding: 0 15px;">
+<div class="mt-50 main-avatar">
+  <div class="main-avatar-container">
     <mat-grid-list cols="1" rowHeight="100px">
       <mat-grid-tile>
         <div class="avatar">{{getInitials(avatarName).toUpperCase()}}</div>
@@ -14,6 +11,29 @@
 
 <div class="main-div mt-50">
   <div class="mat-container">
+    <mat-card class="example-card" *ngIf="data">
+      <mat-card-header>
+        <mat-card-title>{{data.firstName.toUpperCase() +' '+ data.lastName.toUpperCase()}}</mat-card-title>
+        <mat-card-subtitle>Email: {{data.email}}</mat-card-subtitle>
+        <mat-card-subtitle>Phone: {{data.phoneNumber}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Address: {{data.address1}}</p>
+        <p>City: {{data.city}}</p>
+        <p>State: {{data.state}}</p>
+        <p>Country code: {{data.country}}</p>
+        <p>Pin: {{data.pin}}</p>
+        <p>Country of Birth: {{data.countryBirth}}</p>
+        <p>Nationality: {{data.nationality}}</p>
+        <p>Gender: {{data.gender}}</p>
+        <p>DOB: {{data.dob}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+
     <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
       <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
         <mat-grid-tile>

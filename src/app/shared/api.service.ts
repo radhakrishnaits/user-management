@@ -17,13 +17,16 @@ export class ApiService {
    * User view/modify.
    * @return the User view/modify
    */
-  getProfile(email:string) {
+  getLoginEmail() {
+    return sessionStorage.getItem("email")
+  }
+  getProfile(email:any) {
     return this.http.get(this.apiUrl + 'users/' + email)
   }
-  updateProfile(requestBody:any,email:string) {
+  updateProfile(requestBody:any,email:any) {
     return this.http.put(this.apiUrl + 'users/'+email, requestBody)
   }
-  getUserCard(cardNumber:number,email:string) {
+  getUserCard(email:string) {
     return this.http.get(this.apiUrl + 'users/' + email + '/cards')
   }
   addUserCard(requestBody:any,email:string) {
