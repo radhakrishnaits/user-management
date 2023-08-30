@@ -5,7 +5,7 @@ import { ReceiversAPI } from '../receivers.api';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReceiversRoutingModule } from '../receivers-routing.module';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { ReceiversDetails } from '../../mocks/receivers.mock';
@@ -23,21 +23,13 @@ describe('ReceiversListComponent', () => {
     }
   };
 
-  const dialogRefStub = {
-    afterClosed() {
-      return of(true);
-    }
-  };
-  const dialogStub = { open: () => dialogRefStub };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReceiverListComponent],
       providers: [
         ReceiversAPI,
         SnackBarService,
-        { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: MatDialog,  useValue: dialogStub }
+        { provide: ActivatedRoute, useValue: activatedRoute }
       ],
       imports: [
         MaterialModule,
@@ -77,11 +69,10 @@ describe('ReceiversListComponent', () => {
       const deleteReceiverRef: HTMLElement = component.deleteReceiver.nativeElement;
       const removeReceiverSpy = spyOn(component, 'removeReceiver');
 
-      dialogRefStub.afterClosed().subscribe((res) => {
-        expect(res).toEqual(true);
-      });
-
+      // When
       component.openConfirmationModel(nickName);
+
+      // Then
       expect(openDialogSpy).toHaveBeenCalledWith(deleteReceiverRef, fakeDialogConfig);
       expect(removeReceiverSpy).toHaveBeenCalledWith(nickName);
       expect(deleteReceiverRef.title).toContain('Delete receiver');

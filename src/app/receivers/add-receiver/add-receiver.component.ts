@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class AddReceiverComponent implements OnInit {
   public receiversForm: any = FormGroup;
   public formMode: string = 'add';
-  public receiverId!: string;
+  public receiverId: string = '';
   public colspan: number = 2;
   public maxCols: number = 2;
   public rowHeight: string = '70px';
@@ -25,16 +25,15 @@ export class AddReceiverComponent implements OnInit {
     private receiversApi: ReceiversAPI,
     private router: Router,
     private snackBarService: SnackBarService,
-    private http: HttpClient) {
+    private http: HttpClient) { }
+
+  ngOnInit() {
     this.activatedRoute.params.subscribe(param => {
       this.receiverId = param['id'];
       if (this.receiverId) {
         this.formMode = 'modify';
       }
-    })
-  }
-
-  ngOnInit() {
+    });
     this.createReceiverForm();
     this.getCountries();
   }

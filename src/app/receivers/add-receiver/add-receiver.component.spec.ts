@@ -11,13 +11,7 @@ import { ReceiversDetails } from 'src/app/mocks/receivers.mock';
 describe('AddReceiverComponent', () => {
   let component: AddReceiverComponent;
   let fixture: ComponentFixture<AddReceiverComponent>;
-  let activatedRoute = {
-    params: {
-      subscribe() {
-        return of('test123');
-      }
-    }
-  };
+  let activatedRoute: any;
   const fb = jasmine.createSpyObj('FormBuilder', ['group']);
   const formGroup = new FormGroup({
     firstName: new FormControl(''),
@@ -34,6 +28,13 @@ describe('AddReceiverComponent', () => {
   }
 
   beforeEach(() => {
+    activatedRoute = {
+      params: {
+        subscribe: (callback: (params: any) => void) => {
+          callback({ id: 'test123' });
+        }
+      }
+    };
     TestBed.configureTestingModule({
       declarations: [AddReceiverComponent],
       imports: [
@@ -57,7 +58,7 @@ describe('AddReceiverComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Create Form', () => {
+  describe('createReceiverForm()', () => {
     it('should create initial add receiver form if formMode is add', () => {
       // Given
       const receiverForm = fb.group({
