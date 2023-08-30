@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ReceiversModule } from '../receivers.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { ReceiversDetails } from 'src/app/mocks/receivers.mock';
 
 describe('AddReceiverComponent', () => {
   let component: AddReceiverComponent;
@@ -106,7 +107,7 @@ describe('AddReceiverComponent', () => {
   });
 
   describe('getReceiverDetails', () => {
-    it('should GET receiver details by receiver id', () => {
+    it('should GET receiver details by nick name', () => {
       // Given
       // const receiverForm = fb.group({
       //   firstName: ['Test'],
@@ -119,32 +120,14 @@ describe('AddReceiverComponent', () => {
       // });
       // receiverForm.controls['nickName'].disable();
 
-      let receiverDetails = {
-        status: 200,
-        message: {
-          code: "200",
-          description: "Success"
-        },
-        errors: null,
-        beneficiary: {
-          firstName: "Test",
-          lastName: "Test",
-          country: "India",
-          mobileNumber: "1234567890",
-          bankAccountNumber: 1234567,
-          iban: "IDFC004",
-          nickName: "test123"
-        }
-      }
-
-      spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(receiverDetails));
+      spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(ReceiversDetails.getReceiverDetails));
 
       // When
       component.getReceiverDetails();
 
       // Then
-      expect(component.receiversForm.value).toEqual(receiverDetails.beneficiary);
-      expect(component.receiversForm.get('nickName').disable).toBe(true);
+      expect(component.receiversForm.value).toEqual(ReceiversDetails.getReceiverDetails.beneficiary);
+      expect(component.receiversForm.get('nickName').disabled).toBe(true);
     });
   });
 
@@ -161,24 +144,7 @@ describe('AddReceiverComponent', () => {
         nickName: ['test']
       });
 
-      const receiverDetails = {
-        status: 200,
-        message: {
-          code: "200",
-          description: "User Beneficiary Added Successfully"
-        },
-        errors: null,
-        beneficiary: {
-          firstName: "Test",
-          lastName: "Test",
-          country: "India",
-          bankAccountNumber: 1234567,
-          iban: "IDFC004",
-          nickName: "test"
-        }
-      }
-
-      spyOn(component['receiversApi'], 'addReceiver').and.returnValue(of(receiverDetails));
+      spyOn(component['receiversApi'], 'addReceiver').and.returnValue(of(ReceiversDetails.addReceiverDetails));
       const openSnackBar = spyOn(component['snackBarService'], 'openSuccessSnackBar');
       const navigate = spyOn(component['router'], 'navigate');
 
@@ -206,24 +172,7 @@ describe('AddReceiverComponent', () => {
         nickName: ['test123']
       });
 
-      const receiverDetails = {
-        status: 200,
-        message: {
-          code: "200",
-          description: "Receiver modified successfully"
-        },
-        errors: null,
-        beneficiary: {
-          firstName: "Test123",
-          lastName: "Test123",
-          country: "India",
-          bankAccountNumber: 1234567,
-          iban: "IDFC004",
-          nickName: "test123"
-        }
-      }
-
-      spyOn(component['receiversApi'], 'modifyReceiver').and.returnValue(of(receiverDetails));
+      spyOn(component['receiversApi'], 'modifyReceiver').and.returnValue(of(ReceiversDetails.modifyReceiverDetails));
       const openSnackBar = spyOn(component['snackBarService'], 'openSuccessSnackBar');
       const navigate = spyOn(component['router'], 'navigate');
 

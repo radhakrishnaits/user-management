@@ -5,11 +5,13 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ApiService} from "../../shared/api.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { ApiService } from 'src/app/shared/api.service';
+import { HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -28,9 +30,14 @@ describe('ProfileComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         HttpClientTestingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        BrowserAnimationsModule
       ],
-      declarations: [ProfileComponent]
+      declarations: [ProfileComponent],
+      providers:[ApiService]
     });
     apiService = TestBed.inject(ApiService)
     httpController = TestBed.inject(HttpTestingController);
@@ -72,4 +79,20 @@ describe('ProfileComponent', () => {
       expect(res.userDetails).not.toBe([]);
     });
   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+  it('should trigger onResize method when window is resized',()=>{
+    const spyOnResize = spyOn(component, 'onResize');
+    window.dispatchEvent(new Event('resize'));
+    expect(spyOnResize).toHaveBeenCalled();
+  });
+  it('should call onEdit() by user ',()=>{
+    component.onEdit();
+    expect(component.profileForm.enabled).toBe(true);
+  });
+  /*it('should call onEdit() by user ',()=>{
+    component.onEdit();
+    expect(component.profileForm.enabled).toBe(true);
+  });*/
 });

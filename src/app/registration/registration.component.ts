@@ -5,6 +5,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ApiService } from '../shared/api.service';
 import { Router } from '@angular/router';
+import { SnackBarService } from '../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-registration',
@@ -21,7 +22,7 @@ export class RegistrationComponent {
   registrationFormDetails: any;
   matGridCol: any;
   matGridHeight: any;
-  constructor(private fb: FormBuilder, public http: HttpClient, public apiService: ApiService, public route:Router) {
+  constructor(private fb: FormBuilder, public http: HttpClient, public apiService: ApiService, public route:Router, public snackBarService:SnackBarService) {
     this.http.get('assets/json/state.json').subscribe((res) => {
       this.stateResult = res;
     });
@@ -70,41 +71,28 @@ export class RegistrationComponent {
       this.apiService.onSignUpUser(this.registrationFormDetails).subscribe((res:any)=>{
           if(res?.message?.code == 200){
             alert(res["message"]?.description);
+            // this.snackBarService.openSuccessSnackBar(res["message"]?.description, '');
             this.registrationForm.reset();
             this.route.navigateByUrl('');
           }else{
             alert(res["message"]?.description);
+            // this.snackBarService.openSuccessSnackBar(res["message"]?.description, '');
           }
       },error=>{
         //console.log(error);
         alert(error?.message);
+        // this.snackBarService.openSuccessSnackBar(error?.message, '');
       });
     }
   }
 
   onResize(event: any) {
     const w = event.target as Window;
-    // console.log(w.innerWidth)
-    this.matGridCol = (event.target.innerWidth <= 500) ? 1 : 3;
-    this.matGridHeight = (window.innerWidth <= 800) ? "2:0.5" : "3:0.5";
+    console.log(event);
+    this.matGridCol = (w.innerWidth <= 500) ? 1 : 3;
+    this.matGridHeight = (w.innerWidth <= 800) ? "2:0.5" : "3:0.5";
     // this.matGridHeight = (window.innerWidth <= 800 && window.innerWidth >= 600) ? ((window.innerWidth <= 600)? "1:0.5" :"2:0.5)") : "3:0.5";
   }
-
-  // onBookChange(event: any) {
-  //   this.isCardDisplay = (event.value == 'addCardY') ? true : false;
-  //   console.log(this.isCardDisplay);
-  // }
-
-  // onEditUser(form: any) {
-  //   console.log(form);
-  //   this.http.get('assets/json/test.json').subscribe((res) => {
-
-  //     // this.registrationForm.valueChanges = res;
-  //     this.registrationForm.patchValue(res);
-  //     // this
-
-  //   });
-  // }
 
 
   // private _filter(value: any): any {

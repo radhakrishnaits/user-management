@@ -8,6 +8,7 @@ import { ReceiversRoutingModule } from '../receivers-routing.module';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { ReceiversDetails } from '../../mocks/receivers.mock';
 
 describe('ReceiversListComponent', () => {
   let component: ReceiverListComponent;
@@ -46,32 +47,13 @@ describe('ReceiversListComponent', () => {
   describe('receivers list details', () => {
     it('should GET all receivers details', () => {
       // Given
-      let receiverDetails = {
-        status: 200,
-        message: {
-          code: "200",
-          description: "Success"
-        },
-        errors: null,
-        beneficiaries: [
-          {
-            firstName: "Test",
-            lastName: "Test",
-            country: "India",
-            bankAccountNumber: 1234567,
-            iban: "IDFC004",
-            nickName: "test123",
-            mobileNumber: "8989898989"
-          }
-        ]
-      }
-      spyOn(component['receiversApi'], 'getAllReceivers').and.returnValue(of(receiverDetails));
+      spyOn(component['receiversApi'], 'getAllReceivers').and.returnValue(of(ReceiversDetails.receiversDetails));
 
       // When
       component.getAllReceivers();
 
       // Then
-      expect(component.receiversDetails).toEqual(receiverDetails.beneficiaries);
+      expect(component.receiversDetails).toEqual(ReceiversDetails.receiversDetails.beneficiaries);
     });
   });
 });

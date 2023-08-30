@@ -1,14 +1,52 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from "../../shared/api.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+/*import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+import * as _moment from 'moment';
+import {default as _rollupMoment, Moment} from 'moment';
+const moment = _rollupMoment || _moment;
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};*/
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  /*providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],*/
 })
 export class ProfileComponent implements OnInit{
+  /*date = new FormControl(moment());
+  minDate = new Date();
+  chosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.date.value;
+    ctrlValue.year(normalizedYear.year());
+    this.date.setValue(ctrlValue);
+  }
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+  }*/
   avatarName = sessionStorage.getItem('firstName') +' ' + sessionStorage.getItem('lastName');
   getInitials = function (name:string) {
     let parts = name.split(' ')
@@ -29,7 +67,6 @@ export class ProfileComponent implements OnInit{
   profileForm!: FormGroup;
   profileFormData:any ='';
   addCardForm!: FormGroup;
-  breakpoint:any='';
   isDisabled: boolean = true;
   isEdit: boolean = true;
   isEditClicked: boolean = false;
@@ -38,6 +75,7 @@ export class ProfileComponent implements OnInit{
   isCardExist: boolean = false
   existingCardDetails: any = ''
   public data:any
+  matGridCol: any;
   constructor(
     private apiService: ApiService,
     private http: HttpClient,
@@ -74,7 +112,7 @@ export class ProfileComponent implements OnInit{
     if(!this.isLogin) {
       this.router.navigateByUrl('/').then()
     }
-    this.breakpoint = (window.innerWidth <= 768) ? 1 : 3
+    this.matGridCol = (window.innerWidth <= 768) ? 1 : 3
     this.profileForm = new FormGroup({
       userTitle: new FormControl({value: '', disabled: this.isDisabled},[Validators.required]),
       firstName: new FormControl({value: '', disabled: this.isDisabled},[Validators.required,Validators.pattern(this.regExAllowStringAndSpace)]),
@@ -145,51 +183,49 @@ export class ProfileComponent implements OnInit{
       }
     )
   }
-  clearCardForm(){
+  /*clearCardForm(){
     (<HTMLFormElement>document.getElementById("addCardForm")).reset();
-  }
+  }*/
 
   addUserCard() {
     if(this.addCardForm.invalid) {
       alert("Please validate form fields")
-      return
     }
-    let cardMonth = this?.addCardForm?.value?.cardExpiry.split('/')[0]
-    let cardYear = this?.addCardForm?.value?.cardExpiry.split('/')[1]
-
-    let currentYear = new Date().getFullYear();
-    let currentMonth = ("0" + (new Date().getMonth() + 1)).slice(-2);
-    if(cardYear < currentYear) {
-      alert("Please select correct card expiry year!")
-      return
-    }
-    if(cardMonth < currentMonth) {
-      alert("Please select correct card expiry month!")
-      return
-    }
-    let requestBody = {
-      "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
-      "cardExpiry": this?.addCardForm?.value?.cardExpiry,
-      "nameOnCard": this?.addCardForm?.value?.nameOnCard
-    }
-    this.apiService.addUserCard(requestBody,this.loginEmail || '').subscribe(
-      (res:any) => {
-        if(res?.status == 200){
-          alert(res["message"]?.description)
-          this.existingCardDetails = res
-          this?.clearCardForm()
-          this.getDataCard()
-        }
-        else if(res) {
-          alert(res["errorMessage"])
-        }
-      },
-  (err:any) => {
-        if(err) {
-          alert(err)
-        }
+    else {
+      let inputMonth = this?.addCardForm?.value?.cardExpiry.split('/')[0]
+      let inputYear = this?.addCardForm?.value?.cardExpiry.split('/')[1]
+      let currentYear = new Date().getFullYear();
+      let currentMonth = ("0" + (new Date().getMonth() + 1)).slice(-2);
+      let inputYearMonth = Number(inputYear+inputMonth)
+      let currentYearMonth = Number(currentYear+currentMonth)
+      if(inputYearMonth < currentYearMonth) {
+        alert("m Y!")
+        return
       }
-    )
+      let requestBody = {
+        "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
+        "cardExpiry": this?.addCardForm?.value?.cardExpiry,
+        "nameOnCard": this?.addCardForm?.value?.nameOnCard
+      }
+      this.apiService.addUserCard(requestBody,this.loginEmail || '').subscribe(
+          (res:any) => {
+            if(res?.status == 200){
+              alert(res["message"]?.description)
+              this.existingCardDetails = res
+              // reset form
+              this.getDataCard()
+            }
+            else if(res) {
+              alert(res["errorMessage"])
+            }
+          },
+          (err:any) => {
+            if(err) {
+              alert(err)
+            }
+          }
+      )
+    }
   }
   deleteUserCardDetail(cardNumber:number){
     this.apiService.deleteUserCard(this.loginEmail || '',cardNumber).subscribe(
@@ -210,7 +246,7 @@ export class ProfileComponent implements OnInit{
     )
   }
   onResize(event:any) {
-    this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3
+    this.matGridCol = (event.target.innerWidth <= 768) ? 1 : 3
   }
   public profileFromError = (controlName: string, errorName: string) =>{
     return this.profileForm.controls[controlName].hasError(errorName)
@@ -219,22 +255,9 @@ export class ProfileComponent implements OnInit{
     return this.addCardForm.controls[controlName].hasError(errorName)
   }
   onEdit() {
-    this.isEdit = false
+    /*this.isEdit = false
     this.isDisabled = false
-    this.profileForm.get('userTitle')?.enable();
-    this.profileForm.get('firstName')?.enable();
-    this.profileForm.get('lastName')?.enable();
-    this.profileForm.get('address1')?.enable();
-    this.profileForm.get('city')?.enable();
-    this.profileForm.get('state')?.enable();
-    this.profileForm.get('country')?.enable();
-    this.profileForm.get('pin')?.enable();
-    this.profileForm.get('phoneNumber')?.enable();
-    this.profileForm.get('countryBirth')?.enable();
-    this.profileForm.get('nationality')?.enable();
-    this.profileForm.get('gender')?.enable();
-    this.profileForm.get('dob')?.enable();
-    this.profileForm.get('email')?.enable();
-    this.isEditClicked=true
+    this.isEditClicked=true*/
+    this.profileForm.enable()
   }
 }
