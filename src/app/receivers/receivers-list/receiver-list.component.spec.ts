@@ -5,11 +5,11 @@ import { ReceiversAPI } from '../receivers.api';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReceiversRoutingModule } from '../receivers-routing.module';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { ReceiversDetails } from '../../mocks/receivers.mock';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ReceiversListComponent', () => {
@@ -21,11 +21,14 @@ describe('ReceiversListComponent', () => {
         return of();
       }
     }
-  }
-  let dialogRefSpyObj = jasmine.createSpyObj({
-    afterClosed: of(true),
-    close: null
-  });
+  };
+
+  const dialogRefStub = {
+    afterClosed() {
+      return of(true);
+    }
+  };
+  const dialogStub = { open: () => dialogRefStub };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,7 +36,8 @@ describe('ReceiversListComponent', () => {
       providers: [
         ReceiversAPI,
         SnackBarService,
-        { provide: ActivatedRoute, useValue: activatedRoute }
+        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: MatDialog,  useValue: dialogStub }
       ],
       imports: [
         MaterialModule,
@@ -71,18 +75,15 @@ describe('ReceiversListComponent', () => {
       const openDialogSpy = spyOn(component['dialog'], 'open');
       const fakeDialogConfig = new MatDialogConfig;
       const deleteReceiverRef: HTMLElement = component.deleteReceiver.nativeElement;
+      const removeReceiverSpy = spyOn(component, 'removeReceiver');
 
-      // spyOn(openDialogSpy, 'afterClosed').and.callThrough().and.returnValue(true);
-      const removeBeneficiarySpy = spyOn(component, 'removeReceiver');
-
-      // const mockMatDialogRef = jasmine.createSpyObj<MatDialogRef<any>>(['afterClosed']);
-      // mockMatDialogRef.afterClosed.and.returnValue(of(true));
-
-      // dialogSpy = spyOn(TestBed.get(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+      dialogRefStub.afterClosed().subscribe((res) => {
+        expect(res).toEqual(true);
+      });
 
       component.openConfirmationModel(nickName);
       expect(openDialogSpy).toHaveBeenCalledWith(deleteReceiverRef, fakeDialogConfig);
-      expect(removeBeneficiarySpy).toHaveBeenCalledWith(nickName)
+      expect(removeReceiverSpy).toHaveBeenCalledWith(nickName);
       expect(deleteReceiverRef.title).toContain('Delete receiver');
     });
   });
