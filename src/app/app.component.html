@@ -1,4 +1,4 @@
-<mat-grid-list [cols]="breakpoint" rowHeight="50px" (window:resize)="onResize($event)" [gutterSize]="'0px'">
+<mat-grid-list [cols]="matGridCol" rowHeight="50px" (window:resize)="onResize($event)" [gutterSize]="'0px'">
 
   <mat-grid-tile>
     <mat-toolbar color="primary" class="mat-nav">
@@ -11,13 +11,13 @@
     </mat-toolbar>
   </mat-grid-tile>
 
-  <mat-grid-tile *ngIf="breakpoint >= 3">
+  <mat-grid-tile *ngIf="matGridCol >= 3">
     <mat-toolbar color="primary" class="mat-nav">
       <mat-toolbar-row></mat-toolbar-row>
     </mat-toolbar>
   </mat-grid-tile>
 
-  <mat-grid-tile *ngIf="breakpoint >= 3">
+  <mat-grid-tile *ngIf="matGridCol >= 3">
     <mat-toolbar color="primary" class="mat-nav">
       <mat-toolbar-row>
         <div *ngIf="isLogin">

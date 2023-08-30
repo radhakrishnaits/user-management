@@ -1,8 +1,5 @@
-<div style="display: flex;
-  justify-content: center;
-  align-items: center;" class="mt-50">
-  <div style="  width: 250px;
-  padding: 0 15px;">
+<div class="mt-50 main-avatar">
+  <div class="main-avatar-container">
     <mat-grid-list cols="1" rowHeight="100px">
       <mat-grid-tile>
         <div class="avatar">{{getInitials(avatarName).toUpperCase()}}</div>
@@ -14,8 +11,31 @@
 
 <div class="main-div mt-50">
   <div class="mat-container">
+    <!--<mat-card class="example-card" *ngIf="data">
+      <mat-card-header>
+        <mat-card-title>{{data.firstName.toUpperCase() +' '+ data.lastName.toUpperCase()}}</mat-card-title>
+        <mat-card-subtitle>Email: {{data.email}}</mat-card-subtitle>
+        <mat-card-subtitle>Phone: {{data.phoneNumber}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Address: {{data.address1}}</p>
+        <p>City: {{data.city}}</p>
+        <p>State: {{data.state}}</p>
+        <p>Country code: {{data.country}}</p>
+        <p>Pin: {{data.pin}}</p>
+        <p>Country of Birth: {{data.countryBirth}}</p>
+        <p>Nationality: {{data.nationality}}</p>
+        <p>Gender: {{data.gender}}</p>
+        <p>DOB: {{data.dob}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>-->
+
     <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
-      <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
+      <mat-grid-list [cols]="matGridCol" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
         <mat-grid-tile>
           <mat-form-field class="w-100">
             <mat-label>Title</mat-label>
@@ -138,7 +158,7 @@
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-raised-button color="primary" type="button" (click)="onEdit()" [disabled]="isEditClicked">Edit</button>
+          <button mat-raised-button color="primary" type="button" (click)="onEdit()">Edit</button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-raised-button color="primary" type="submit" [disabled]="isEdit" (click)="onUpdate()">Update</button>
@@ -163,7 +183,7 @@
 
 
     <!--Add card-->
-    <mat-grid-list [cols]="breakpoint" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'" style="margin-top: 20px;">
+    <mat-grid-list [cols]="matGridCol" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'" style="margin-top: 20px;">
       <form [formGroup]="addCardForm" (ngSubmit)="addUserCard()" id="addCardForm">
       <!--*ngIf="!isCardExist"-->
         <mat-grid-tile>
@@ -180,6 +200,12 @@
             <mat-label>Card Expiry</mat-label>
             <input matInput #cardExpiry maxlength="7" placeholder="02/2024" formControlName="cardExpiry">
             <mat-hint align="end">{{cardExpiry.value.length}}/7</mat-hint>
+            <!--<input matInput [matDatepicker]="cardExpirypicker" readonly [formControl]="date" [min]="minDate">
+            <mat-hint>MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="cardExpirypicker"></mat-datepicker-toggle>
+            <mat-datepicker #cardExpirypicker startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event)"
+                            (monthSelected)="chosenMonthHandler($event, cardExpirypicker)"></mat-datepicker>-->
             <mat-error *ngIf="cardFormError('cardExpiry', 'required')">This field is required</mat-error>
             <mat-error *ngIf="cardFormError('cardExpiry', 'pattern')">This field is invalid</mat-error>
           </mat-form-field>

@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ApiService } from './api.service';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 import { AppComponent } from '../app.component';
-import { HttpClientModule } from '@angular/common/http';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 describe('ApiService', () => {
@@ -10,13 +11,18 @@ describe('ApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+
+      imports: [HttpClientTestingModule,HttpClientModule,MatGridListModule],
       declarations: [AppComponent],
-      imports:[HttpClientModule,MatGridListModule]
     });
     service = TestBed.inject(ApiService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should call getProfile and return logged in user details', () => {
+    service.getProfile(service.getLoginEmail()).subscribe((res:any) => {
+      expect(res.status).toEqual(200);
+      expect(res.userDetails).not.toBe('');
+    });
   });
+
 });
