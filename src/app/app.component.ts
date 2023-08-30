@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit{
   matGridCol:any='';
   isLogin:boolean = false;
+  sessionStorageLogin:string = 'unknown';
   ngOnInit(): void {
     if (sessionStorage.getItem("email")) {
       this.isLogin = true
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit{
     this.matGridCol = (w.innerWidth <= 768) ? 1 : 3;
   }
   onLogout() {
+    this.sessionStorageLogin = 'clear'
     sessionStorage.clear()
     window.location.href='/'
   }

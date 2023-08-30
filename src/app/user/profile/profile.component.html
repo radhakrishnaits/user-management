@@ -1,4 +1,4 @@
-<div class="mt-50 main-avatar">
+<!--<div class="mt-50 main-avatar">
   <div class="main-avatar-container">
     <mat-grid-list cols="1" rowHeight="100px">
       <mat-grid-tile>
@@ -7,7 +7,7 @@
       </mat-grid-tile>
     </mat-grid-list>
   </div>
-</div>
+</div>-->
 
 <div class="main-div mt-50">
   <div class="mat-container">
@@ -34,7 +34,7 @@
       </mat-card-actions>
     </mat-card>-->
 
-    <form [formGroup]="profileForm" (ngSubmit)="onUpdate()">
+    <form [formGroup]="profileForm" (ngSubmit)="onProfileUpdate()">
       <mat-grid-list [cols]="matGridCol" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'">
         <mat-grid-tile>
           <mat-form-field class="w-100">
@@ -158,15 +158,14 @@
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-raised-button color="primary" type="button" (click)="onEdit()">Edit</button>
+          <button mat-raised-button color="primary" type="button" (click)="onProfileEdit()">Edit</button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-raised-button color="primary" type="submit" [disabled]="isEdit" (click)="onUpdate()">Update</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isProfileEdit">Update</button>
         </mat-grid-tile>
       </mat-grid-list>
     </form>
     <hr>
-
     <mat-card *ngFor="let card of existingCardDetails" style="margin-top: 20px;">
       <mat-card-header>
         <mat-card-subtitle>Card Detail</mat-card-subtitle>
@@ -180,8 +179,6 @@
         <button mat-button color="warn" (click)="deleteUserCardDetail(card?.cardNumber)">Delete</button>
       </mat-card-actions>
     </mat-card>
-
-
     <!--Add card-->
     <mat-grid-list [cols]="matGridCol" rowHeight="80px" (window:resize)="onResize($event)" [gutterSize]="'10px'" style="margin-top: 20px;">
       <form [formGroup]="addCardForm" (ngSubmit)="addUserCard()" id="addCardForm">
