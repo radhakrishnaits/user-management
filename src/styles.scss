@@ -121,6 +121,35 @@ body {
     font-size: 1.3rem;
 }
 
+.mt-cd-custom {
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.mt-cd-custom-details {
+    padding: 0.85rem;
+    width: 90%;
+    margin: auto;
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: #f3faff;
+    padding: 0.85rem;
+}
+
+.rs-details {
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+.rs-mt-icon {
+    font-size: 1.3rem;
+}
+
+.show-dt-text>p {
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 500px) {
     .center-aligned {
         width: 90%;

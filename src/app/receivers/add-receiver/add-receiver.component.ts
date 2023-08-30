@@ -62,10 +62,8 @@ export class AddReceiverComponent implements OnInit {
     this.receiversApi.getReceiver(this.receiverId).subscribe(response => {
       let receiverDetails = response['beneficiary'];
       this.receiversForm.patchValue(receiverDetails);
-      this.receiversForm.controls['nickName'].disable();
     }, error => {
-      console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while fetching receiver details', '');
     });
   }
 
@@ -81,7 +79,7 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while adding receiver details', '');
     });
   }
 
@@ -92,7 +90,7 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while modifying receiver details', '');
     });
   }
 

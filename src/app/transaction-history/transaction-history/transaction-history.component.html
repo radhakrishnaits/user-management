@@ -1,34 +1,80 @@
 <div class="center-aligned top-margin">
     <p class="header-text">Your transaction history</p>
-    <mat-card *ngIf="history.length > 0; else noHistoryFound">
-        <mat-grid-list cols="9" rows="1" rowHeight="60px" *ngFor="let data of history">
-            <mat-grid-tile colspan="1" rowspan="1">
-                <div class="grid-align-right w-80">
-                    <div class="avatar" matListIcon>{{data.avatarIcon}}</div>
-                </div>
-            </mat-grid-tile>
-            
-            <mat-grid-tile colspan="6" rowspan="1">
-                <mat-list>
-                    <mat-list-item>
-                        <span matListItemTitle>{{data.receiverFirstName}} {{data.receiverLastName}}</span>
-                        <span matListItemLine>{{data.senderPaymentMethod}} &nbsp;&nbsp;{{data.txnDate}}&nbsp;&nbsp;
-                            <strong>{{data.txnStatus}}</strong></span>
-                    </mat-list-item>
-                </mat-list>
-            </mat-grid-tile>
+    <ng-container *ngIf="history.length > 0; else noHistoryFound">
+        <ng-container *ngFor="let data of history; let i = index;">
+            <mat-card class="top-margin">
+                <mat-grid-list cols="12" rows="1" rowHeight="60px">
+                    <mat-grid-tile colspan="1" rowspan="1">
+                        <div class="grid-align-right w-80">
+                            <div class="avatar" matListIcon>{{data.avatarIcon}}</div>
+                        </div>
+                    </mat-grid-tile>
 
-            <mat-grid-tile colspan="2" rowspan="1">
-                <div class="grid-align-right w-100">
-                    {{data.txnAmount}} {{data.senderCurrency}}
-                    <button mat-icon-button>
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
+                    <mat-grid-tile colspan="7" rowspan="1">
+                        <mat-list>
+                            <mat-list-item>
+                                <span matListItemTitle>{{data.receiverFirstName}} {{data.receiverLastName}}</span>
+                                <span matListItemLine>{{data.senderPaymentMethod}}
+                                    &nbsp;&nbsp;{{data.txnDate}}&nbsp;&nbsp;
+                                    <strong>{{data.txnStatus}}</strong></span>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-align-right w-100 show-dt-text">
+                            <p (click)="showReceiversDetails(data.txnId, i)">{{ showDetails[i] ? 'Hide Details' :
+                                'Show
+                                Details'}}</p>
+                        </div>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile colspan="2" rowspan="1">
+                        <div class="grid-align-right w-100">
+                            {{data.txnAmount}} {{data.senderCurrency}}
+                            <button mat-icon-button>
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
+                    </mat-grid-tile>
+                    <mat-divider></mat-divider>
+                </mat-grid-list>
+            </mat-card>
+
+            <div id="{{data.txnId}}" style="display: none;">
+                <div class="mt-cd-custom-details">
+                    <p>Transaction details</p>
+                    <mat-divider></mat-divider>
+                    <div class="rs-details">
+                        <span>Transaction id : <strong>{{data.txnId}}</strong></span><br>
+                        <span>Date : {{data.txnDate}}</span><br>
+                        <span>Amount : {{data.txnAmount}} {{data.senderCurrency}}</span><br>
+                        <span>Status : {{data.txnStatus}}</span>
+                    </div>
                 </div>
-            </mat-grid-tile>
-            <mat-divider></mat-divider>
-        </mat-grid-list>
-    </mat-card>
+                <!-- <mat-card>
+                    <mat-grid-list cols="2" rows="1" rowHeight="60px">
+                        <mat-grid-tile>
+                            <div class="grid-align-center w-100">
+                                <span [routerLink]="['modify-receiver', data.nickName]">
+                                    <mat-icon class="rs-mt-icon">edit</mat-icon><br>
+                                    <span>Edit</span>
+                                </span>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <div class="grid-align-center w-100">
+                                <span (click)="openConfirmationModel(data.nickName)">
+                                    <mat-icon class="rs-mt-icon">delete</mat-icon><br>
+                                    <span>Delete</span>
+                                </span>
+                            </div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </mat-card> -->
+            </div>
+        </ng-container>
+    </ng-container>
 </div>
 
 <ng-template #noHistoryFound>

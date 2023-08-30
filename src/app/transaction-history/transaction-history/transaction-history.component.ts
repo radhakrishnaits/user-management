@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TransactionHistoryAPI } from '../transactions.api';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-transaction-history',
@@ -7,9 +8,10 @@ import { TransactionHistoryAPI } from '../transactions.api';
   styleUrls: ['./transaction-history.component.scss']
 })
 export class TransactionHistoryComponent {
-  history: any[] = [];
+  public history: any[] = [];
+  public showDetails: boolean[] = [];
 
-  constructor(private transactionApi: TransactionHistoryAPI) { }
+  constructor(private transactionApi: TransactionHistoryAPI, private snackBar: SnackBarService) { }
 
   ngOnInit() {
     this.getTransactions();
@@ -19,6 +21,8 @@ export class TransactionHistoryComponent {
     this.transactionApi.getAllTransactions().subscribe(response => {
       this.history = response['transactions'];
       this.getProfileIcon();
+    }, error => {
+      this.snackBar.openErrorSnackBar('Error while fetching transaction history', '');
     });
   }
 
@@ -26,5 +30,15 @@ export class TransactionHistoryComponent {
     this.history.forEach((user: any) => {
       user['avatarIcon'] = user?.receiverFirstName && user?.receiverLastName ? (user?.receiverFirstName?.charAt(0) + '' + user?.receiverLastName?.charAt(0)).toUpperCase() : "WU";
     });
+  }
+
+  showReceiversDetails(id: string, index: number) {
+    this.showDetails[index] = !this.showDetails[index];
+    let recDetails = document.getElementById(id);
+    if (recDetails?.style.display === "none") {
+      recDetails!.style.display = "block";
+    } else {
+      recDetails!.style.display = "none";
+    }
   }
 }

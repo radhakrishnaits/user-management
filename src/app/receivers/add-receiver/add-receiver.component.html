@@ -44,8 +44,8 @@
                             Receiver's mobile number <strong>required</strong>
                         </mat-error>
                         <mat-error *ngIf="(receiversForm.controls['country']).hasError">
-                          Enter correct <strong>mobile number</strong>
-                      </mat-error>
+                            Enter correct <strong>mobile number</strong>
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
@@ -71,7 +71,8 @@
 
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [hideRequiredMarker]="false" class="form-field">
-                        <input matInput formControlName="nickName" placeholder="Nick name">
+                        <input matInput formControlName="nickName" placeholder="Nick name"
+                            [readonly]="formMode === 'modify'">
                         <mat-error *ngIf="receiversForm.controls['nickName'].errors?.required 
                     && receiversForm.controls['nickName'].touched">
                             Receiver's nick name <strong>required</strong>
