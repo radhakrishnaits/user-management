@@ -33,17 +33,17 @@ export class ReceiverListComponent implements OnInit {
     const dialogRef = this.dialog.open(this.deleteReceiver, { width: '350px' });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.removeBeneficiary(id);
+        this.removeReceiver(id);
       }
     })
   }
 
-  removeBeneficiary(id: string) {
+  removeReceiver(id: string) {
     this.receiversApi.deleteReceiver(id).subscribe(response => {
       this.snackBar.openSuccessSnackBar('Receiver deleted successfully', '');
       this.getAllReceivers();
     }, error => {
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while deleting receiver', '');
     })
   }
 

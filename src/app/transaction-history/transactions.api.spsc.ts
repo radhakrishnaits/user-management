@@ -38,5 +38,26 @@ describe('TransactionHistoryAPI', () => {
             req.flush(TransactionHistory);
             httpController.verify();
         });
+
+        it("Httpclient 500 error test case", () => {
+            // Given
+            const errorMsg = "500: Someting went wrong";
+
+            // When
+            service.getAllTransactions().subscribe((response) => {
+                fail('500: Someting went wrong');
+            }, error => {
+                expect(error.status).toEqual(404);
+                expect(error.error).toEqual(errorMsg);
+            });
+
+            // Then
+            const req = httpController.expectOne({
+                method: 'GET',
+                url: `${url}/users/${userName}/txnhistory`,
+            });
+            req.flush(errorMsg, { status: 500, statusText: 'Internal server error' });
+            httpController.verify();
+        });
     })
 });

@@ -19,7 +19,7 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile colspan="2" rowspan="1">
-                        <div class="grid-align-right w-100">
+                        <div class="grid-align-right w-100 show-dt-text">
                             <p (click)="showReceiversDetails(data.nickName, i)">{{ showDetails[i] ? 'Hide Details' :
                                 'Show
                                 Details'}}</p>
@@ -85,7 +85,7 @@
 </div>
 
 <ng-template #deleteReceiver>
-    <h1 mat-dialog-title>Delete beneficiary</h1>
+    <h1 mat-dialog-title>Delete receiver</h1>
     <div mat-dialog-content>Are you sure?</div>
     <div mat-dialog-actions class="btn-right-aligned">
         <button mat-raised-button color="warn" [mat-dialog-close]="true">Delete</button>

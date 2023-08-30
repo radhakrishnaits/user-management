@@ -5,7 +5,9 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { TransactionHistoryRoutingModule } from '../transaction-history.routing.module';
 import { TransactionHistoryAPI } from '../transactions.api';
 import { HttpClientModule } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { TransactionHistory } from 'src/app/mocks/transaction-history.mock';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 describe('TransactionHistoryComponent', () => {
   let component: TransactionHistoryComponent;
@@ -14,8 +16,15 @@ describe('TransactionHistoryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TransactionHistoryComponent],
-      imports: [MaterialModule, TransactionHistoryRoutingModule, HttpClientModule],
-      providers: [TransactionHistoryAPI]
+      imports: [
+        MaterialModule,
+        TransactionHistoryRoutingModule,
+        HttpClientModule
+      ],
+      providers: [
+        TransactionHistoryAPI,
+        SnackBarService
+      ]
     });
     fixture = TestBed.createComponent(TransactionHistoryComponent);
     component = fixture.componentInstance;
@@ -26,59 +35,89 @@ describe('TransactionHistoryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('transaction details', () => {
-    it('should GET all transaction details', () => {
+  describe('transaction history', () => {
+    it('should GET all transaction history', () => {
       // Given
-      let history = {
-        status: 200,
-        message: {
-          code: "200",
-          description: "Success"
-        },
-        errors: null,
-        transactions: [
-          {
-            txnId: "SM12341234",
-            senderId: 1,
-            receiverId: 1,
-            txnAmount: 100.0,
-            senderPaymentMethod: "CARD",
-            senderCardNumber: 4321432143214321,
-            senderCardExpiry: "08/2026",
-            senderNameOnCard: "Radhakrishna",
-            receiverPaymentMethod: "BANK",
-            receiverAccountNumber: 12341234,
-            receiverIban: "IDFC2134",
-            receiverName: "Radha Krishna",
-            txnType: "SENDMONEY",
-            fxRate: 1.1,
-            exchangeFee: 1.1,
-            receiverPayOut: 8206.38,
-            senderCurrency: "USD",
-            receiverCurrency: "INR",
-            receiverCountryIso: "IN",
-            mtcn: 12341234,
-            txnStatus: "TS",
-            txnDate: "22-08-2023",
-            thirdPartyRefId: "FIS12341234",
-            createdBy: "SYSTEM",
-            createdOn: "22-08-2023",
-            modifiedBy: "SYSTEM",
-            modifiedOn: "22-08-2023",
-            settlementRefId: "ST12341234",
-            txnSettledOn: "22-08-2023",
-            refundReffTxnId: null,
-            remarks: "Transaction Success"
-          }
-        ]
-      }
-      spyOn(component['transactionApi'], 'getAllTransactions').and.returnValue(of(history));
+      spyOn(component['transactionApi'], 'getAllTransactions').and.returnValue(of(TransactionHistory));
 
       // When
       component.getTransactions();
 
       // Then
-      expect(component.history).toEqual(history.transactions);
+      expect(component.history).toEqual(TransactionHistory.transactions);
+    });
+
+    it('Error while getting transaction history', () => {
+      // Given
+      spyOn(component['transactionApi'], 'getAllTransactions').and.returnValue(throwError(() => new Error()));
+      const openSnackBar = spyOn(component['snackBar'], 'openErrorSnackBar');
+
+      // When
+      component.getTransactions();
+
+      // Then
+      expect(openSnackBar).toHaveBeenCalledWith('Error while fetching transaction history', '');
+    });
+  });
+
+  describe('showReceiversDetails()', () => {
+    let recDetails: any;
+
+    beforeEach(() => {
+      recDetails = document.createElement('div');
+      document.getElementById = jasmine.createSpy('HTML Element').and.returnValue(recDetails);
+    });
+
+    it('should show transaction details', () => {
+      // Given
+      const transactionId = 'SM12341234';
+      const index = 0;
+      component.showDetails[index] = false;
+
+      // When
+      component.showReceiversDetails(transactionId, index);
+
+      // Then
+      expect(component.showDetails[index]).toBe(true);
+    });
+
+    it('should hide transaction details', () => {
+      // Given
+      const transactionId = 'SM12341234';
+      const index = 0;
+      component.showDetails[index] = true;
+
+      // When
+      component.showReceiversDetails(transactionId, index);
+
+      // Then
+      expect(component.showDetails[index]).toBe(false);
+    });
+
+    it('should change style.display to block if style.display is none', () => {
+      // Given
+      const transactionId = 'SM12341234';
+      const index = 0;
+      recDetails.style.display = 'none'
+
+      // When
+      component.showReceiversDetails(transactionId, index);
+
+      // Then
+      expect(recDetails.style.display).toBe('block');
+    });
+
+    it('should change style.display to none if style.display is block', () => {
+      // Given
+      const transactionId = 'SM12341234';
+      const index = 0;
+      recDetails.style.display = 'block'
+
+      // When
+      component.showReceiversDetails(transactionId, index);
+
+      // Then
+      expect(recDetails.style.display).toBe('none');
     });
   });
 });

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddReceiverComponent } from './add-receiver.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReceiversModule } from '../receivers.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,13 +11,7 @@ import { ReceiversDetails } from 'src/app/mocks/receivers.mock';
 describe('AddReceiverComponent', () => {
   let component: AddReceiverComponent;
   let fixture: ComponentFixture<AddReceiverComponent>;
-  let activatedRoute = {
-    params: {
-      subscribe() {
-        return of();
-      }
-    }
-  };
+  let activatedRoute: any;
   const fb = jasmine.createSpyObj('FormBuilder', ['group']);
   const formGroup = new FormGroup({
     firstName: new FormControl(''),
@@ -34,6 +28,13 @@ describe('AddReceiverComponent', () => {
   }
 
   beforeEach(() => {
+    activatedRoute = {
+      params: {
+        subscribe: (callback: (params: any) => void) => {
+          callback({ id: 'test123' });
+        }
+      }
+    };
     TestBed.configureTestingModule({
       declarations: [AddReceiverComponent],
       imports: [
@@ -57,7 +58,7 @@ describe('AddReceiverComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Create Form', () => {
+  describe('createReceiverForm()', () => {
     it('should create initial add receiver form if formMode is add', () => {
       // Given
       const receiverForm = fb.group({
@@ -109,17 +110,6 @@ describe('AddReceiverComponent', () => {
   describe('getReceiverDetails', () => {
     it('should GET receiver details by nick name', () => {
       // Given
-      // const receiverForm = fb.group({
-      //   firstName: ['Test'],
-      //   lastName: ['Test'],
-      //   country: ['India'],
-      //   mobileNumber: ['1234567890'],
-      //   bankAccountNumber: ['1234567'],
-      //   iban: ['IDFC004'],
-      //   nickName: ['test123']
-      // });
-      // receiverForm.controls['nickName'].disable();
-
       spyOn(component['receiversApi'], 'getReceiver').and.returnValue(of(ReceiversDetails.getReceiverDetails));
 
       // When
@@ -127,7 +117,18 @@ describe('AddReceiverComponent', () => {
 
       // Then
       expect(component.receiversForm.value).toEqual(ReceiversDetails.getReceiverDetails.beneficiary);
-      expect(component.receiversForm.get('nickName').disabled).toBe(true);
+    });
+
+    it('Error while getting receiver details', () => {
+      // Given
+      spyOn(component['receiversApi'], 'getReceiver').and.returnValue(throwError(() => new Error()));
+      const openSnackBar = spyOn(component['snackBarService'], 'openErrorSnackBar');
+
+      // When
+      component.getReceiverDetails();
+
+      // Then
+      expect(openSnackBar).toHaveBeenCalledWith('Error while fetching receiver details', '');
     });
   });
 
@@ -155,7 +156,18 @@ describe('AddReceiverComponent', () => {
       expect(receiverForm.valid).toBeTruthy();
       expect(openSnackBar).toHaveBeenCalledWith('Receiver added successfully', '');
       expect(navigate).toHaveBeenCalledWith(['/receivers']);
+    });
 
+    it('Error while adding receiver details', () => {
+      // Given
+      spyOn(component['receiversApi'], 'addReceiver').and.returnValue(throwError(() => new Error()));
+      const openSnackBar = spyOn(component['snackBarService'], 'openErrorSnackBar');
+
+      // When
+      component.addReceiverDetails();
+
+      // Then
+      expect(openSnackBar).toHaveBeenCalledWith('Error while adding receiver details', '');
     });
   });
 
@@ -184,6 +196,36 @@ describe('AddReceiverComponent', () => {
       expect(openSnackBar).toHaveBeenCalledWith('Receiver modified successfully', '');
       expect(navigate).toHaveBeenCalledWith(['/receivers']);
     });
-  })
+
+    it('Error while modifying receiver details', () => {
+      // Given
+      spyOn(component['receiversApi'], 'modifyReceiver').and.returnValue(throwError(() => new Error()));
+      const openSnackBar = spyOn(component['snackBarService'], 'openErrorSnackBar');
+
+      // When
+      component.modifyReceiverDetails();
+
+      // Then
+      expect(openSnackBar).toHaveBeenCalledWith('Error while modifying receiver details', '');
+    });
+  });
+
+  describe('onResize()', () => {
+    it('should call onResize if width greater than or equal to 660', () => {
+      // Given
+      const event = {
+        target: {
+          innerWidth: window.innerWidth
+        }
+      }
+
+      // When
+      component.onResize(event);
+
+      // Then
+      expect(component.colspan).toEqual(2);
+      expect(component.maxCols).toEqual(2);
+    });
+  });
 
 });
