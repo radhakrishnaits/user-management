@@ -40,12 +40,12 @@ export class AddReceiverComponent implements OnInit {
 
   createReceiverForm() {
     this.receiversForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z_ ]*$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z_ ]*$/)]],
       country: ['', [Validators.required]],
-      mobileNumber: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-      bankAccountNumber: ['', [Validators.required]],
-      iban: ['', [Validators.required]],
+      mobileNumber: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.?[0-9]+)?$/), Validators.maxLength(10)]],
+      bankAccountNumber: ['', [Validators.required, Validators.maxLength(16), Validators.pattern(/^[0-9]+(\.?[0-9]+)?$/)]],
+      iban: ['', [Validators.required, Validators.pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/)]],
       nickName: ['', Validators.required]
     })
     this.checkModeOfForm();
@@ -67,7 +67,7 @@ export class AddReceiverComponent implements OnInit {
   }
 
   getCountries() {
-    this.http.get('assets/json/country.json').subscribe((res: any) => {
+    this.receiversApi.getCountries().subscribe((res: any) => {
       this.countries = res;
     });
   }

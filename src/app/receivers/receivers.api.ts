@@ -42,4 +42,8 @@ export class ReceiversAPI {
     deleteReceiver(id: string) {
         return this.http.delete(this.apiUrl + this.userName + '/beneficiary/' + id);
     }
+
+    getCountries(): Observable<any> {
+        return this.http.get('assets/json/country.json');
+    }
 }

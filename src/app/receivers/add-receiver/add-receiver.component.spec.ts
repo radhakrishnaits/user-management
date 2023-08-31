@@ -132,6 +132,31 @@ describe('AddReceiverComponent', () => {
     });
   });
 
+  describe('getCountries()', () => {
+    it('should get all countries', () => {
+      // Given
+      const countries = [
+        {
+          name: "India",
+          dial_code: "+91",
+          code: "IN"
+        },
+        {
+          name: "Indonesia",
+          dial_code: "+62",
+          code: "ID"
+        }
+      ]
+      spyOn(component['receiversApi'], 'getCountries').and.returnValue(of(countries));
+
+      // When
+      component.getCountries();
+
+      // Then
+      expect(component.countries).toBe(countries);
+    });
+  });
+
   describe('addReceiverDetails', () => {
     it('should submit add receiver form if form is VALID', () => {
       // Given
@@ -227,5 +252,4 @@ describe('AddReceiverComponent', () => {
       expect(component.maxCols).toEqual(2);
     });
   });
-
 });

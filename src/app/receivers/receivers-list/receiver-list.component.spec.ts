@@ -22,6 +22,21 @@ describe('ReceiversListComponent', () => {
       }
     }
   };
+  // let matDialogMock = {
+  //   open() {
+  //     return {
+  //       afterClosed: {
+  //         subscribe: (callback: (result: any) => void) => {
+  //           callback(true)
+  //         }
+  //       }
+  //     };
+  //   }
+  // };
+  // let dialogRefSpyObj = jasmine.createSpyObj({
+  //   afterClosed: of(true), 
+  //   close: null
+  // });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,7 +44,8 @@ describe('ReceiversListComponent', () => {
       providers: [
         ReceiversAPI,
         SnackBarService,
-        { provide: ActivatedRoute, useValue: activatedRoute }
+        { provide: ActivatedRoute, useValue: activatedRoute },
+        // { provide: MatDialog, useValue: {} }
       ],
       imports: [
         MaterialModule,
@@ -68,12 +84,14 @@ describe('ReceiversListComponent', () => {
       const fakeDialogConfig = new MatDialogConfig;
       const deleteReceiverRef: HTMLElement = component.deleteReceiver.nativeElement;
       const removeReceiverSpy = spyOn(component, 'removeReceiver');
+      // const afterClosedSpy = spyOn(dialogRefSpyObj, 'afterClosed').and.returnValue(of(true));
 
       // When
       component.openConfirmationModel(nickName);
 
       // Then
       expect(openDialogSpy).toHaveBeenCalledWith(deleteReceiverRef, fakeDialogConfig);
+      // expect(afterClosedSpy).toHaveBeenCalled();
       expect(removeReceiverSpy).toHaveBeenCalledWith(nickName);
       expect(deleteReceiverRef.title).toContain('Delete receiver');
     });

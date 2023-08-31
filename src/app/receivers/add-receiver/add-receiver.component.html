@@ -23,6 +23,9 @@
                         && receiversForm.controls['firstName'].touched">
                             Receiver's first name <strong>required</strong>
                         </mat-error>
+                        <mat-error *ngIf="(receiversForm.controls['firstName']).hasError">
+                            Enter correct <strong>first name</strong>
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
@@ -32,6 +35,9 @@
                         <mat-error *ngIf="receiversForm.controls['lastName'].errors?.required 
                     && receiversForm.controls['lastName'].touched">
                             Receiver's last name <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="(receiversForm.controls['lastName']).hasError">
+                            Enter correct <strong>last name</strong>
                         </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
@@ -65,6 +71,9 @@
                         <mat-error *ngIf="receiversForm.controls['iban'].errors?.required 
                     && receiversForm.controls['iban'].touched">
                             Receiver's IBAN <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="(receiversForm.controls['country']).hasError">
+                            Enter correct <strong>IBAN,</strong> ex: <strong>IBAN0123456</strong>
                         </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>

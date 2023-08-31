@@ -14,7 +14,7 @@ export class ReceiverListComponent implements OnInit {
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
   public showDetails: boolean[] = [];
 
-  constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI, private snackBarService: SnackBarService) { }
+  constructor(private dialog: MatDialog, private receiversApi: ReceiversAPI, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.getAllReceivers();
@@ -30,8 +30,8 @@ export class ReceiverListComponent implements OnInit {
   }
 
   openConfirmationModel(id: string) {
-    const dialogRef = this.dialog.open(this.deleteReceiver, { width: '350px' });
-    dialogRef.afterClosed().subscribe((result) => {
+    const dialogRef = this.dialog.open(this.deleteReceiver, { width: '350px', disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.removeReceiver(id);
       }
@@ -40,7 +40,7 @@ export class ReceiverListComponent implements OnInit {
 
   removeReceiver(id: string) {
     this.receiversApi.deleteReceiver(id).subscribe(response => {
-      this.snackBar.openSuccessSnackBar('Receiver deleted successfully', '');
+      this.snackBarService.openSuccessSnackBar('Receiver deleted successfully', '');
       this.getAllReceivers();
     }, error => {
       this.snackBarService.openErrorSnackBar('Error while deleting receiver', '');

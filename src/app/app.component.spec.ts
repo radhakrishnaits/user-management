@@ -1,9 +1,9 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import {MaterialModule} from "./shared/material.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {RouterModule} from "@angular/router";
-import {RouterTestingModule} from "@angular/router/testing";
+import { MaterialModule } from "./shared/material.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -22,36 +22,61 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-/*  it('should set and get data from sessionStorage', () => {
-    const key = 'testKey';
-    const value = 'testValue';
 
-    service.setItem(key, value);
+  describe('ngOnInit()', () => {
+    it('User loggen in and email present in the session storage', () => {
+      spyOn(sessionStorage, 'getItem').and.returnValue('test@test.com');
 
-    expect(sessionStorage.getItem(key)).toEqual(value);
-    expect(service.getItem(key)).toEqual(value);
-  });*/
+      // When
+      component.ngOnInit();
 
-  /*it('should remove data from sessionStorage', () => {
-    const key = 'testKey';
-    const value = 'testValue';
+      // Then
+      expect(component.isLogin).toBe(true);
+    });
 
-    service.setItem(key, value);
-    expect(sessionStorage.getItem(key)).toEqual(value);
+    it('User not logged in and email is not present in the session storage', () => {
+      spyOn(sessionStorage, 'getItem').and.returnValue('');
 
-    service.removeItem(key);
-    expect(sessionStorage.getItem(key)).toBeNull();
-  });*/
+      // When
+      component.ngOnInit();
 
-  /*it('should clear all data from sessionStorage', () => {
-    const key1 = 'testKey1';
-    const key2 = 'testKey2';
-    component.onLogout();
-    expect(sessionStorage.clear).toHaveBeenCalled();
-    fixture.detectChanges();
-  });*/
+      // Then
+      expect(component.isLogin).toBe(false);
+    });
+  });
 
+  describe('onResize()', () => {
+    it('should call onResize if width less than or equal to 768', () => {
+      // Given
+      const event = {
+        target: {
+          innerWidth: window.innerWidth
+        }
+      }
+
+      // When
+      component.onResize(event);
+
+      // Then
+      expect(component.matGridCol).toEqual(3);
+    });
+  });
+
+  describe('onLogout()', () => {
+    it('should logout and clear session storage', () => {
+      // Given
+      component.sessionStorageLogin = 'clear';
+      const sessionStorageSpy = spyOn(sessionStorage, 'clear');
+
+      // When
+      component.onLogout();
+
+      // Then
+      expect(sessionStorageSpy).toHaveBeenCalled();
+    });
+  });
 });

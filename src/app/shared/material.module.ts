@@ -20,6 +20,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatSelectModule} from "@angular/material/select";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatRadioModule } from "@angular/material/radio";
 @NgModule({
     imports: [
         MatTableModule,
@@ -50,7 +51,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatToolbarModule,
         MatMenuModule,
         HttpClientModule,
-        MatSelectModule
+        MatSelectModule,
+        MatButtonModule,
+        MatRadioModule
     ],
   providers:[
   ]
