@@ -63,4 +63,12 @@ export class ApiService {
     return this.http.post(this.apiUrl + 'signin', requestBody, options);
   }
 
+  getStateData(){
+    return this.http.get('assets/json/state.json');
+  }
+
+  getCountryData(){
+    return this.http.get('assets/json/country.json');
+  }
+
 }
