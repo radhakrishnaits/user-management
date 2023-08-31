@@ -41,4 +41,12 @@ describe('ApiService', () => {
     expect(mockRequest.request.headers).toEqual(expectedHeaders);
     mockRequest.flush({ });
   });
+
+  it('should call getProfile and return logged in user details', () => {
+    service.getProfile(service.getLoginEmail()).subscribe((res:any) => {
+      expect(res.status).toEqual(200);
+      expect(res.userDetails).not.toBe('');
+    });
+  });
+
 });

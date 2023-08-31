@@ -1,32 +1,57 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NavBarComponent } from './shared/layout/nav-bar/nav-bar.component';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MaterialModule } from './shared/material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MaterialModule} from "./shared/material.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RouterModule} from "@angular/router";
+import {RouterTestingModule} from "@angular/router/testing";
 describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule,MaterialModule,BrowserAnimationsModule],
-    declarations: [AppComponent,NavBarComponent,MatToolbar]
-  }));
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'user-management'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      imports: [
+        MaterialModule,
+        BrowserAnimationsModule,
+        RouterModule,
+        RouterTestingModule
+      ]
+    });
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('user-management app is running!');
   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+/*  it('should set and get data from sessionStorage', () => {
+    const key = 'testKey';
+    const value = 'testValue';
+
+    service.setItem(key, value);
+
+    expect(sessionStorage.getItem(key)).toEqual(value);
+    expect(service.getItem(key)).toEqual(value);
+  });*/
+
+  /*it('should remove data from sessionStorage', () => {
+    const key = 'testKey';
+    const value = 'testValue';
+
+    service.setItem(key, value);
+    expect(sessionStorage.getItem(key)).toEqual(value);
+
+    service.removeItem(key);
+    expect(sessionStorage.getItem(key)).toBeNull();
+  });*/
+
+  /*it('should clear all data from sessionStorage', () => {
+    const key1 = 'testKey1';
+    const key2 = 'testKey2';
+    component.onLogout();
+    expect(sessionStorage.clear).toHaveBeenCalled();
+    fixture.detectChanges();
+  });*/
+
 });

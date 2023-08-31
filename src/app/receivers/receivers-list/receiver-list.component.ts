@@ -10,8 +10,9 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 })
 
 export class ReceiverListComponent implements OnInit {
-  receiversDetails: any = []
+  public receiversDetails: any = []
   @ViewChild('deleteReceiver') deleteReceiver: any = ElementRef;
+  public showDetails: boolean[] = [];
 
   constructor(private dialog: MatDialog, private snackBar: SnackBarService, private receiversApi: ReceiversAPI, private snackBarService: SnackBarService) { }
 
@@ -32,17 +33,17 @@ export class ReceiverListComponent implements OnInit {
     const dialogRef = this.dialog.open(this.deleteReceiver, { width: '350px' });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.removeBeneficiary(id);
+        this.removeReceiver(id);
       }
     })
   }
 
-  removeBeneficiary(id: string) {
+  removeReceiver(id: string) {
     this.receiversApi.deleteReceiver(id).subscribe(response => {
       this.snackBar.openSuccessSnackBar('Receiver deleted successfully', '');
       this.getAllReceivers();
     }, error => {
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while deleting receiver', '');
     })
   }
 
@@ -50,5 +51,15 @@ export class ReceiverListComponent implements OnInit {
     this.receiversDetails.forEach((receiver: any) => {
       receiver['avatarIcon'] = receiver?.firstName && receiver?.lastName ? (receiver?.firstName?.charAt(0) + '' + receiver?.lastName?.charAt(0)).toUpperCase() : "WU";
     });
+  }
+
+  showReceiversDetails(id: string, index: number) {
+    this.showDetails[index] = !this.showDetails[index];
+    let recDetails = document.getElementById(id);
+    if (recDetails?.style.display === "none") {
+      recDetails!.style.display = "block";
+    } else {
+      recDetails!.style.display = "none";
+    }
   }
 }

@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class AddReceiverComponent implements OnInit {
   public receiversForm: any = FormGroup;
   public formMode: string = 'add';
-  public receiverId!: string;
+  public receiverId: string = '';
   public colspan: number = 2;
   public maxCols: number = 2;
   public rowHeight: string = '70px';
@@ -25,16 +25,15 @@ export class AddReceiverComponent implements OnInit {
     private receiversApi: ReceiversAPI,
     private router: Router,
     private snackBarService: SnackBarService,
-    private http: HttpClient) {
+    private http: HttpClient) { }
+
+  ngOnInit() {
     this.activatedRoute.params.subscribe(param => {
       this.receiverId = param['id'];
       if (this.receiverId) {
         this.formMode = 'modify';
       }
-    })
-  }
-
-  ngOnInit() {
+    });
     this.createReceiverForm();
     this.getCountries();
   }
@@ -62,10 +61,8 @@ export class AddReceiverComponent implements OnInit {
     this.receiversApi.getReceiver(this.receiverId).subscribe(response => {
       let receiverDetails = response['beneficiary'];
       this.receiversForm.patchValue(receiverDetails);
-      this.receiversForm.controls['nickName'].disable();
     }, error => {
-      console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while fetching receiver details', '');
     });
   }
 
@@ -81,7 +78,7 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while adding receiver details', '');
     });
   }
 
@@ -92,7 +89,7 @@ export class AddReceiverComponent implements OnInit {
       this.router.navigate(['/receivers']);
     }, error => {
       console.log(error);
-      this.snackBarService.openErrorSnackBar(error.message, '');
+      this.snackBarService.openErrorSnackBar('Error while modifying receiver details', '');
     });
   }
 

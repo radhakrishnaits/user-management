@@ -5,24 +5,22 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  breakpoint:any='';
+  matGridCol:any='';
   isLogin:boolean = false;
+  sessionStorageLogin:string = 'unknown';
   ngOnInit(): void {
     if (sessionStorage.getItem("email")) {
       this.isLogin = true
     }
-    this.breakpoint = (window.innerWidth <= 768) ? 1 : 3;
-    console.log('ngOnInit',this.breakpoint)
+    this.matGridCol = (window.innerWidth <= 768) ? 1 : 3
   }
   onResize(event:any) {
-    this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3;
-    console.log('onResize',this.breakpoint)
+    const w = event.target as Window;
+    this.matGridCol = (w.innerWidth <= 768) ? 1 : 3;
   }
   onLogout() {
-    if(this.isLogin) {
-      sessionStorage.clear()
-      this.isLogin = false
-      window.location.href='/'
-    }
+    this.sessionStorageLogin = 'clear'
+    sessionStorage.clear()
+    window.location.href='/'
   }
 }

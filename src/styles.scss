@@ -21,6 +21,12 @@ body {
     justify-content: end;
 }
 
+.grid-align-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .center-aligned {
     width: 70%;
     margin: auto;
@@ -102,7 +108,7 @@ body {
     width: 50px;
     height: 50px;
     font-weight: 600;
-    background: plum;
+    background: #368abb;
 }
 
 .grid-align-right .avatar {
@@ -115,6 +121,35 @@ body {
     font-size: 1.3rem;
 }
 
+.mt-cd-custom {
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.mt-cd-custom-details {
+    padding: 0.85rem;
+    width: 90%;
+    margin: auto;
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: #f3faff;
+    padding: 0.85rem;
+}
+
+.rs-details {
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+.rs-mt-icon {
+    font-size: 1.3rem;
+}
+
+.show-dt-text>p {
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 500px) {
     .center-aligned {
         width: 90%;
@@ -125,5 +160,11 @@ body {
     .grid-align-right .avatar {
         width: 30px;
         height: 30px;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .w-80 {
+        width: 100%;
     }
 }
