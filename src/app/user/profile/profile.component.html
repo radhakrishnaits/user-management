@@ -205,6 +205,7 @@
                             (monthSelected)="chosenMonthHandler($event, cardExpirypicker)"></mat-datepicker>-->
             <mat-error *ngIf="cardFormError('cardExpiry', 'required')">This field is required</mat-error>
             <mat-error *ngIf="cardFormError('cardExpiry', 'pattern')">This field is invalid</mat-error>
+            <mat-error *ngIf="cardFormError('cardExpiry', 'incorrect')">This field is invalid</mat-error>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -216,7 +217,7 @@
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-raised-button color="primary" type="submit" [disabled]="false">Add Card Details</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="addCardForm.invalid">Add Card Details</button>
         </mat-grid-tile>
       </form>
       </mat-grid-list>

@@ -4,6 +4,7 @@ import {ApiService} from "../../shared/api.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
+import {SessionStorageService} from "../../shared/session-storage.service";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -22,6 +23,7 @@ export class ProfileComponent implements OnInit{
   isDisabled: boolean = true;
   isProfileEdit: boolean = true;
   isEditClicked: boolean = false;
+  onUpdateProfileSuccessMessage: string = ''
   stateResult= [
     {
       "value":"AN",
@@ -1387,7 +1389,8 @@ export class ProfileComponent implements OnInit{
   constructor(
     private apiService: ApiService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private serviceSession: SessionStorageService
   ) {
     /*this.http.get('assets/json/state.json').subscribe((res) => {
       this.stateResult = res;
@@ -1401,20 +1404,14 @@ export class ProfileComponent implements OnInit{
       this.profileFormData = this.profileForm.value
       this.apiService.updateProfile(this.profileFormData,this.loginEmail).subscribe(
         (res:any) => {
-          if(res?.message?.code == 200){
-            alert(res["message"]?.description)
-          }
-        },
-        (err:any) => {
-          alert(err?.message);
+          alert(res["message"]?.description)
+          this.onUpdateProfileSuccessMessage = res["message"]?.description
         }
-      );
-    } else {
-      alert('Form is invalid. Please check')
+      )
     }
   }
   ngOnInit(): void {
-    if (sessionStorage.getItem("email")) {
+    if (this.serviceSession.getItem("email")) {
       this.isLogin = true
     }
     if(!this.isLogin) {
@@ -1482,40 +1479,24 @@ export class ProfileComponent implements OnInit{
   /*clearCardForm(){
     (<HTMLFormElement>document.getElementById("addCardForm")).reset();
   }*/
-
-  addUserCard() {
-    if(this.addCardForm.invalid) {
-      alert("Please validate form fields")
+  cardDateCheck(){
+    if(Number(this?.addCardForm?.value?.cardExpiry.split('/')[1]+this?.addCardForm?.value?.cardExpiry.split('/')[0]) < Number(new Date().getFullYear()+("0" + (new Date().getMonth() + 1)).slice(-2))) {
+      this.addCardForm.controls['cardExpiry'].setErrors({'incorrect': true});
     }
-    else {
-      /*let inputYearMonth = Number(this?.addCardForm?.value?.cardExpiry.split('/')[1]+this?.addCardForm?.value?.cardExpiry.split('/')[0])
-      let currentYearMonth = Number(new Date().getFullYear()+("0" + (new Date().getMonth() + 1)).slice(-2))*/
-      if(Number(this?.addCardForm?.value?.cardExpiry.split('/')[1]+this?.addCardForm?.value?.cardExpiry.split('/')[0]) < Number(new Date().getFullYear()+("0" + (new Date().getMonth() + 1)).slice(-2))) {
-        alert("Please validate card expiry!")
-        return
-      }
-      let requestBody = {
-        "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
-        "cardExpiry": this?.addCardForm?.value?.cardExpiry,
-        "nameOnCard": this?.addCardForm?.value?.nameOnCard
-      }
+  }
+  addUserCard() {
+    this.cardDateCheck()
+    let requestBody = {
+      "cardNumber": Number(this?.addCardForm?.value?.cardNumber),
+      "cardExpiry": this?.addCardForm?.value?.cardExpiry,
+      "nameOnCard": this?.addCardForm?.value?.nameOnCard
+    }
+    if(this.addCardForm.valid) {
       this.apiService.addUserCard(requestBody,this.loginEmail || '').subscribe(
-          (res:any) => {
-            this.existingCardDetails = res
-            // reset form
-            this.getUserCardData()
-            /*if(res?.status == 200){
-              alert(res["message"]?.description)
-            }
-            else if(res) {
-              alert(res["errorMessage"])
-            }*/
-          }/*,
-          (err:any) => {
-            if(err) {
-              alert(err)
-            }
-          }*/
+        (res:any) => {
+          this.existingCardDetails = res
+          this.getUserCardData()
+        }
       )
     }
   }

@@ -11,12 +11,7 @@ export const userCard = {
             "description": "Success"
         },
         "errors": null,
-        "userCards": [
-            {
-                "cardNumber": 4444222012333444,
-                "cardExpiry": "08/2031",
-                "nameOnCard": "Rohit"
-            }
-        ]
-    }
+        "userCards": []
+    },
+    addUserCardData: {"status":200,"message":{"code":"200","description":"User Cards added successfully"},"errors":null}
 }

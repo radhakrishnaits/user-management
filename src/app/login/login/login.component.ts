@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/api.service';
+import {SessionStorageService} from "../../shared/session-storage.service";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   loginForm: any = FormGroup;
   loginFormDetails:any;
   isLogin:boolean = false;
-  constructor(private fb: FormBuilder, public apiService: ApiService, public route: Router){}
+  constructor(private fb: FormBuilder, public apiService: ApiService, public route: Router, public serviceSession: SessionStorageService){}
 
   ngOnInit(): void {
     /**
@@ -39,9 +40,17 @@ export class LoginComponent {
         alert(res["message"]?.description);
         this.loginForm.reset();
         //this.route.navigateByUrl('/user-profile');
-        sessionStorage.setItem('email',res["userName"])
+      /**
+       *@ ROHIT SAVAJ
+       * store email,firstName,lastName in session storage after login.
+       * @return the Redirect to user profile
+       */
+        this.serviceSession.setItem('email',res["userName"])
+        this.serviceSession.setItem('firstName',res["firstName"])
+        this.serviceSession.setItem('lastName',res["lastName"])
+        /*sessionStorage.setItem('email',res["userName"])
         sessionStorage.setItem('firstName',res["firstName"])
-        sessionStorage.setItem('lastName',res["lastName"])
+        sessionStorage.setItem('lastName',res["lastName"])*/
         this.route.navigateByUrl('/user-profile').then(() => {
           window.location.reload();
         });

@@ -9,11 +9,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {SessionStorageService} from "../../shared/session-storage.service";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-
+  // rohit
+  let serviceSession: SessionStorageService
+  // rohit
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent,MatCard,MatCardContent,MatCardActions,MatCardHeader],
@@ -23,15 +26,20 @@ describe('LoginComponent', () => {
     });
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    // rohit
+    serviceSession = TestBed.inject(SessionStorageService);
+    // rohit
     fixture.detectChanges();
   });
-
+  it('should be created Session', () => {
+    expect(serviceSession).toBeTruthy();
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should call onloginForm() on  method',()=>{
-    
+
     component.loginForm.patchValue({
       username:"shubhamtile@gmail.com",
       password:"1234"
@@ -41,11 +49,11 @@ describe('LoginComponent', () => {
     console.log("test 1",component.loginForm.value);
     expect(component.loginForm.valid).toEqual(true);
     expect(component.loginFormDetails).toEqual(component.loginForm.value);
-  
+
   });
 
   it('should require Invalid', () => {
-  
+
     component.loginForm.patchValue({
       username:"",
       password:""
@@ -54,7 +62,23 @@ describe('LoginComponent', () => {
     component.onLoginUser();
     console.log("test",component.loginForm.status);
     expect(component.loginForm.valid).toEqual(false);
-    // expect(window.alert).toHaveBeenCalledWith("INVALID");    
+    // expect(window.alert).toHaveBeenCalledWith("INVALID");
+  });
+  // rohit
+  it('should set and get an item from sessionStorage', () => {
+    // Given
+    const key = 'testKey';
+    const value = 'testValue';
+    // When
+    serviceSession.setItem(key, value);
+    const retrievedValue = serviceSession.getItem(key);
+    // Expect
+    expect(retrievedValue).toBe(value);
+
+    /*// When login
+    component.ngOnInit()
+    // Expect
+    expect(component.isLogin).toBeTruthy()*/
   });
 
 });
