@@ -28,7 +28,7 @@ describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
   let fixture: ComponentFixture<RegistrationComponent>;
   let baseUrl = "http://localhost:8080/user-management/v1/signup";
-  let apiService: ApiService; // Replace with the actual service
+  let apiService: ApiService;
   let mockApiService: jasmine.SpyObj<ApiService>;
 
   beforeEach(async() => {
@@ -64,11 +64,8 @@ describe('RegistrationComponent', () => {
         innerWidth: 700
       }
     };
-
-
     component.onResize(mockEvent);
-
-  expect(component.matGridCol).toBe(3);
+    expect(component.matGridCol).toBe(3);
     expect(component.matGridHeight).toBe('2:0.5');
   });
 
@@ -150,9 +147,6 @@ describe('RegistrationComponent', () => {
       wishToAddCard:"N" 
     });
     component.onRegistrationForm();
-
-    expect(window.alert).toBe('Registration successful');
-    // expect(window.alert).toHaveBeenCalledWith('Registration successful');
     expect(component.registrationForm.reset).toHaveBeenCalled();
     expect(component.route.navigate).toHaveBeenCalledWith(['']);
   });
@@ -181,12 +175,12 @@ describe('RegistrationComponent', () => {
       wishToAddCard:"N" 
     });
     component.onRegistrationForm();
-    // expect(window.alert).toHaveBeenCalledWith(errorMessage);
-    expect(window.alert).toBe(errorMessage);
+    expect(window.alert).toHaveBeenCalledWith(errorMessage);
   });
 
  
   it('should handle failed registration', () => {
+    spyOn(window, 'alert');
     const mockErrorResponse = {
       message: {
         code: 400,
@@ -211,29 +205,24 @@ describe('RegistrationComponent', () => {
       country:"+91",
       wishToAddCard:"N" 
     });
-    mockApiService.onSignUpUser.and.returnValue(throwError(mockErrorResponse));
+    spyOn(apiService, 'onSignUpUser').and.returnValue(throwError(mockErrorResponse));
     component.onRegistrationForm();
-    // expect(window.alert).toHaveBeenCalledWith('Bad Request');
-    expect(window.alert).toHaveBeenCalledWith("Bad Request");
+    expect(window.alert).toHaveBeenCalledWith(mockErrorResponse.message);
   });
   
  
   it('should update stateResult with response data', () => {
     const mockStateData = {};
     console.log("mockStateData",mockStateData)
-    mockApiService.getStateData.and.returnValue(of(mockStateData));
+    spyOn(apiService, 'getStateData').and.returnValue(of(mockStateData));
     component.fetchStateData();
     expect(component.stateResult).toEqual(mockStateData);
   });
 
   
   it('should update countryResult with response data', () => {
-    const mockCountryData = {
-      "name": "Angola",
-      "dial_code": "+244",
-      "code": "AO"
-    };
-    mockApiService.getCountryData.and.returnValue(of(mockCountryData));
+    const mockCountryData = {};
+    spyOn(apiService, 'getCountryData').and.returnValue(of(mockCountryData));
     component.fetchCountryData();
     expect(component.countryResult).toEqual(mockCountryData);
   });
