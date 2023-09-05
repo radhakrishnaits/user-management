@@ -22,6 +22,7 @@ export class RegistrationComponent {
   registrationFormDetails: any;
   matGridCol: any;
   matGridHeight: any;
+  todayDate:Date = new Date();
   constructor(private fb: FormBuilder, public http: HttpClient, public apiService: ApiService, public route:Router) {
     this.fetchStateData();
     this.fetchCountryData();
@@ -47,8 +48,8 @@ export class RegistrationComponent {
 
     this.registrationForm = this.fb.group({
       userTitle: new FormControl(''),
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]),
+      lastName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]),
       dob: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -56,9 +57,9 @@ export class RegistrationComponent {
       gender: new FormControl(''),
       nationality: new FormControl(''),
       address1: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]),
       state: new FormControl(''),
-      pin: new FormControl(''),
+      pin: new FormControl('', [Validators.pattern('^[0-9]*$')]),
       countryBirth: new FormControl('', [Validators.required]),
       country: new FormControl(''),
       wishToAddCard:"N"

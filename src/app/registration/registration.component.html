@@ -25,17 +25,18 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>First Name</mat-label>
-                <input type="firstName" matInput placeholder="First Name" formControlName="firstName">
-                <mat-error *ngIf="(registrationForm.get('firstName')).invalid">You must enter a first name</mat-error>
+                <input type="text" matInput name="firstName" placeholder="First Name" formControlName="firstName">
+                <mat-error *ngIf="(registrationForm.get('firstName')).hasError('required')">You must enter a first name</mat-error>
+                <mat-error *ngIf="(registrationForm.get('firstName')).hasError">You must enter only text</mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Last Name</mat-label>
-                <input type="lastName" matInput placeholder="Last Name" formControlName="lastName">
-                <mat-error *ngIf="(registrationForm.get('lastName')).invalid">You must enter a last name</mat-error>
-              </mat-form-field>
+                <input type="text" matInput placeholder="Last Name" formControlName="lastName">
+                <mat-error *ngIf="(registrationForm.get('lastName')).hasError('required')">You must enter a last name</mat-error>
+                <mat-error *ngIf="(registrationForm.get('lastName')).hasError">You must enter only text</mat-error>              </mat-form-field>
             </mat-grid-tile>
           </mat-grid-list>
 
@@ -43,7 +44,7 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Date of Birth</mat-label>
-                <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="picker" formControlName="dob">
+                <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="picker" formControlName="dob" [readonly]="true">
                 <mat-error *ngIf="(registrationForm.get('dob')).invalid">You must select a date of birth</mat-error>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -114,18 +115,19 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Address</mat-label>
-                <input type="address1" matInput placeholder="Apartment, Street, Landmark" formControlName="address1">
+                <input type="text" matInput placeholder="Apartment, Street, Landmark" formControlName="address1">
                 <mat-icon matSuffix>home</mat-icon>
-                <mat-error *ngIf="(registrationForm.get('address1')).invalid">You must enter a full address</mat-error>
+                <mat-error *ngIf="(registrationForm.get('address1')).hasError('required')">You must enter a full address</mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>City</mat-label>
-                <input type="city" matInput placeholder="Enter your City" formControlName="city">
+                <input type="text" matInput placeholder="Enter your City" formControlName="city">
                 <mat-icon matSuffix>location_city</mat-icon>
-                <mat-error *ngIf="(registrationForm.get('city')).invalid">You must enter a city</mat-error>
+                <mat-error *ngIf="(registrationForm.get('city')).hasError('required')">You must enter a city</mat-error>
+                <mat-error *ngIf="(registrationForm.get('city')).hasError">You must enter only text</mat-error> 
               </mat-form-field>
             </mat-grid-tile>
 
@@ -157,7 +159,8 @@
             <mat-grid-tile>
               <mat-form-field class="full-width">
                 <mat-label>Pincode</mat-label>
-                <input type="pin" matInput placeholder="Enter your Postal Code" formControlName="pin">
+                <input type="number" matInput placeholder="Enter your Postal Code" formControlName="pin">
+                <mat-error *ngIf="(registrationForm.get('pin')).hasError">You must enter only number</mat-error> 
                 <mat-icon matSuffix>location_on</mat-icon>
               </mat-form-field>
             </mat-grid-tile>
